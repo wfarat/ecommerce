@@ -5,6 +5,7 @@ install:
   - yarn
 test_script:
   - yarn test
+build: off
 before_test:
   - SET PGUSER=postgres
   - SET PGPASSWORD=Password12!
@@ -12,4 +13,3 @@ before_test:
   - createdb testdb
 services:
   - postgresql101
-build: off

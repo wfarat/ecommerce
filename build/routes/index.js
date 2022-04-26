@@ -1,21 +1,21 @@
-"use strict";
+'use strict';
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+var _interopRequireDefault = require('@babel/runtime/helpers/interopRequireDefault');
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
+Object.defineProperty(exports, '__esModule', {
+  value: true,
 });
-exports["default"] = void 0;
+exports['default'] = void 0;
 
-var _express = _interopRequireDefault(require("express"));
+var _express = _interopRequireDefault(require('express'));
 
-var _index = require("../controllers/index");
+var _index = require('../controllers/index');
 
-var _messages = require("../controllers/messages");
+var _messages = require('../controllers/messages');
 
-var indexRouter = _express["default"].Router();
+var indexRouter = _express['default'].Router();
 
 indexRouter.get('/', _index.indexPage);
 indexRouter.get('/messages', _messages.messagesPage);
 var _default = indexRouter;
-exports["default"] = _default;
+exports['default'] = _default;
