@@ -20,16 +20,15 @@ authRouter.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
 });
-// Set method to serialize data to store in cookie
+
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-// Set method to deserialize data stored in cookie and attach to req.user
 passport.deserializeUser((id, done) => {
   done(null, { id });
 });
-// Configure local strategy to be use for local login
+
 passport.use(
   new LocalStrategy(
     {

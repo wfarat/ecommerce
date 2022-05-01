@@ -32,7 +32,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', authRouter);
-app.use('/user', usersRouter);
+app.use('/users', usersRouter);
 app.use((err, req, res, next) => {
   res.status(400).json({ error: err.stack });
 });

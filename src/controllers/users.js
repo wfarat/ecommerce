@@ -6,7 +6,15 @@ const usersModel = new Model('users');
 
 const findById = async (id) => {
   const clause = ` WHERE id='${id}'`;
-  const columns = 'id, fullname, email, password';
+  const columns = 'id, fullname, password, email';
+  const data = await usersModel.select(columns, clause);
+  const user = data.rows[0];
+  return user;
+};
+
+const findByEmail = async (email) => {
+  const clause = ` WHERE email='${email}'`;
+  const columns = 'id, email';
   const data = await usersModel.select(columns, clause);
   const user = data.rows[0];
   return user;
@@ -20,9 +28,18 @@ export const findUser = async (req, res, next, userId) => {
     next();
   }
 };
+export const selectAllUsers = async (req, res) => {
+  const columns = 'id, fullname, email';
+  const data = await usersModel.select(columns);
+  res.status(200).send({users: data.rows});
+};
 
 export const addUser = async (req, res, next) => {
   const { email, password, fullname } = req.body;
+  const checkIfExists = await findByEmail(email);
+  if (checkIfExists) {
+    res.status(400).send({ message: 'User with this email already exists.'});
+  }
   const columns = 'email, password, fullname';
   const saltRounds = 10;
   bcrypt.genSalt(saltRounds, (err, salt) => {
@@ -51,6 +68,26 @@ export const updateUser = async (req, res) => {
   }
   const updatedUser = await findById(req.user.id);
   res.status(200).send({ user: updatedUser });
+};
+
+export const updatePassword = async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+  const clause = `id = ${req.user.id}`;
+  bcrypt.compare(oldPassword, req.user.password, (err, result) => {
+    if (!result) {
+      res.status(400).send({ message: 'Incorrect password.' });
+    }
+    const saltRounds = 10;
+    bcrypt.genSalt(saltRounds, (err, salt) => {
+      bcrypt.hash(newPassword, salt, async (err, hash) => {
+        if (err) {
+          res.status(400).send((err));
+        }
+        await usersModel.update('password', hash, clause);
+        res.status(200).send({ message: 'Password changed successfuly.'});
+      });
+    });
+  });
 };
 
 export const deleteUser = async (req, res) => {

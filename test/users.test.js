@@ -8,7 +8,7 @@ describe('Users', () => {
       fullname: 'test user',
     };
     server
-      .post('/user/register')
+      .post('/users/register')
       .send(data)
       .expect(200)
       .end((err, res) => {
@@ -19,9 +19,25 @@ describe('Users', () => {
         done();
       });
   });
+  it('posts second user with same email fail', (done) => {
+    const data = {
+      email: 'testuser@gmail.com',
+      password: '12345678',
+      fullname: 'test user',
+    };
+    server
+      .post('/users/register')
+      .send(data)
+      .expect(400)
+      .end((err, res) => {
+        expect(res.status).to.equal(400);
+        expect(res.body.message).to.equal('User with this email already exists.');
+        done();
+      });
+  });
   it('throws error on bad id', (done) => {
     server
-      .get('/user/2')
+      .get('/users/2')
       .expect(404)
       .end((err, res) => {
         expect(res.status).to.equal(404);
@@ -29,9 +45,23 @@ describe('Users', () => {
         done();
       });
   });
+  it('gets all users', (done) => {
+    server
+      .get('/users')
+      .expect(200)
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body.users).to.be.instanceOf(Array);
+        res.body.users.forEach(m => {
+          expect(m).to.have.property('email');
+          expect(m).to.have.property('fullname');
+        });
+        done();
+      })
+  })
   it('get user', (done) => {
     server
-      .get('/user/1')
+      .get('/users/1')
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(200);
@@ -47,7 +77,7 @@ describe('Users', () => {
       fullname: 'updated user',
     };
     server
-      .put('/user/1')
+      .put('/users/1')
       .send(data)
       .expect(200)
       .end((err, res) => {
@@ -58,9 +88,24 @@ describe('Users', () => {
         done();
       });
   });
+  it('changes password', (done) => {
+    const data = {
+      oldPassword: '12345678',
+      newPassword: 'abcdefgh'
+    }
+    server
+      .put('/users/1/password')
+      .send(data)
+      .expect(200)
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body.message).to.equal('Password changed successfuly.');
+        done();
+      });
+  });
   it('deletes user', (done) => {
     server
-      .delete('/user/1')
+      .delete('/users/1')
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(200);
