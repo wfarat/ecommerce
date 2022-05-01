@@ -6,6 +6,5 @@ CREATE TABLE IF NOT EXISTS users (
   fullname VARCHAR DEFAULT '',
   password VARCHAR NOT NULL
   );
-
   `;
 export const dropUsersTable = 'DROP TABLE users';
