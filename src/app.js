@@ -8,6 +8,9 @@ import expressLayouts from 'express-ejs-layouts';
 import authRouter from './routes/auth';
 import usersRouter from './routes/users';
 import { sessionSecret } from './settings';
+import cartRouter from './routes/cart';
+import itemsRouter from './routes/items';
+import ordersRouter from './routes/orders';
 
 const app = express();
 app.use(expressLayouts);
@@ -33,6 +36,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', authRouter);
 app.use('/users', usersRouter);
+app.use('/cart', cartRouter);
+app.use('/items', itemsRouter);
+app.use('/orders', ordersRouter);
 app.use((err, req, res, next) => {
   res.status(400).json({ error: err.stack });
 });

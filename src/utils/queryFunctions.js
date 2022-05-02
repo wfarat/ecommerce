@@ -1,5 +1,18 @@
 import { pool } from '../models/pool';
-import { createUsersTable, dropUsersTable } from './queries';
+import {
+  createCartItemsTable,
+  createCartsTable,
+  createItemsTable,
+  createOrderItemsTable,
+  createOrdersTable,
+  createUsersTable,
+  dropCartItemsTable,
+  dropCartsTable,
+  dropItemsTable,
+  dropOrderItemsTable,
+  dropOrdersTable,
+  dropUsersTable,
+} from './queries';
 
 export const executeQueryArray = async (arr) => new Promise((resolve) => {
   const stop = arr.length;
@@ -9,5 +22,19 @@ export const executeQueryArray = async (arr) => new Promise((resolve) => {
   });
 });
 
-export const createTables = () => executeQueryArray([ createUsersTable ]);
-export const dropTables = () => executeQueryArray([ dropUsersTable ]);
+export const createTables = () => executeQueryArray([
+  createUsersTable,
+  createOrdersTable,
+  createItemsTable,
+  createCartsTable,
+  createCartItemsTable,
+  createOrderItemsTable,
+]);
+export const dropTables = () => executeQueryArray([
+  dropUsersTable,
+  dropOrdersTable,
+  dropItemsTable,
+  dropCartsTable,
+  dropCartItemsTable,
+  dropOrderItemsTable,
+]);

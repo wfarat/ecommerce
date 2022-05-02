@@ -31,7 +31,9 @@ describe('Users', () => {
       .expect(400)
       .end((err, res) => {
         expect(res.status).to.equal(400);
-        expect(res.body.message).to.equal('User with this email already exists.');
+        expect(res.body.message).to.equal(
+          'User with this email already exists.'
+        );
         done();
       });
   });
@@ -52,13 +54,13 @@ describe('Users', () => {
       .end((err, res) => {
         expect(res.status).to.equal(200);
         expect(res.body.users).to.be.instanceOf(Array);
-        res.body.users.forEach(m => {
+        res.body.users.forEach((m) => {
           expect(m).to.have.property('email');
           expect(m).to.have.property('fullname');
         });
         done();
-      })
-  })
+      });
+  });
   it('get user', (done) => {
     server
       .get('/users/1')
@@ -88,11 +90,26 @@ describe('Users', () => {
         done();
       });
   });
+  it('fails change with wrong password', (done) => {
+    const data = {
+      oldPassword: '123456789',
+      newPassword: 'abcdefgh',
+    };
+    server
+      .put('/users/1/password')
+      .send(data)
+      .expect(400)
+      .end((err, res) => {
+        expect(res.status).to.equal(400);
+        expect(res.body.message).to.equal('Incorrect password.');
+        done();
+      });
+  });
   it('changes password', (done) => {
     const data = {
       oldPassword: '12345678',
-      newPassword: 'abcdefgh'
-    }
+      newPassword: 'abcdefgh',
+    };
     server
       .put('/users/1/password')
       .send(data)

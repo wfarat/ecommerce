@@ -31,14 +31,14 @@ export const findUser = async (req, res, next, userId) => {
 export const selectAllUsers = async (req, res) => {
   const columns = 'id, fullname, email';
   const data = await usersModel.select(columns);
-  res.status(200).send({users: data.rows});
+  res.status(200).send({ users: data.rows });
 };
 
 export const addUser = async (req, res, next) => {
   const { email, password, fullname } = req.body;
   const checkIfExists = await findByEmail(email);
   if (checkIfExists) {
-    res.status(400).send({ message: 'User with this email already exists.'});
+    res.status(400).send({ message: 'User with this email already exists.' });
   }
   const columns = 'email, password, fullname';
   const saltRounds = 10;
@@ -81,10 +81,10 @@ export const updatePassword = async (req, res) => {
     bcrypt.genSalt(saltRounds, (err, salt) => {
       bcrypt.hash(newPassword, salt, async (err, hash) => {
         if (err) {
-          res.status(400).send((err));
+          res.status(400).send(err);
         }
         await usersModel.update('password', hash, clause);
-        res.status(200).send({ message: 'Password changed successfuly.'});
+        res.status(200).send({ message: 'Password changed successfuly.' });
       });
     });
   });
