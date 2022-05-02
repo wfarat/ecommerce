@@ -1,7 +1,7 @@
-import { expect, server } from "./setup";
+import { expect, server } from './setup';
 
-describe('Orders', () => {
-it('posts a new order', () => {
-    
-})
-});
+//describe('Orders', () => {
+//it('gets orders', () => {
+//
+//})
+//});
