@@ -13,7 +13,7 @@ describe('Item', () => {
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(200);
-        expect(res.body.item.id).to.equal(2);
+        expect(res.body.item.id).to.equal(3);
         expect(res.body.item.name).to.equal(data.name);
         expect(res.body.item.price).to.equal(data.price);
         expect(res.body.item.description).to.equal(data.description);
@@ -22,11 +22,11 @@ describe('Item', () => {
   });
   it('get item', (done) => {
     server
-      .get('/items/2')
+      .get('/items/3')
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(200);
-        expect(res.body.item.id).to.equal(2);
+        expect(res.body.item.id).to.equal(3);
         expect(res.body.item.name).to.equal('something');
         expect(res.body.item.price).to.equal(12345678);
         expect(res.body.item.description).to.equal('very expensive something');
@@ -39,8 +39,8 @@ describe('Item', () => {
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(200);
-        expect(res.body.users).to.be.instanceOf(Array);
-        res.body.users.forEach((m) => {
+        expect(res.body.items).to.be.instanceOf(Array);
+        res.body.items.forEach((m) => {
           expect(m).to.have.property('name');
           expect(m).to.have.property('price');
           expect(m).to.have.property('description');
@@ -50,11 +50,11 @@ describe('Item', () => {
   });
   it('throws error on bad id', (done) => {
     server
-      .get('/items/3')
+      .get('/items/4')
       .expect(404)
       .end((err, res) => {
         expect(res.status).to.equal(404);
-        expect(res.body.message).to.equal("Item id 3 doesn't exist");
+        expect(res.body.message).to.equal("Item id 4 doesn't exist.");
         done();
       });
   });
@@ -65,12 +65,12 @@ describe('Item', () => {
       description: 'very expensive something different',
     };
     server
-      .put('/items/2')
+      .put('/items/3')
       .send(data)
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(200);
-        expect(res.body.item.id).to.equal(2);
+        expect(res.body.item.id).to.equal(3);
         expect(res.body.item.name).to.equal(data.name);
         expect(res.body.item.price).to.equal(data.price);
         expect(res.body.item.description).to.equal(data.description);
@@ -79,11 +79,11 @@ describe('Item', () => {
   });
   it('deletes item', (done) => {
     server
-      .delete('/items/2')
+      .delete('/items/3')
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(200);
-        expect(res.body.message).to.equal('Item id 2 is successfuly deleted.');
+        expect(res.body.message).to.equal('Item id 3 is successfuly deleted.');
         done();
       });
   });

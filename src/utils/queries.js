@@ -1,7 +1,7 @@
 export const createAllTables = `
 DROP TABLE IF EXISTS order_items;
 DROP TABLE IF EXISTS orders;
-DROP TABLE cart;
+DROP TABLE IF EXISTS cart;
 DROP TABLE IF EXISTS items;
 DROP TABLE IF EXISTS users;
 CREATE TABLE IF NOT EXISTS users (
@@ -52,4 +52,5 @@ DROP TABLE users;
 
 export const insertIntoAllTables = `
 INSERT INTO users (email, password, fullname) VALUES ('test user', 'test password', 'test name');
-INSERT INTO items (name, price, description) VALUES ('test item', 1, 'test description');`;
+INSERT INTO items (name, price, description) VALUES ('test item', 1, 'test description');
+INSERT INTO items (name, price, description) VALUES ('test item 2', 2, 'test description');`;

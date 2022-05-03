@@ -25,10 +25,26 @@ class Model {
     return this.pool.query(query);
   }
 
+  async insert(columns, values) {
+    const query = `
+          INSERT INTO ${this.table}(${columns})
+          VALUES (${values})
+      `;
+    return this.pool.query(query);
+  }
+
   async update(column, value, clause) {
     const query = `UPDATE ${this.table}
                  SET ${column} = '${value}' 
                 WHERE ${clause}`;
+    return this.pool.query(query);
+  }
+
+  async updateWithReturn(column, value, clause) {
+    const query = `UPDATE ${this.table}
+                 SET ${column} = '${value}' 
+                WHERE ${clause}
+                RETURNING *`;
     return this.pool.query(query);
   }
 

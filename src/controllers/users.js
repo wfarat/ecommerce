@@ -39,19 +39,20 @@ export const addUser = async (req, res, next) => {
   const checkIfExists = await findByEmail(email);
   if (checkIfExists) {
     res.status(400).send({ message: 'User with this email already exists.' });
-  }
-  const columns = 'email, password, fullname';
-  const saltRounds = 10;
-  bcrypt.genSalt(saltRounds, (err, salt) => {
-    bcrypt.hash(password, salt, async (err, hash) => {
-      if (err) {
-        return next(err);
-      }
-      const values = `'${email}', '${hash}','${fullname}'`;
-      const user = await usersModel.insertWithReturn(columns, values);
-      res.status(200).send({ user: user.rows[0] });
+  } else {
+    const columns = 'email, password, fullname';
+    const saltRounds = 10;
+    bcrypt.genSalt(saltRounds, (err, salt) => {
+      bcrypt.hash(password, salt, async (err, hash) => {
+        if (err) {
+          return next(err);
+        }
+        const values = `'${email}', '${hash}','${fullname}'`;
+        const user = await usersModel.insertWithReturn(columns, values);
+        res.status(200).send({ user: user.rows[0] });
+      });
     });
-  });
+  }
 };
 export const selectUser = async (req, res) => {
   const { id, fullname, email } = req.user;

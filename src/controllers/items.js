@@ -11,7 +11,7 @@ const findById = async (id) => {
 export const findItem = async (req, res, next, itemId) => {
   const item = await findById(itemId);
   if (!item) {
-    res.status(404).send({ message: `Item id ${itemId} doesn't exist` });
+    res.status(404).send({ message: `Item id ${itemId} doesn't exist.` });
   } else {
     req.item = item;
     next();
