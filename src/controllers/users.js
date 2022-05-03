@@ -4,7 +4,7 @@ import Model from '../models/model';
 
 const usersModel = new Model('users');
 
-export const findById = async (id) => {
+const findById = async (id) => {
   const clause = ` WHERE id='${id}'`;
   const columns = 'id, fullname, password, email';
   const data = await usersModel.select(columns, clause);
@@ -12,7 +12,7 @@ export const findById = async (id) => {
   return user;
 };
 
-export const findByEmail = async (email) => {
+const findByEmail = async (email) => {
   const clause = ` WHERE email='${email}'`;
   const columns = 'id, email';
   const data = await usersModel.select(columns, clause);
@@ -54,7 +54,9 @@ export const addUser = async (req, res, next) => {
   });
 };
 export const selectUser = async (req, res) => {
-  res.status(200).send({ user: req.user });
+  const { id, fullname, email } = req.user;
+  const user = { id, fullname, email };
+  res.status(200).send({ user });
 };
 
 export const updateUser = async (req, res) => {

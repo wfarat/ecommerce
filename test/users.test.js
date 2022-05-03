@@ -13,7 +13,7 @@ describe('Users', () => {
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(200);
-        expect(res.body.user.id).to.equal(1);
+        expect(res.body.user.id).to.equal(2);
         expect(res.body.user.email).to.equal(data.email);
         expect(res.body.user.fullname).to.equal(data.fullname);
         done();
@@ -39,11 +39,11 @@ describe('Users', () => {
   });
   it('throws error on bad id', (done) => {
     server
-      .get('/users/2')
+      .get('/users/3')
       .expect(404)
       .end((err, res) => {
         expect(res.status).to.equal(404);
-        expect(res.body.message).to.equal("User id 2 doesn't exist");
+        expect(res.body.message).to.equal("User id 3 doesn't exist");
         done();
       });
   });
@@ -63,11 +63,11 @@ describe('Users', () => {
   });
   it('get user', (done) => {
     server
-      .get('/users/1')
+      .get('/users/2')
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(200);
-        expect(res.body.user.id).to.equal(1);
+        expect(res.body.user.id).to.equal(2);
         expect(res.body.user.email).to.equal('testuser@gmail.com');
         expect(res.body.user.fullname).to.equal('test user');
         done();
@@ -79,12 +79,12 @@ describe('Users', () => {
       fullname: 'updated user',
     };
     server
-      .put('/users/1')
+      .put('/users/2')
       .send(data)
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(200);
-        expect(res.body.user.id).to.equal(1);
+        expect(res.body.user.id).to.equal(2);
         expect(res.body.user.email).to.equal('updateduser@gmail.com');
         expect(res.body.user.fullname).to.equal('updated user');
         done();
@@ -96,7 +96,7 @@ describe('Users', () => {
       newPassword: 'abcdefgh',
     };
     server
-      .put('/users/1/password')
+      .put('/users/2/password')
       .send(data)
       .expect(400)
       .end((err, res) => {
@@ -111,7 +111,7 @@ describe('Users', () => {
       newPassword: 'abcdefgh',
     };
     server
-      .put('/users/1/password')
+      .put('/users/2/password')
       .send(data)
       .expect(200)
       .end((err, res) => {
@@ -122,11 +122,11 @@ describe('Users', () => {
   });
   it('deletes user', (done) => {
     server
-      .delete('/users/1')
+      .delete('/users/2')
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(200);
-        expect(res.body.message).to.equal('User id 1 is successfuly deleted.');
+        expect(res.body.message).to.equal('User id 2 is successfuly deleted.');
         done();
       });
   });

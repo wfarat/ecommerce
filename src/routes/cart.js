@@ -1,8 +1,12 @@
 import express from 'express';
-import { createCart } from '../controllers/cart';
+import { addItemToCart, deleteCart } from '../controllers/cart';
+import { findUser } from '../controllers/users';
+import { findItem } from '../controllers/items';
 
 const cartRouter = express.Router();
-
-cartRouter.post('/:userId', createCart);
+cartRouter.param('itemId', findItem);
+cartRouter.param('userId', findUser);
+cartRouter.post('/:userId/:itemId', addItemToCart);
+cartRouter.delete('/:userId', deleteCart);
 
 export default cartRouter;

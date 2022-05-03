@@ -17,4 +17,5 @@ usersRouter.post('/register', addUser);
 usersRouter.put('/:userId', updateUser);
 usersRouter.put('/:userId/password', updatePassword);
 usersRouter.delete('/:userId', deleteUser);
+
 export default usersRouter;

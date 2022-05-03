@@ -1,4 +1,8 @@
 export const createAllTables = `
+DROP TABLE IF EXISTS order_items;
+DROP TABLE IF EXISTS orders;
+DROP TABLE cart;
+DROP TABLE IF EXISTS items;
 DROP TABLE IF EXISTS users;
 CREATE TABLE IF NOT EXISTS users (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
@@ -6,7 +10,6 @@ CREATE TABLE IF NOT EXISTS users (
   fullname VARCHAR(50) DEFAULT '',
   password VARCHAR NOT NULL
   );
-  DROP TABLE IF EXISTS orders;
 CREATE TABLE IF NOT EXISTS orders (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
   user_id INT NOT NULL,
@@ -14,45 +17,39 @@ CREATE TABLE IF NOT EXISTS orders (
   status VARCHAR(50) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
-DROP TABLE IF EXISTS items;
 CREATE TABLE IF NOT EXISTS items (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
-  user_id INT NOT NULL,
   name VARCHAR(50) NOT NULL,
   price INT NOT NULL,
-  decription VARCHAR NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES users(id)
+  description VARCHAR NOT NULL
   );
-  DROP TABLE IF EXISTS carts;
-CREATE TABLE IF NOT EXISTS carts (
+CREATE TABLE IF NOT EXISTS cart (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
   user_id INT NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES users(id)
+  item_id INT NOT NULL,
+  qty INT NOT NULL,
+  price INT NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (item_id) REFERENCES items(id)
 );
-DROP TABLE IF exists order_items;
 CREATE TABLE IF NOT EXISTS order_items (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
   order_id INT NOT NULL,
   item_id INT NOT NULL,
   qty INT NOT NULL,
+  price INT NOT NULL,
   FOREIGN KEY (order_id) REFERENCES orders(id),
-  FOREIGN KEY (item_id) REFERENCES items(id)
-);
-DROP TABLE IF exists cart_items;
-CREATE TABLE IF NOT EXISTS cart_items (
-  id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
-  card_id INT NOT NULL,
-  item_id INT NOT NULL,
-  qty INT NOT NULL,
-  FOREIGN KEY (card_id) REFERENCES carts(id),
   FOREIGN KEY (item_id) REFERENCES items(id)
 );
 `;
 export const dropAllTables = `
 DROP TABLE order_items;
-DROP TABLE cart_items;
 DROP TABLE orders;
+DROP TABLE cart;
 DROP TABLE items;
-DROP TABLE carts;
 DROP TABLE users;
 `;
+
+export const insertIntoAllTables = `
+INSERT INTO users (email, password, fullname) VALUES ('test user', 'test password', 'test name');
+INSERT INTO items (name, price, description) VALUES ('test item', 1, 'test description');`;

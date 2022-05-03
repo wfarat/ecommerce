@@ -1,5 +1,5 @@
 import { pool } from '../models/pool';
-import { createAllTables, dropAllTables } from './queries';
+import { createAllTables, dropAllTables, insertIntoAllTables } from './queries';
 
 export const executeQueryArray = async (arr) => new Promise((resolve) => {
   const stop = arr.length;
@@ -11,3 +11,4 @@ export const executeQueryArray = async (arr) => new Promise((resolve) => {
 
 export const createTables = () => executeQueryArray([ createAllTables ]);
 export const dropTables = () => executeQueryArray([ dropAllTables ]);
+export const insertIntoTables = () => executeQueryArray([ insertIntoAllTables ]);
