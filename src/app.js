@@ -5,6 +5,8 @@ import cors from 'cors';
 import session from 'express-session';
 import passport from 'passport';
 import expressLayouts from 'express-ejs-layouts';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 import authRouter from './routes/auth';
 import usersRouter from './routes/users';
 import { sessionSecret } from './settings';
@@ -12,6 +14,21 @@ import cartRouter from './routes/cart';
 import itemsRouter from './routes/items';
 import ordersRouter from './routes/orders';
 
+const swaggerDefinition = {
+  openapi: '3.0.0',
+  info: {
+    title: 'Express API for JSONPlaceholder',
+    version: '1.0.0',
+  },
+};
+
+const options = {
+  swaggerDefinition,
+  // Paths to files containing OpenAPI definitions
+  apis: ['./routes/*.js'],
+};
+
+const swaggerSpec = swaggerJSDoc(options);
 const app = express();
 app.use(expressLayouts);
 app.set('layout', './layout/main');
@@ -39,6 +56,7 @@ app.use('/users', usersRouter);
 app.use('/cart', cartRouter);
 app.use('/items', itemsRouter);
 app.use('/orders', ordersRouter);
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use((err, req, res, next) => {
   res.status(400).json({ error: err.stack });
 });
