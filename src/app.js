@@ -14,21 +14,7 @@ import cartRouter from './routes/cart';
 import itemsRouter from './routes/items';
 import ordersRouter from './routes/orders';
 
-const swaggerDefinition = {
-  openapi: '3.0.0',
-  info: {
-    title: 'Express API for JSONPlaceholder',
-    version: '1.0.0',
-  },
-};
 
-const options = {
-  swaggerDefinition,
-  // Paths to files containing OpenAPI definitions
-  apis: ['./routes/*.js'],
-};
-
-const swaggerSpec = swaggerJSDoc(options);
 const app = express();
 app.use(expressLayouts);
 app.set('layout', './layout/main');
@@ -56,6 +42,30 @@ app.use('/users', usersRouter);
 app.use('/cart', cartRouter);
 app.use('/items', itemsRouter);
 app.use('/orders', ordersRouter);
+const swaggerDefinition = {
+  openapi: '3.0.0',
+  info: {
+    title: 'Ecommerce API',
+    version: '1.0.0',
+    contact: {
+      name: 'my github',
+      url: 'https://github.com/wfarat',
+    }
+  },
+  servers: [{
+    url: 'https://ecommercewfarat.herokuapp.com/',
+    description: 'Production server',
+  }],
+  basePath: '/',
+};
+
+const options = {
+  swaggerDefinition,
+  // Paths to files containing OpenAPI definitions
+  apis: ['./src/routes/*.js'],
+};
+
+const swaggerSpec = swaggerJSDoc(options);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use((err, req, res, next) => {
   res.status(400).json({ error: err.stack });

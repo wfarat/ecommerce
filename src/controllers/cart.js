@@ -58,7 +58,7 @@ export const addItemToCart = async (req, res) => {
     const values = `${req.user.id}, ${req.item.id}, ${qty}, ${price}`;
     const data = await cartsModel.insertWithReturn(columns, values);
     const item = data.rows[0];
-    res.status(200).send({ item });
+    res.status(201).send({ item });
   }
 };
 
@@ -75,7 +75,7 @@ export const updateItemOnCart = async (req, res) => {
       `id = ${req.item.id}`
     );
     const newItem = data.rows[0];
-    res.status(200).send({ item: newItem });
+    res.status(203).send({ item: newItem });
   }
 };
 

@@ -3,7 +3,6 @@ import { findOrder, selectOrderItems, selectOrdersByUser } from '../controllers/
 import { findUser } from '../controllers/users';
 
 const ordersRouter = express.Router();
-
 ordersRouter.param('userId', findUser);
 ordersRouter.param('orderId', findOrder);
 ordersRouter.get('/:userId', selectOrdersByUser);

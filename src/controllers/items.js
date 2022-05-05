@@ -23,7 +23,7 @@ export const addItem = async (req, res) => {
   const values = `'${name}', ${price},'${description}'`;
   const data = await itemsModel.insertWithReturn(columns, values);
   const item = data.rows[0];
-  res.status(200).send({ item });
+  res.status(201).send({ item });
 };
 
 export const deleteItem = async (req, res) => {
@@ -53,5 +53,5 @@ export const updateItem = async (req, res) => {
     await itemsModel.update('description', description, clause);
   }
   const updatedItem = await findById(req.item.id);
-  res.status(200).send({ item: updatedItem });
+  res.status(203).send({ item: updatedItem });
 };

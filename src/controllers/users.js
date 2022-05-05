@@ -49,7 +49,7 @@ export const addUser = async (req, res, next) => {
         }
         const values = `'${email}', '${hash}','${fullname}'`;
         const user = await usersModel.insertWithReturn(columns, values);
-        res.status(200).send({ user: user.rows[0] });
+        res.status(201).send({ user: user.rows[0] });
       });
     });
   }
@@ -70,7 +70,7 @@ export const updateUser = async (req, res) => {
     await usersModel.update('fullname', fullname, clause);
   }
   const updatedUser = await findById(req.user.id);
-  res.status(200).send({ user: updatedUser });
+  res.status(203).send({ user: updatedUser });
 };
 
 export const updatePassword = async (req, res) => {
@@ -87,7 +87,7 @@ export const updatePassword = async (req, res) => {
           res.status(400).send(err);
         }
         await usersModel.update('password', hash, clause);
-        res.status(200).send({ message: 'Password changed successfuly.' });
+        res.status(203).send({ message: 'Password changed successfuly.' });
       });
     });
   });
