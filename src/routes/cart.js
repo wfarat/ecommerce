@@ -57,7 +57,7 @@ cartRouter.post('/:userId/checkout', findAllItemsOnCart, saveOrder, emptyCart);
    *         description: Numeric ID of the item to add
    *         schema:
    *           type: integer
-   *    requestBody:
+   *     requestBody:
    *       required: true
    *       content:
    *         application/json:
@@ -118,7 +118,7 @@ cartRouter.delete('/:userId', deleteCart);
    *         description: Numeric ID of the item to add
    *         schema:
    *           type: integer
-   *    requestBody:
+   *     requestBody:
    *       required: true
    *       content:
    *         application/json:
