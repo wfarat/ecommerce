@@ -11,42 +11,42 @@ import {
 
 const usersRouter = express.Router();
 usersRouter.param('userId', findUser);
- /**
-   * @swagger
-   * /users:
-   *   get:
-   *     summary: Returns users
-   *     description: Returns all users from database
-   *     tags:
-   *      - Users
-   *     produces:
-   *      - application/json
-   *     responses:
-   *       200:
-   *         description: users
-   */
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Returns users
+ *     description: Returns all users from database
+ *     tags:
+ *      - Users
+ *     produces:
+ *      - application/json
+ *     responses:
+ *       200:
+ *         description: users
+ */
 usersRouter.get('/', selectAllUsers);
- /**
-   * @swagger
-   * /users/{userId}:
-   *   get:
-   *     summary: Returns user by ID
-   *     description: Returns specific user from database if exists.
-   *     parameters:
-   *       - in: path
-   *         name: userId
-   *         required: true
-   *         description: Numeric ID of the user to retrieve.
-   *         schema:
-   *           type: integer
-   *     tags:
-   *      - Users
-   *     produces:
-   *      - application/json
-   *     responses:
-   *       200:
-   *         description: users
-   */
+/**
+ * @swagger
+ * /users/{userId}:
+ *   get:
+ *     summary: Returns user by ID
+ *     description: Returns specific user from database if exists.
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         description: Numeric ID of the user to retrieve.
+ *         schema:
+ *           type: integer
+ *     tags:
+ *      - Users
+ *     produces:
+ *      - application/json
+ *     responses:
+ *       200:
+ *         description: users
+ */
 usersRouter.get('/:userId', selectUser);
 /**
  * @swagger
@@ -78,7 +78,7 @@ usersRouter.get('/:userId', selectUser);
  *     responses:
  *       201:
  *         description: users
-*/
+ */
 usersRouter.post('/register', addUser);
 /**
  * @swagger
@@ -113,7 +113,7 @@ usersRouter.post('/register', addUser);
  *     responses:
  *       203:
  *         description: users
-*/
+ */
 usersRouter.put('/:userId', updateUser);
 /**
  * @swagger
@@ -148,29 +148,29 @@ usersRouter.put('/:userId', updateUser);
  *     responses:
  *       203:
  *         description: users
-*/
+ */
 usersRouter.put('/:userId/password', updatePassword);
- /**
-   * @swagger
-   * /users/{userId}:
-   *   delete:
-   *     summary: Deletes user by ID
-   *     description: Deletes specific user from database
-   *     parameters:
-   *       - in: path
-   *         name: userId
-   *         required: true
-   *         description: Numeric ID of the user to delete.
-   *         schema:
-   *           type: integer
-   *     tags:
-   *      - Users
-   *     produces:
-   *      - application/json
-   *     responses:
-   *       200:
-   *         description: users
-   */
+/**
+ * @swagger
+ * /users/{userId}:
+ *   delete:
+ *     summary: Deletes user by ID
+ *     description: Deletes specific user from database
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         description: Numeric ID of the user to delete.
+ *         schema:
+ *           type: integer
+ *     tags:
+ *      - Users
+ *     produces:
+ *      - application/json
+ *     responses:
+ *       200:
+ *         description: users
+ */
 usersRouter.delete('/:userId', deleteUser);
 
 export default usersRouter;

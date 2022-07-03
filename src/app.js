@@ -14,7 +14,6 @@ import cartRouter from './routes/cart';
 import itemsRouter from './routes/items';
 import ordersRouter from './routes/orders';
 
-
 const app = express();
 app.use(expressLayouts);
 app.set('layout', './layout/main');
@@ -50,19 +49,21 @@ const swaggerDefinition = {
     contact: {
       name: 'my github',
       url: 'https://github.com/wfarat',
-    }
+    },
   },
-  servers: [{
-    url: 'https://ecommercewfarat.herokuapp.com/',
-    description: 'Production server',
-  }],
+  servers: [
+    {
+      url: 'https://ecommercewfarat.herokuapp.com/',
+      description: 'Production server',
+    },
+  ],
   basePath: '/',
 };
 
 const options = {
   swaggerDefinition,
   // Paths to files containing OpenAPI definitions
-  apis: ['./src/routes/*.js'],
+  apis: [ './src/routes/*.js' ],
 };
 
 const swaggerSpec = swaggerJSDoc(options);

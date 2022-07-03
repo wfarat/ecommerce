@@ -16,7 +16,10 @@ const findById = async (orderId) => {
 };
 
 const findItemsById = async (orderId) => {
-  const data = await orderItemsModel.select('*', ` WHERE order_id = ${orderId}`);
+  const data = await orderItemsModel.select(
+    '*',
+    ` WHERE order_id = ${orderId}`
+  );
   const orderItems = data.rows;
   return orderItems;
 };
@@ -52,9 +55,9 @@ export const saveOrder = async (req, res, next) => {
 export const selectOrdersByUser = async (req, res) => {
   const orders = await findByUser(req.user.id);
   res.status(200).send({ orders });
-}
+};
 
 export const selectOrderItems = async (req, res) => {
   const orderItems = await findItemsById(req.order.id);
   res.status(200).send({ orderItems });
-}
+};

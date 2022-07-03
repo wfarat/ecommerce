@@ -1,23 +1,23 @@
-"use strict";
+'use strict';
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+var _interopRequireDefault = require('@babel/runtime/helpers/interopRequireDefault');
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
+Object.defineProperty(exports, '__esModule', {
+  value: true,
 });
-exports["default"] = void 0;
+exports['default'] = void 0;
 
-var _express = _interopRequireDefault(require("express"));
+var _express = _interopRequireDefault(require('express'));
 
-var _items = require("../controllers/items");
+var _items = require('../controllers/items');
 
-var itemsRouter = _express["default"].Router();
+var itemsRouter = _express['default'].Router();
 
 itemsRouter.param('itemId', _items.findItem);
 itemsRouter.post('/', _items.addItem);
-itemsRouter["delete"]('/:itemId', _items.deleteItem);
+itemsRouter['delete']('/:itemId', _items.deleteItem);
 itemsRouter.put('/:itemId', _items.updateItem);
 itemsRouter.get('/:itemId', _items.selectItem);
 itemsRouter.get('/', _items.selectAllItems);
 var _default = itemsRouter;
-exports["default"] = _default;
+exports['default'] = _default;

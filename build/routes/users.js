@@ -1,15 +1,15 @@
-"use strict";
+'use strict';
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+var _interopRequireDefault = require('@babel/runtime/helpers/interopRequireDefault');
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
+Object.defineProperty(exports, '__esModule', {
+  value: true,
 });
-exports["default"] = void 0;
+exports['default'] = void 0;
 
-var _express = _interopRequireDefault(require("express"));
+var _express = _interopRequireDefault(require('express'));
 
-var _users = require("../controllers/users");
+var _users = require('../controllers/users');
 
 /**
  * @swagger
@@ -20,7 +20,7 @@ var _users = require("../controllers/users");
  *       200:
  *         description: Returns a mysterious string.
  */
-var usersRouter = _express["default"].Router();
+var usersRouter = _express['default'].Router();
 
 usersRouter.param('userId', _users.findUser);
 /**
@@ -57,6 +57,6 @@ usersRouter.get('/:userId', _users.selectUser);
 usersRouter.post('/register', _users.addUser);
 usersRouter.put('/:userId', _users.updateUser);
 usersRouter.put('/:userId/password', _users.updatePassword);
-usersRouter["delete"]('/:userId', _users.deleteUser);
+usersRouter['delete']('/:userId', _users.deleteUser);
 var _default = usersRouter;
-exports["default"] = _default;
+exports['default'] = _default;

@@ -41,29 +41,29 @@ itemsRouter.param('itemId', findItem);
  *     responses:
  *       201:
  *         description: items
-*/
+ */
 itemsRouter.post('/', addItem);
- /**
-   * @swagger
-   * /items/{itemId}:
-   *   delete:
-   *     summary: Deletes item by ID
-   *     description: Returns specific item from database if exists.
-   *     parameters:
-   *       - in: path
-   *         name: itemId
-   *         required: true
-   *         description: Numeric ID of the item to retrieve.
-   *         schema:
-   *           type: integer
-   *     tags:
-   *      - Items
-   *     produces:
-   *      - application/json
-   *     responses:
-   *       200:
-   *         description: items
-   */
+/**
+ * @swagger
+ * /items/{itemId}:
+ *   delete:
+ *     summary: Deletes item by ID
+ *     description: Returns specific item from database if exists.
+ *     parameters:
+ *       - in: path
+ *         name: itemId
+ *         required: true
+ *         description: Numeric ID of the item to retrieve.
+ *         schema:
+ *           type: integer
+ *     tags:
+ *      - Items
+ *     produces:
+ *      - application/json
+ *     responses:
+ *       200:
+ *         description: items
+ */
 itemsRouter.delete('/:itemId', deleteItem);
 /**
  * @swagger
@@ -102,44 +102,44 @@ itemsRouter.delete('/:itemId', deleteItem);
  *     responses:
  *       201:
  *         description: items
-*/
+ */
 itemsRouter.put('/:itemId', updateItem);
- /**
-   * @swagger
-   * /items/{itemId}:
-   *   get:
-   *     summary: Returns item by ID
-   *     description: Returns specific item from database if exists.
-   *     parameters:
-   *       - in: path
-   *         name: itemId
-   *         required: true
-   *         description: Numeric ID of the item to retrieve.
-   *         schema:
-   *           type: integer
-   *     tags:
-   *      - Items
-   *     produces:
-   *      - application/json
-   *     responses:
-   *       200:
-   *         description: items
-   */
+/**
+ * @swagger
+ * /items/{itemId}:
+ *   get:
+ *     summary: Returns item by ID
+ *     description: Returns specific item from database if exists.
+ *     parameters:
+ *       - in: path
+ *         name: itemId
+ *         required: true
+ *         description: Numeric ID of the item to retrieve.
+ *         schema:
+ *           type: integer
+ *     tags:
+ *      - Items
+ *     produces:
+ *      - application/json
+ *     responses:
+ *       200:
+ *         description: items
+ */
 itemsRouter.get('/:itemId', selectItem);
- /**
-   * @swagger
-   * /items:
-   *   get:
-   *     summary: Returns items
-   *     description: Returns all items from database
-   *     tags:
-   *      - Items
-   *     produces:
-   *      - application/json
-   *     responses:
-   *       200:
-   *         description: items
-   */
+/**
+ * @swagger
+ * /items:
+ *   get:
+ *     summary: Returns items
+ *     description: Returns all items from database
+ *     tags:
+ *      - Items
+ *     produces:
+ *      - application/json
+ *     responses:
+ *       200:
+ *         description: items
+ */
 itemsRouter.get('/', selectAllItems);
 
 export default itemsRouter;
