@@ -7,15 +7,7 @@ import Model from '../models/model';
 
 const usersModel = new Model('users');
 const authRouter = express.Router();
-authRouter.get('/', (req, res) => {
-  res.render('index', { title: 'Home' });
-});
 
-authRouter.get('/login', (req, res) => {
-  res.render('login', { title: 'Login' });
-});
-
-authRouter.get('/secret', connectEnsureLogin.ensureLoggedIn(), (req, res) => res.render('secret', { title: 'Secret Page' }));
 authRouter.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
@@ -56,10 +48,14 @@ authRouter.post(
   '/login',
   passport.authenticate('local', {
     failureRedirect: '/login',
-    successRedirect: '/secret',
+    successRedirect: '/',
   }),
   (req, res) => {
-    console.log(req.user);
+    res.send({data: {
+      auth: req.isAuthenticated(),
+      userId: req.user.id
+    }
+    });
   }
 );
 export default authRouter;

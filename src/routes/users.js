@@ -139,7 +139,7 @@ usersRouter.put('/:userId', updateUser);
  *                 type: string
  *                 description: The user's old password.
  *                 example: 41589uwfdusad12
- *               email:
+ *               newPassword:
  *                 type: string
  *                 description: The user's new password
  *                 example: t123asfdas1234

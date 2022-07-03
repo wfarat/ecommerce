@@ -10,7 +10,9 @@ export default function Login() {
     }
     return (
         <div className="login">
+            <label for="email"><b>Email Address:</b></label>
             <input id="email" type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <label for="password"><b>Password:</b></label>
             <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             <button className="submitButton" onClick={handleClick}>Login</button>
         </div>
