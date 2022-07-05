@@ -49,7 +49,7 @@ export const addUser = async (req, res, next) => {
         }
         const values = `'${email}', '${hash}','${fullname}'`;
         const user = await usersModel.insertWithReturn(columns, values);
-        res.status(201).send({ user: user.rows[0] });
+        res.status(201).send({ user: user.rows[0].fullname });
       });
     });
   }

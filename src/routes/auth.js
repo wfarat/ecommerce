@@ -1,6 +1,5 @@
 import bcrypt from 'bcrypt';
 import passport from 'passport';
-import connectEnsureLogin from 'connect-ensure-login';
 import LocalStrategy from 'passport-local';
 import express from 'express';
 import Model from '../models/model';
@@ -46,15 +45,13 @@ passport.use(
 );
 authRouter.post(
   '/login',
-  passport.authenticate('local', {
-    failureRedirect: '/login',
-    successRedirect: '/',
-  }),
+  passport.authenticate('local'),
   (req, res) => {
-    res.send({data: {
-      auth: req.isAuthenticated(),
-      userId: req.user.id
-    }
+    res.send({
+      data: {
+        auth: req.isAuthenticated(),
+        userId: req.user.id,
+      },
     });
   }
 );

@@ -124,7 +124,7 @@ var addItem = /*#__PURE__*/ (function () {
             case 5:
               data = _context3.sent;
               item = data.rows[0];
-              res.status(200).send({
+              res.status(201).send({
                 item: item,
               });
 
@@ -285,7 +285,7 @@ var updateItem = /*#__PURE__*/ (function () {
 
             case 13:
               updatedItem = _context7.sent;
-              res.status(200).send({
+              res.status(203).send({
                 item: updatedItem,
               });
 

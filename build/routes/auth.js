@@ -19,10 +19,6 @@ var _bcrypt = _interopRequireDefault(require('bcrypt'));
 
 var _passport = _interopRequireDefault(require('passport'));
 
-var _connectEnsureLogin = _interopRequireDefault(
-  require('connect-ensure-login')
-);
-
 var _passportLocal = _interopRequireDefault(require('passport-local'));
 
 var _express = _interopRequireDefault(require('express'));
@@ -33,25 +29,6 @@ var usersModel = new _model['default']('users');
 
 var authRouter = _express['default'].Router();
 
-authRouter.get('/', function (req, res) {
-  res.render('index', {
-    title: 'Home',
-  });
-});
-authRouter.get('/login', function (req, res) {
-  res.render('login', {
-    title: 'Login',
-  });
-});
-authRouter.get(
-  '/secret',
-  _connectEnsureLogin['default'].ensureLoggedIn(),
-  function (req, res) {
-    return res.render('secret', {
-      title: 'Secret Page',
-    });
-  }
-);
 authRouter.get('/logout', function (req, res) {
   req.logout();
   res.redirect('/');
@@ -141,10 +118,15 @@ authRouter.post(
   '/login',
   _passport['default'].authenticate('local', {
     failureRedirect: '/login',
-    successRedirect: '/secret',
+    successRedirect: '/',
   }),
   function (req, res) {
-    console.log(req.user);
+    res.send({
+      data: {
+        auth: req.isAuthenticated(),
+        userId: req.user.id,
+      },
+    });
   }
 );
 var _default = authRouter;

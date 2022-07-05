@@ -282,7 +282,7 @@ var addItemToCart = /*#__PURE__*/ (function () {
             case 13:
               data = _context7.sent;
               item = data.rows[0];
-              res.status(200).send({
+              res.status(201).send({
                 item: item,
               });
 
@@ -344,7 +344,7 @@ var updateItemOnCart = /*#__PURE__*/ (function () {
             case 10:
               data = _context8.sent;
               newItem = data.rows[0];
-              res.status(200).send({
+              res.status(203).send({
                 item: newItem,
               });
 

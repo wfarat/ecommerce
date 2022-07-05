@@ -12,9 +12,7 @@ describe('Users', () => {
       .send(data)
       .expect(200)
       .end((err, res) => {
-        expect(res.status).to.equal(200);
-        expect(res.body.user.id).to.equal(2);
-        expect(res.body.user.email).to.equal(data.email);
+        expect(res.status).to.equal(201);
         expect(res.body.user.fullname).to.equal(data.fullname);
         done();
       });
@@ -81,9 +79,9 @@ describe('Users', () => {
     server
       .put('/users/2')
       .send(data)
-      .expect(200)
+      .expect(203)
       .end((err, res) => {
-        expect(res.status).to.equal(200);
+        expect(res.status).to.equal(203);
         expect(res.body.user.id).to.equal(2);
         expect(res.body.user.email).to.equal('updateduser@gmail.com');
         expect(res.body.user.fullname).to.equal('updated user');
@@ -113,9 +111,9 @@ describe('Users', () => {
     server
       .put('/users/2/password')
       .send(data)
-      .expect(200)
+      .expect(203)
       .end((err, res) => {
-        expect(res.status).to.equal(200);
+        expect(res.status).to.equal(203);
         expect(res.body.message).to.equal('Password changed successfuly.');
         done();
       });

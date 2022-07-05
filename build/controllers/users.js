@@ -245,7 +245,7 @@ var addUser = /*#__PURE__*/ (function () {
 
                                     case 5:
                                       user = _context5.sent;
-                                      res.status(200).send({
+                                      res.status(201).send({
                                         user: user.rows[0],
                                       });
 
@@ -360,7 +360,7 @@ var updateUser = /*#__PURE__*/ (function () {
 
             case 10:
               updatedUser = _context8.sent;
-              res.status(200).send({
+              res.status(203).send({
                 user: updatedUser,
               });
 
@@ -431,7 +431,7 @@ var updatePassword = /*#__PURE__*/ (function () {
                                         );
 
                                       case 3:
-                                        res.status(200).send({
+                                        res.status(203).send({
                                           message:
                                             'Password changed successfuly.',
                                         });

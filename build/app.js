@@ -37,29 +37,6 @@ var _items = _interopRequireDefault(require('./routes/items'));
 
 var _orders = _interopRequireDefault(require('./routes/orders'));
 
-var swaggerDefinition = {
-  openapi: '3.0.0',
-  info: {
-    title: 'Ecommerce API',
-    version: '1.0.0',
-    contact: {
-      name: 'my github',
-      url: 'https://github.com/wfarat',
-    },
-  },
-  servers: [
-    {
-      url: 'https://ecommercewfarat.herokuapp.com/',
-      description: 'Production server',
-    },
-  ],
-};
-var options = {
-  swaggerDefinition: swaggerDefinition,
-  // Paths to files containing OpenAPI definitions
-  apis: ['./routes/*.js'],
-};
-var swaggerSpec = (0, _swaggerJsdoc['default'])(options);
 var app = (0, _express['default'])();
 app.use(_expressEjsLayouts['default']);
 app.set('layout', './layout/main');
@@ -91,6 +68,30 @@ app.use('/users', _users['default']);
 app.use('/cart', _cart['default']);
 app.use('/items', _items['default']);
 app.use('/orders', _orders['default']);
+var swaggerDefinition = {
+  openapi: '3.0.0',
+  info: {
+    title: 'Ecommerce API',
+    version: '1.0.0',
+    contact: {
+      name: 'my github',
+      url: 'https://github.com/wfarat',
+    },
+  },
+  servers: [
+    {
+      url: 'https://ecommercewfarat.herokuapp.com/',
+      description: 'Production server',
+    },
+  ],
+  basePath: '/',
+};
+var options = {
+  swaggerDefinition: swaggerDefinition,
+  // Paths to files containing OpenAPI definitions
+  apis: ['./src/routes/*.js'],
+};
+var swaggerSpec = (0, _swaggerJsdoc['default'])(options);
 app.use(
   '/docs',
   _swaggerUiExpress['default'].serve,

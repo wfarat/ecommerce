@@ -10,9 +10,9 @@ describe('Item', () => {
     server
       .post('/items')
       .send(data)
-      .expect(200)
+      .expect(201)
       .end((err, res) => {
-        expect(res.status).to.equal(200);
+        expect(res.status).to.equal(201);
         expect(res.body.item.id).to.equal(3);
         expect(res.body.item.name).to.equal(data.name);
         expect(res.body.item.price).to.equal(data.price);
@@ -67,9 +67,9 @@ describe('Item', () => {
     server
       .put('/items/3')
       .send(data)
-      .expect(200)
+      .expect(203)
       .end((err, res) => {
-        expect(res.status).to.equal(200);
+        expect(res.status).to.equal(203);
         expect(res.body.item.id).to.equal(3);
         expect(res.body.item.name).to.equal(data.name);
         expect(res.body.item.price).to.equal(data.price);

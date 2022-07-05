@@ -8,9 +8,9 @@ describe('Cart', () => {
     server
       .post('/cart/1/1')
       .send(data)
-      .expect(200)
+      .expect(201)
       .end((err, res) => {
-        expect(res.status).to.equal(200);
+        expect(res.status).to.equal(201);
         expect(res.body.item.id).to.equal(1);
         expect(res.body.item.user_id).to.equal(1);
         expect(res.body.item.item_id).to.equal(1);
@@ -42,9 +42,9 @@ describe('Cart', () => {
     server
       .put('/cart/1/1')
       .send(data)
-      .expect(200)
+      .expect(203)
       .end((err, res) => {
-        expect(res.status).to.equal(200);
+        expect(res.status).to.equal(203);
         expect(res.body.item.id).to.equal(1);
         expect(res.body.item.user_id).to.equal(1);
         expect(res.body.item.item_id).to.equal(1);
@@ -103,9 +103,9 @@ describe('Cart', () => {
     server
       .post('/cart/1/2')
       .send(data)
-      .expect(200)
+      .expect(201)
       .end((err, res) => {
-        expect(res.status).to.equal(200);
+        expect(res.status).to.equal(201);
         expect(res.body.item.id).to.equal(2);
         expect(res.body.item.user_id).to.equal(1);
         expect(res.body.item.item_id).to.equal(2);
