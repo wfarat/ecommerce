@@ -10,7 +10,8 @@ import Login from './components/login/Login';
 import Register from './components/register/Register';
 import { persistStore } from 'redux-persist'
 import { PersistGate } from 'redux-persist/integration/react'
-
+import UserPage from './features/users/UserPage';
+import Items from './features/items/Items';
 const container = document.getElementById('root');
 const root = createRoot(container);
 let persistor = persistStore(store);
@@ -23,7 +24,9 @@ root.render(
         <Routes>
           <Route path="/" element={<App/>}>
             <Route path="login" element={<Login />} />
+            <Route path="user" element={<UserPage/>}/>
             <Route path="register" element={<Register />} />
+            <Route path="items" element={<Items />}/>
           </Route>
         </Routes>
       </Router>
@@ -38,5 +41,5 @@ root.render(
 reportWebVitals();
 
 //<Route path="orders" element={<Orders />}/>
-//<Route path="items" element={<Items />}/>
+
 //<Route path="cart" element={<Cart />}/>

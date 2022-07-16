@@ -51,8 +51,11 @@ authRouter.post(
       data: {
         auth: req.isAuthenticated(),
         userId: req.user.id,
+        message: 'Login successful'
       },
     });
   }
 );
+
+
 export default authRouter;

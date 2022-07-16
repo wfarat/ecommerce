@@ -1,19 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-
+import { BaseURL } from '../../config';
 export const getUser = createAsyncThunk('getUser', async (userId) => {
-    const res = await fetch(`http://localhost:3000/users/${userId}`);
+    const res = await fetch(`${BaseURL}/users/${userId}`);
     const resJson = res.json();
     return resJson;
 })
 
 const userSlice = createSlice({
     name: 'user',
-    initialState: { data: { id: '', fullname: 'No user', email: '' }, status: 'idle' },
-    reducers: {
-        purgeUser(state) {
-            state.data = { id: '', fullname: 'No user', email: '' };
-        }
-    },
+    initialState: { data: { id: '', fullname: '', email: '' }, status: 'idle' },
+    reducers: {},
     extraReducers: (builder) => {
       builder
         .addCase(getUser.pending, (state) => {
@@ -29,4 +25,3 @@ const userSlice = createSlice({
 export const selectUser = (state) => state.user.data;
 export const selectStatus = (state) => state.user.status;
 export default userSlice.reducer;
-export const {purgeUser} = userSlice.actions;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { login } from '../../features/users/loginSlice';
-import User from '../../features/users/User';
+import { login, purgeMessage } from '../../features/users/loginSlice';
+
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -12,6 +12,7 @@ export default function Login() {
       password,
     };
     dispatch(login(data));
+    setTimeout(() => dispatch(purgeMessage()), 5000);
   };
   return (
     <div className="login">
@@ -36,7 +37,6 @@ export default function Login() {
       <button className="submitButton" onClick={handleClick}>
         Login
       </button>
-      <User />
     </div>
   );
 }

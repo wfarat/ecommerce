@@ -53,4 +53,10 @@ DROP TABLE users;
 export const insertIntoAllTables = `
 INSERT INTO users (email, password, fullname) VALUES ('test user', 'test password', 'test name');
 INSERT INTO items (name, price, description) VALUES ('test item', 1, 'test description');
-INSERT INTO items (name, price, description) VALUES ('test item 2', 2, 'test description');`;
+INSERT INTO items (name, price, description) VALUES ('test item 2', 2, 'test description');
+INSERT INTO items (name, price, description) VALUES ('test item 3', 3, 'test description');
+INSERT INTO items (name, price, description) VALUES ('test item 4', 4, 'test description');
+INSERT INTO items (name, price, description) VALUES ('test item 5', 5, 'test description');
+INSERT INTO items (name, price, description) VALUES ('test item 6', 6, 'test description');
+INSERT INTO items (name, price, description) VALUES ('test item 7', 7, 'test description');`;
+

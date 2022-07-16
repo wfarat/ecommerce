@@ -1,5 +1,6 @@
 import loginSlice from '../features/users/loginSlice';
 import userSlice from '../features/users/userSlice';
+import itemsSlice from '../features/items/itemsSlice';
 import { configureStore } from '@reduxjs/toolkit'
 import {combineReducers} from "redux"; 
 import {
@@ -12,10 +13,13 @@ import {
   REGISTER,
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+import cartSlice from '../features/cart/cartSlice';
 
 const appReducer = combineReducers({
   login: loginSlice,
-  user: userSlice
+  user: userSlice,
+  items: itemsSlice,
+  cart: cartSlice
 })
 
 const rootReducer = (state, action) => {
