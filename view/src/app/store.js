@@ -14,12 +14,14 @@ import {
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import cartSlice from '../features/cart/cartSlice';
+import ordersSlice from '../features/orders/ordersSlice';
 
 const appReducer = combineReducers({
   login: loginSlice,
   user: userSlice,
   items: itemsSlice,
-  cart: cartSlice
+  cart: cartSlice,
+  orders: ordersSlice
 })
 
 const rootReducer = (state, action) => {

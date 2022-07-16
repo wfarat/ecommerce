@@ -51,23 +51,6 @@ cartRouter.post('/:userId/checkout', findAllItemsOnCart, saveOrder, emptyCart);
  *         description: Numeric ID of the user who's cart to add item to.
  *         schema:
  *           type: integer
- *       - in: path
- *         name: itemId
- *         required: true
- *         description: Numeric ID of the item to add
- *         schema:
- *           type: integer
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               qty:
- *                 type: integer
- *                 description: Quantity of items to add to cart.
- *                 example: 3
  *     tags:
  *      - Cart
  *     produces:

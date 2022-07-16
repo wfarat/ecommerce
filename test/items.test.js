@@ -13,7 +13,7 @@ describe('Item', () => {
       .expect(201)
       .end((err, res) => {
         expect(res.status).to.equal(201);
-        expect(res.body.item.id).to.equal(3);
+        expect(res.body.item.id).to.equal(8);
         expect(res.body.item.name).to.equal(data.name);
         expect(res.body.item.price).to.equal(data.price);
         expect(res.body.item.description).to.equal(data.description);
@@ -22,11 +22,11 @@ describe('Item', () => {
   });
   it('get item', (done) => {
     server
-      .get('/items/3')
+      .get('/items/8')
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(200);
-        expect(res.body.item.id).to.equal(3);
+        expect(res.body.item.id).to.equal(8);
         expect(res.body.item.name).to.equal('something');
         expect(res.body.item.price).to.equal(12345678);
         expect(res.body.item.description).to.equal('very expensive something');
@@ -50,11 +50,11 @@ describe('Item', () => {
   });
   it('throws error on bad id', (done) => {
     server
-      .get('/items/4')
+      .get('/items/10')
       .expect(404)
       .end((err, res) => {
         expect(res.status).to.equal(404);
-        expect(res.body.message).to.equal("Item id 4 doesn't exist.");
+        expect(res.body.message).to.equal("Item id 10 doesn't exist.");
         done();
       });
   });

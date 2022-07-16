@@ -13,7 +13,7 @@ describe('Users', () => {
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(201);
-        expect(res.body.user.fullname).to.equal(data.fullname);
+        expect(res.body.user).to.equal(data.fullname);
         done();
       });
   });

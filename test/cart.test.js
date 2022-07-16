@@ -63,6 +63,7 @@ describe('Cart', () => {
         expect(res.body.item.user_id).to.equal(1);
         expect(res.body.item.item_id).to.equal(1);
         expect(res.body.item.qty).to.equal(3);
+        expect(res.body.item.name).to.equal('test item');
         expect(res.body.item.price).to.equal(3);
         done();
       });
@@ -79,6 +80,7 @@ describe('Cart', () => {
           expect(m).to.have.property('user_id');
           expect(m).to.have.property('item_id');
           expect(m).to.have.property('qty');
+          expect(m).to.have.property('name');
           expect(m).to.have.property('price');
         });
         done();
@@ -110,6 +112,7 @@ describe('Cart', () => {
         expect(res.body.item.user_id).to.equal(1);
         expect(res.body.item.item_id).to.equal(2);
         expect(res.body.item.qty).to.equal(3);
+        expect(res.body.item.name).to.equal('test item 2');
         expect(res.body.item.price).to.equal(6);
         done();
       });

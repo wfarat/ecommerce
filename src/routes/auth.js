@@ -31,7 +31,7 @@ passport.use(
       const columns = 'id, fullname, email, password';
       const data = await usersModel.select(columns, clause);
       const user = data.rows[0];
-      if (!user.email) {
+      if (!user) {
         return done(null, false, { message: 'Incorrect email or password.' });
       }
       bcrypt.compare(password, user.password, (err, result) => {

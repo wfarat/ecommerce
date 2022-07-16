@@ -53,9 +53,9 @@ export const addItemToCart = async (req, res) => {
       message: `Item id ${req.item.id} on user id ${req.user.id} already exists`,
     });
   } else {
-    const columns = 'user_id, item_id, qty, price';
+    const columns = 'user_id, item_id, name, qty, price';
     const price = Number(qty) * Number(req.item.price);
-    const values = `${req.user.id}, ${req.item.id}, ${qty}, ${price}`;
+    const values = `${req.user.id}, ${req.item.id}, '${req.item.name}', ${qty}, ${price}`;
     const data = await cartsModel.insertWithReturn(columns, values);
     const item = data.rows[0];
     res.status(201).send({ item });
