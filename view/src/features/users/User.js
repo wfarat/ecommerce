@@ -1,20 +1,25 @@
 import { useSelector } from 'react-redux';
-import { selectLogin } from './loginSlice';
 import { useDispatch } from 'react-redux';
-import { setAuth } from './loginSlice';
+import { logout, selectLogin } from './loginSlice';
 import { getUser, selectUser } from './userSlice';
 import { useEffect } from 'react';
 export default function User() {
   const dispatch = useDispatch();
   const login = useSelector(selectLogin);
-  if (localStorage.getItem('auth') === true) {
-    dispatch(setAuth);
-  }
   const user = useSelector(selectUser);
-  useEffect(() =>  dispatch(getUser), [login.auth, dispatch])
+  useEffect(() => { 
+    if (login.userId) {
+    dispatch(getUser(login.userId))
+    }
+  }, [login, dispatch])
+  const handleClick = () => {
+    dispatch({type: 'USER_LOGOUT'});
+    dispatch(logout());
+  };
   return (
     <div className="user-container">
       <h2>{user.fullname}</h2>
+      {login.auth && <button onClick={handleClick}>Logout</button>}
     </div>
   );
 }

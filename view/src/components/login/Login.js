@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { loginUser } from '../../features/users/loginSlice';
+import { login } from '../../features/users/loginSlice';
 import User from '../../features/users/User';
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -11,7 +11,7 @@ export default function Login() {
       email,
       password,
     };
-    dispatch(loginUser(data));
+    dispatch(login(data));
   };
   return (
     <div className="login">

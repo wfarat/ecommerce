@@ -9,14 +9,7 @@ const authRouter = express.Router();
 
 authRouter.get('/logout', (req, res) => {
   req.logout();
-  res.send(
-    {
-      data: {
-        auth: req.isAuthenticated(),
-        userId: ''
-      }
-    }
-  );
+  res.send({ message: 'Logout Successful.'})
 });
 
 passport.serializeUser((user, done) => {

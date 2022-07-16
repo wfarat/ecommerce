@@ -8,8 +8,12 @@ export const getUser = createAsyncThunk('getUser', async (userId) => {
 
 const userSlice = createSlice({
     name: 'user',
-    initialState: { data: { id: '', fullname: '', email: '' }, status: 'idle' },
-    reducers: {},
+    initialState: { data: { id: '', fullname: 'No user', email: '' }, status: 'idle' },
+    reducers: {
+        purgeUser(state) {
+            state.data = { id: '', fullname: 'No user', email: '' };
+        }
+    },
     extraReducers: (builder) => {
       builder
         .addCase(getUser.pending, (state) => {
@@ -25,3 +29,4 @@ const userSlice = createSlice({
 export const selectUser = (state) => state.user.data;
 export const selectStatus = (state) => state.user.status;
 export default userSlice.reducer;
+export const {purgeUser} = userSlice.actions;

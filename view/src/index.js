@@ -8,20 +8,26 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './index.css';
 import Login from './components/login/Login';
 import Register from './components/register/Register';
+import { persistStore } from 'redux-persist'
+import { PersistGate } from 'redux-persist/integration/react'
+
 const container = document.getElementById('root');
 const root = createRoot(container);
+let persistor = persistStore(store);
 
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
       <Router>
         <Routes>
-          <Route path="/" element={<App />}>
+          <Route path="/" element={<App/>}>
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
           </Route>
         </Routes>
       </Router>
+     </PersistGate>
     </Provider>
   </React.StrictMode>
 );

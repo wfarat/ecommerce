@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { Link, Outlet } from 'react-router-dom';
-import User from './features/users/User';
+
 function App() {
   return (
     <div className="App">
