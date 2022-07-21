@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { BaseURL } from '../../config';
+
 export const login = createAsyncThunk('login', async (data) => {
   const res = await fetch(`${BaseURL}/login`, {
     method: 'POST',

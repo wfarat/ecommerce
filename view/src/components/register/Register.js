@@ -25,7 +25,7 @@ export default function Register() {
     }
   };
   return (
-    <div className="register">
+    <div className="inputs">
       <label htmlFor="email">
         <b>Email Address:</b>
       </label>
@@ -77,7 +77,7 @@ export default function Register() {
         onChange={(e) => setRepeat(e.target.value)}
       />
       {!same && <span className="errSame">Passwords don't match</span>}
-      {userName}
+      {userName && <p>Welcome, {userName}. Your account has been created.</p>}
       <button className="sumbitButton" onClick={handleClick}>
         Register
       </button>

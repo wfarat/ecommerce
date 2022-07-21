@@ -19,7 +19,8 @@ export default function Item() {
     return (
         <div className="item-container">
             
-            <p>{item.name}</p>
+            <h3>{item.name}</h3>
+            <div className="thumbnail"></div>
             <p>{item.description}</p>
             <p>{item.price / 100} $</p>
                 {user.id && <AddToCart itemId={item.id} />}

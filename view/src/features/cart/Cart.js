@@ -28,7 +28,7 @@ export default function Cart() {
                 <span>total price: {item.price}</span>
             </li> )
         })}
-        <button onClick={handleClick}>Finalize order</button>
+        {items.length > 0 && <button onClick={handleClick}>Finalize order</button>}
         </ul>
         </div>
     )   

@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { login, purgeMessage } from '../../features/users/loginSlice';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { login, selectLogin, purgeMessage } from '../../features/users/loginSlice';
+import { Navigate } from 'react-router-dom';
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const user = useSelector(selectLogin);
+  if (user.auth === true) {
+    return <Navigate to="/"/>;
+  }
   const handleClick = () => {
     const data = {
       email,
@@ -15,7 +19,7 @@ export default function Login() {
     setTimeout(() => dispatch(purgeMessage()), 5000);
   };
   return (
-    <div className="login">
+    <div className="inputs">
       <label htmlFor="email">
         <b>Email Address:</b>
       </label>

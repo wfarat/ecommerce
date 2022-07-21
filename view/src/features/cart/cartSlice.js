@@ -15,6 +15,16 @@ export const addItemToCart = createAsyncThunk('addItemToCart', async (data) => {
     const resJson = await res.json();
     return resJson;
   });
+  export const updateItemOnCart = createAsyncThunk('updateItemOnCart', async (data) => {
+    const res = await fetch(`${BaseURL}/cart/${data.userId}/${data.itemId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      mode: 'cors',
+      body: JSON.stringify(data.qty)
+    });
+    const resJson = await res.json();
+    return resJson;
+  });
 const cartSlice = createSlice({
   name: 'cart',
   initialState: { data: { items: []}, status: 'idle'},
@@ -40,6 +50,15 @@ const cartSlice = createSlice({
         if (payload.item) {
         state.data.items.push(payload.item);
         }
+      })
+      .addCase(updateItemOnCart.pending, (state) => {
+          state.status = 'pending';
+        })
+      .addCase(updateItemOnCart.fulfilled, (state, {payload}) => {
+          state.status = 'idle';
+          const index = state.data.items.findIndex(item => item.item_id === payload.item.item_id);
+          state.data.items.splice(index, 1);
+          state.data.items.splice(index, 0, payload.item);
       })
   },
 });
