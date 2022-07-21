@@ -44,7 +44,7 @@ export const saveOrder = async (req, res, next) => {
   const order = data.rows[0];
   items.forEach(async (item) => {
     const col = 'order_id, item_id, qty, price';
-    const val = `${order.id}, ${item.id}, ${item.qty}, ${item.price}`;
+    const val = `${order.id}, ${item.item_id}, ${item.qty}, ${item.price}`;
     await orderItemsModel.insert(col, val);
   });
   req.user = userId;

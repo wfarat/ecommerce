@@ -66,7 +66,7 @@ export const deleteItemOnCart = async (req, res) => {
   await cartsModel.delete(`user_id = ${req.user.id} AND item_id = ${req.item.id}`);
   res
     .status(200)
-    .send({ message: `Item id ${req.item.id} was removed from cart id ${req.user.id}` });
+    .send({ item: req.item });
 }
 
 export const updateItemOnCart = async (req, res) => {

@@ -13,7 +13,7 @@ export const getOrders = createAsyncThunk('getOrders', async (userId) => {
   
 const ordersSlice = createSlice({
   name: 'orders',
-  initialState: { data: {}, status: 'idle'},
+  initialState: { data: { orders: []}, status: 'idle'},
   reducers: {},
   extraReducers: (builder) => {
     builder

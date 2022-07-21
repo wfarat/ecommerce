@@ -7,7 +7,7 @@ export default function Orders() {
     const dispatch = useDispatch();
     const user = useSelector(selectUser);
     useEffect(() => {
-        if (!orders) {
+        if (orders.length === 0) {
         dispatch(getOrders(user.id))
         }
     }, []);
