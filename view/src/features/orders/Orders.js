@@ -10,7 +10,7 @@ export default function Orders() {
         if (!orders) {
         dispatch(getOrders(user.id))
         }
-    }, [user.id, dispatch, orders]);
+    }, []);
     
     return (
         <div className="items-container">

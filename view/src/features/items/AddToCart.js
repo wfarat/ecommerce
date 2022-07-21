@@ -17,13 +17,15 @@ export default function AddToCart(props) {
     }
     return (
         <div className="addToCart">
+            <label htmlFor="qty">Add to cart:</label> 
                   <input
         id="qty"
         type="number"
+        className="qtyInput"
         value={qty}
         onChange={(e) => setQty(e.target.value)}
       />
-      <button onClick={handleClick}>Ok</button>
+      <button onClick={handleClick}>Add</button>
         </div>
     )
 }

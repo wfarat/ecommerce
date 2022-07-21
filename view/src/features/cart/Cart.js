@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { saveOrder } from "../orders/ordersSlice";
 import { selectUser } from "../users/userSlice";
-import { getCart, selectCart } from "./cartSlice";
+import { emptyCart, getCart, selectCart } from "./cartSlice";
 
 export default function Cart() {
     const {items} = useSelector(selectCart);
@@ -12,9 +12,10 @@ export default function Cart() {
         if (items.length === 0) {
         dispatch(getCart(user.id))
         }
-    }, [user.id, dispatch, items]);
+    }, []);
     const handleClick = () => {
         dispatch(saveOrder(user.id));
+        dispatch(emptyCart());
     }
     return (
         <div className="items-container">

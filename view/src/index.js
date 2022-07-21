@@ -13,6 +13,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import UserPage from './features/users/UserPage';
 import Items from './features/items/Items';
 import Cart from './features/cart/Cart';
+import Item from './features/items/Item';
 import Orders from './features/orders/Orders';
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -29,6 +30,7 @@ root.render(
             <Route path="user" element={<UserPage/>}/>
             <Route path="register" element={<Register />} />
             <Route path="items" element={<Items />} />
+            <Route path="items/:itemId" element={<Item />}/>
             <Route path="orders" element={<Orders />}/>
             <Route path="cart" element={<Cart />} />
           </Route>

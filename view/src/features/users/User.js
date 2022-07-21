@@ -21,9 +21,9 @@ export default function User() {
   };
   return (
     <div className="user-container">
-     {user.firstname && <div class="dropdown">
+     {user.firstname && <div className="dropdown">
       <p className="dropBtn"><Link to="user">Hi, {user.firstname}</Link></p>
-  <div class="dropdown-content">
+  <div className="dropdown-content">
   <Link to="user">Settings</Link>
   <Link to="orders">Orders</Link>
   <Link to="cart">Cart</Link>
@@ -31,9 +31,9 @@ export default function User() {
   </div> 
 </div> }
     {!user.firstname && 
-    <div class="dropdown">
+    <div className="dropdown">
     <p className="dropBtn"><Link to="login">Sign in</Link></p>
-<div class="dropdown-content">
+<div className="dropdown-content">
 <Link to="login">Login</Link>
 <Link to="register">Register</Link>
 </div> 

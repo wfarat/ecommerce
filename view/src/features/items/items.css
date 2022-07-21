@@ -1,0 +1,30 @@
+.items-container {
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+.items-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+.item {
+    text-align: center;
+    border: 3px solid white;
+    color: black;
+    background-color: burlywood;
+    width: 300px;
+    height: 300px;
+    margin: 30px;
+}
+
+.thumbnail {
+    background-image: url('thumbnail.jpg');
+    width: 150px;
+    height: 150px;
+    background-size: cover;
+    margin: 0 auto;
+}
+
+.qtyInput {
+    max-width: 50px;
+}

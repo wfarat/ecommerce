@@ -2,7 +2,9 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getItems, selectItems } from "./itemsSlice";
 import AddToCart from "./AddToCart";
+import { Link } from 'react-router-dom'
 import { selectUser } from "../users/userSlice";
+import './items.css';
 export default function Items() {
     const {items} = useSelector(selectItems);
     const user = useSelector(selectUser);
@@ -11,17 +13,21 @@ export default function Items() {
         if (!items) {
         dispatch(getItems())
         }
-    }, [dispatch, items]);
+    }, []);
     return (
         <div className="items-container">
-            <ul>
+            <ul className="items-list">
         {items && items.map((item) => {
             return (
-            <li key={item.id}>
+                <Link to={`${item.id}`} key={item.id}>
+            <li className="item" key={item.id}>
                 <p>{item.name}</p>
-                <span>{item.price}</span>
+                <p>{item.price / 100} $</p>
+                <div className="thumbnail"></div>
                 {user.id && <AddToCart itemId={item.id} />}
-            </li> )
+            </li> 
+            </Link> )
+            
         })}
         </ul>
         </div>
