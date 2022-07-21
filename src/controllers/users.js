@@ -6,7 +6,7 @@ const usersModel = new Model('users');
 
 const findById = async (id) => {
   const clause = ` WHERE id='${id}'`;
-  const columns = 'id, fullname, password, email';
+  const columns = 'id, firstname, lastname, password, email';
   const data = await usersModel.select(columns, clause);
   const user = data.rows[0];
   return user;
@@ -29,45 +29,48 @@ export const findUser = async (req, res, next, userId) => {
   }
 };
 export const selectAllUsers = async (req, res) => {
-  const columns = 'id, fullname, email';
+  const columns = 'id, firstname, lastname, email';
   const data = await usersModel.select(columns);
   res.status(200).send({ users: data.rows });
 };
 
 export const addUser = async (req, res, next) => {
-  const { email, password, fullname } = req.body;
+  const { email, password, firstname, lastname } = req.body;
   const checkIfExists = await findByEmail(email);
   if (checkIfExists) {
     res.status(400).send({ message: 'User with this email already exists.' });
   } else {
-    const columns = 'email, password, fullname';
+    const columns = 'email, password, firstname, lastname';
     const saltRounds = 10;
     bcrypt.genSalt(saltRounds, (err, salt) => {
       bcrypt.hash(password, salt, async (err, hash) => {
         if (err) {
           return next(err);
         }
-        const values = `'${email}', '${hash}','${fullname}'`;
+        const values = `'${email}', '${hash}','${firstname}', '${lastname}'`;
         const user = await usersModel.insertWithReturn(columns, values);
-        res.status(201).send({ user: user.rows[0].fullname });
+        res.status(201).send({ user: user.rows[0].firstname });
       });
     });
   }
 };
 export const selectUser = async (req, res) => {
-  const { id, fullname, email } = req.user;
-  const user = { id, fullname, email };
+  const { id, firstname, lastname, email } = req.user;
+  const user = { id, firstname, lastname, email };
   res.status(200).send({ user });
 };
 
 export const updateUser = async (req, res) => {
-  const { email, fullname } = req.body;
+  const { email, firstname, lastname } = req.body;
   const clause = `id = ${req.user.id}`;
   if (req.user.email !== email) {
     await usersModel.update('email', email, clause);
   }
-  if (req.user.fullname !== fullname) {
-    await usersModel.update('fullname', fullname, clause);
+  if (req.user.firstname !== firstname) {
+    await usersModel.update('firstname', firstname, clause);
+  }
+  if (req.user.lastname !== lastname) {
+    await usersModel.update('lastname', lastname, clause);
   }
   const updatedUser = await findById(req.user.id);
   res.status(203).send({ user: updatedUser });

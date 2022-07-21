@@ -7,7 +7,8 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE IF NOT EXISTS users (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
   email VARCHAR(50) UNIQUE NOT NULL,
-  fullname VARCHAR(50) DEFAULT '',
+  firstname VARCHAR(50) DEFAULT '',
+  lastname VARCHAR(50) DEFAULT '',
   password VARCHAR NOT NULL
   );
 CREATE TABLE IF NOT EXISTS orders (
@@ -52,7 +53,7 @@ DROP TABLE users;
 `;
 
 export const insertIntoAllTables = `
-INSERT INTO users (email, password, fullname) VALUES ('test user', 'test password', 'test name');
+INSERT INTO users (email, password, firstname, lastname) VALUES ('test user', 'test password', 'test', 'user');
 INSERT INTO items (name, price, description) VALUES ('test item', 1, 'test description');
 INSERT INTO items (name, price, description) VALUES ('test item 2', 2, 'test description');
 INSERT INTO items (name, price, description) VALUES ('test item 3', 3, 'test description');

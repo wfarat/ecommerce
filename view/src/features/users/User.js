@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { logout, purgeMessage, selectLogin } from './loginSlice';
 import { getUser, selectUser } from './userSlice';
 import { useEffect } from 'react';
+import './user.css';
 import { Link } from 'react-router-dom';
 export default function User() {
   const dispatch = useDispatch();
@@ -20,9 +21,25 @@ export default function User() {
   };
   return (
     <div className="user-container">
-      <h2><Link to={`user`}>{user.fullname}</Link></h2>
-      {login.auth && <button onClick={handleClick}>Logout</button>}
-      {login.message && <h2>{login.message}</h2>}
+     {user.firstname && <div class="dropdown">
+      <p className="dropBtn"><Link to="user">Hi, {user.firstname}</Link></p>
+  <div class="dropdown-content">
+  <Link to="user">Settings</Link>
+  <Link to="orders">Orders</Link>
+  <Link to="cart">Cart</Link>
+    <p onClick={handleClick}>Logout</p>
+  </div> 
+</div> }
+    {!user.firstname && 
+    <div class="dropdown">
+    <p className="dropBtn"><Link to="login">Sign in</Link></p>
+<div class="dropdown-content">
+<Link to="login">Login</Link>
+<Link to="register">Register</Link>
+</div> 
+</div>}
+
+      {login.message && <p className="login-message">{login.message}</p>}
     </div>
   );
 }

@@ -2,6 +2,7 @@ import express from 'express';
 import {
   addItemToCart,
   deleteCart,
+  deleteItemOnCart,
   emptyCart,
   findAllItemsOnCart,
   findItemOnCart,
@@ -60,6 +61,34 @@ cartRouter.post('/:userId/checkout', findAllItemsOnCart, saveOrder, emptyCart);
  *         description: cart
  */
 cartRouter.post('/:userId/:itemId', addItemToCart);
+/**
+ * @swagger
+ * /cart/{userId}:
+ *   delete:
+ *     summary: Deletes item on user's cart
+ *     description: Deletes specific user's cart item from database if exists.
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         description: Numeric ID of the user who's orders to delete.
+ *         schema:
+ *           type: integer
+ *       - in: path
+ *         name: itemId
+ *         required: true
+ *         description: Numeric ID of the item to add
+ *         schema:
+ *           type: integer
+ *     tags:
+ *      - Cart
+ *     produces:
+ *      - application/json
+ *     responses:
+ *       200:
+ *         description: cart
+ */
+cartRouter.delete('/:userId/:itemId', deleteItemOnCart);
 /**
  * @swagger
  * /cart/{userId}:

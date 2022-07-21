@@ -28,7 +28,7 @@ passport.use(
     },
     async (email, password, done) => {
       const clause = ` WHERE email='${email}'`;
-      const columns = 'id, fullname, email, password';
+      const columns = 'id, email, password';
       const data = await usersModel.select(columns, clause);
       const user = data.rows[0];
       if (!user) {

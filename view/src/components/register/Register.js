@@ -6,7 +6,8 @@ export default function Register() {
   const [password, setPassword] = useState('');
   const [repeat, setRepeat] = useState('');
   const [same, setSame] = useState(true);
-  const [fullname, setFullname] = useState('');
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
   const [userName, setUserName] = useState('');
   const handleClick = async () => {
     if (password !== repeat) {
@@ -15,7 +16,8 @@ export default function Register() {
       setSame(true);
       const data = {
         email,
-        fullname,
+        firstname,
+        lastname,
         password,
       };
       const name = await registerUser(data);
@@ -34,15 +36,25 @@ export default function Register() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <label htmlFor="fullname">
-        <b>Full Name:</b>
+      <label htmlFor="firstname">
+        <b>First Name:</b>
       </label>
       <input
-        id="fullname"
-        name="fullname"
+        id="firstname"
+        name="firstname"
         type="text"
-        value={fullname}
-        onChange={(e) => setFullname(e.target.value)}
+        value={firstname}
+        onChange={(e) => setFirstname(e.target.value)}
+      />
+            <label htmlFor="fullname">
+        <b>Last Name:</b>
+      </label>
+      <input
+        id="lastname"
+        name="lastname"
+        type="text"
+        value={lastname}
+        onChange={(e) => setLastname(e.target.value)}
       />
       <label htmlFor="password">
         <b>Password:</b>

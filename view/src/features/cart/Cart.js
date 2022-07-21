@@ -9,8 +9,10 @@ export default function Cart() {
     const user = useSelector(selectUser);
     const dispatch = useDispatch();
     useEffect(() => {
+        if (items.length === 0) {
         dispatch(getCart(user.id))
-    }, [user.id, dispatch]);
+        }
+    }, [user.id, dispatch, items]);
     const handleClick = () => {
         dispatch(saveOrder(user.id));
     }

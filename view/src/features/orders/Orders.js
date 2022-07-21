@@ -7,8 +7,10 @@ export default function Orders() {
     const dispatch = useDispatch();
     const user = useSelector(selectUser);
     useEffect(() => {
+        if (!orders) {
         dispatch(getOrders(user.id))
-    }, [user.id, dispatch]);
+        }
+    }, [user.id, dispatch, orders]);
     
     return (
         <div className="items-container">

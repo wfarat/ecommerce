@@ -33,7 +33,9 @@ const cartSlice = createSlice({
       })
       .addCase(addItemToCart.fulfilled, (state, {payload}) => {
         state.status = 'idle';
+        if (payload.item) {
         state.data.items.push(payload.item);
+        }
       })
   },
 });

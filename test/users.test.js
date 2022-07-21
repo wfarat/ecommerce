@@ -5,7 +5,8 @@ describe('Users', () => {
     const data = {
       email: 'testuser@gmail.com',
       password: '12345678',
-      fullname: 'test user',
+      firstname: 'test',
+      lastname: 'user'
     };
     server
       .post('/users/register')
@@ -13,7 +14,7 @@ describe('Users', () => {
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(201);
-        expect(res.body.user).to.equal(data.fullname);
+        expect(res.body.user).to.equal(data.firstname);
         done();
       });
   });
@@ -21,7 +22,8 @@ describe('Users', () => {
     const data = {
       email: 'testuser@gmail.com',
       password: '12345678',
-      fullname: 'test user',
+      firstname: 'test',
+      lastname: 'user'
     };
     server
       .post('/users/register')
@@ -54,7 +56,8 @@ describe('Users', () => {
         expect(res.body.users).to.be.instanceOf(Array);
         res.body.users.forEach((m) => {
           expect(m).to.have.property('email');
-          expect(m).to.have.property('fullname');
+          expect(m).to.have.property('firstname');
+          expect(m).to.have.property('lastname');
         });
         done();
       });
@@ -67,14 +70,16 @@ describe('Users', () => {
         expect(res.status).to.equal(200);
         expect(res.body.user.id).to.equal(2);
         expect(res.body.user.email).to.equal('testuser@gmail.com');
-        expect(res.body.user.fullname).to.equal('test user');
+        expect(res.body.user.firstname).to.equal('test');
+        expect(res.body.user.lastname).to.equal('user');
         done();
       });
   });
   it('updates users', (done) => {
     const data = {
       email: 'updateduser@gmail.com',
-      fullname: 'updated user',
+      firstname: 'updated',
+      lastname: 'user'
     };
     server
       .put('/users/2')
@@ -84,7 +89,8 @@ describe('Users', () => {
         expect(res.status).to.equal(203);
         expect(res.body.user.id).to.equal(2);
         expect(res.body.user.email).to.equal('updateduser@gmail.com');
-        expect(res.body.user.fullname).to.equal('updated user');
+        expect(res.body.user.firstname).to.equal('updated');
+        expect(res.body.user.lastname).to.equal('user');
         done();
       });
   });

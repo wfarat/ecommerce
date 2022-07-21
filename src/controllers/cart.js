@@ -62,6 +62,13 @@ export const addItemToCart = async (req, res) => {
   }
 };
 
+export const deleteItemOnCart = async (req, res) => {
+  await cartsModel.delete(`user_id = ${req.user.id} AND item_id = ${req.item.id}`);
+  res
+    .status(200)
+    .send({ message: `Item id ${req.item.id} was removed from cart id ${req.user.id}` });
+}
+
 export const updateItemOnCart = async (req, res) => {
   const { qty } = req.body;
   if (req.item.qty === qty) {

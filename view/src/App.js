@@ -6,28 +6,16 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1 className="main-header">Ecommerce App</h1>
+        <h1 className="main-header"><Link to="/">Ecommerce App</Link></h1>
         <nav>
           <ul>
             <li className="nav">
-              <Link to="login">Login</Link>
-            </li>
-            <li className="nav">
-              <Link to="register">Register</Link>
-            </li>
-            <li className="nav">
               <Link to="items">Items</Link>
-            </li>
-            <li className="nav">
-              <Link to="orders">Orders</Link>
-            </li>
-            <li className="nav">
-              <Link to="cart">Cart</Link>
             </li>
           </ul>
         </nav>
-      </header>
-      <User />
+        <User />
+      </header> 
       <Outlet />
     </div>
   );
