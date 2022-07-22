@@ -4,13 +4,20 @@ import axios from 'axios';
 export const login = createAsyncThunk('login', async (data) => {
   const res = await axios(`${BaseURL}/login`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json',
-    Accept: 'application/json' },
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
     withCredentials: true,
-    data: data
+    data: data,
   });
   return res.data;
 });
+export const loginGoogle = createAsyncThunk('loginGoogle', async () => {
+  const res = await axios(`${BaseURL}/login/google`, {
+    method: 'GET',
+    withCredentials: true,
+  }
+  );
+  return res.data;
+})
 export const logout = createAsyncThunk('logout', async () => {
   const res = await axios(`${BaseURL}/logout`);
   return res.data;
@@ -46,7 +53,14 @@ const loginSlice = createSlice({
       .addCase(logout.fulfilled, (state, { payload }) => {
         state.status = 'idle';
         state.data.message = payload.message;
-      });
+      })
+      .addCase(loginGoogle.pending, (state) => {
+        state.status = 'pending';
+      })
+      .addCase(loginGoogle.fulfilled, (state, { payload }) => {
+        state.status = 'idle';
+        state.data = payload.data;
+      })
   },
 });
 

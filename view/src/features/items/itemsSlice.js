@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { BaseURL } from '../../config';
 import axios from 'axios';
 export const getItems = createAsyncThunk('getItems', async () => {
-  const res = await axios(`${BaseURL}/items`);  
+  const res = await axios(`${BaseURL}/items`);
   return res.data;
 });
 

@@ -19,7 +19,7 @@ app.use(expressLayouts);
 app.set('layout', './layout/main');
 app.set('view engine', 'ejs');
 app.use(logger('dev'));
-const whitelist = [ 'http://localhost:3001' ];
+const whitelist = [ 'http://localhost:3001', 'https://accounts.google.com'];
 const corsOptions = {
   credentials: true, // This is important.
   origin: (origin, callback) => {
