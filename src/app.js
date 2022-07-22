@@ -7,15 +7,12 @@ import passport from 'passport';
 import expressLayouts from 'express-ejs-layouts';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import * as connectRedis from 'connect-redis';
-import { createClient } from 'redis';
 import authRouter from './routes/auth';
 import usersRouter from './routes/users';
 import { sessionSecret } from './settings';
 import cartRouter from './routes/cart';
 import itemsRouter from './routes/items';
 import ordersRouter from './routes/orders';
-
 
 const app = express();
 app.use(expressLayouts);
@@ -31,9 +28,7 @@ const corsOptions = {
     callback(new Error('Not allowed by CORS'));
   },
 };
-const RedisStore = connectRedis(session);
-const redisClient = createClient({ legacyMode: true });
-redisClient.connect().catch(console.error);
+
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -42,7 +37,6 @@ app.use(
   session({
     secret: sessionSecret,
     resave: false,
-    store: new RedisStore({ client: redisClient }),
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
