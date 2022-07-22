@@ -136,7 +136,9 @@ describe('Cart', () => {
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(200);
-        expect(res.body.message).to.equal('Item id 1 was removed from cart id 1');
+        expect(res.body.message).to.equal(
+          'Item id 1 was removed from cart id 1'
+        );
         done();
       });
   });

@@ -46,7 +46,7 @@ export default function Register() {
         value={firstname}
         onChange={(e) => setFirstname(e.target.value)}
       />
-            <label htmlFor="fullname">
+      <label htmlFor="fullname">
         <b>Last Name:</b>
       </label>
       <input

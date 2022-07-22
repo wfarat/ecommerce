@@ -3,7 +3,7 @@ export const registerUser = async (data) => {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     mode: 'cors',
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   });
   const resJson = await res.json();
   return resJson.user;

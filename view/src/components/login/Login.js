@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, selectLogin, purgeMessage } from '../../features/users/loginSlice';
+import {
+  login,
+  selectLogin,
+  purgeMessage,
+} from '../../features/users/loginSlice';
 import { Navigate } from 'react-router-dom';
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -8,7 +12,7 @@ export default function Login() {
   const dispatch = useDispatch();
   const user = useSelector(selectLogin);
   if (user.auth === true) {
-    return <Navigate to="/"/>;
+    return <Navigate to="/" />;
   }
   const handleClick = () => {
     const data = {

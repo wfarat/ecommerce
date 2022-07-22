@@ -9,7 +9,7 @@ const authRouter = express.Router();
 
 authRouter.get('/logout', (req, res) => {
   req.logout();
-  res.send({ message: 'Logout Successful.'})
+  res.send({ message: 'Logout Successful.' });
 });
 
 passport.serializeUser((user, done) => {
@@ -43,19 +43,14 @@ passport.use(
     }
   )
 );
-authRouter.post(
-  '/login',
-  passport.authenticate('local'),
-  (req, res) => {
-    res.send({
-      data: {
-        auth: req.isAuthenticated(),
-        userId: req.user.id,
-        message: 'Login successful'
-      },
-    });
-  }
-);
-
+authRouter.post('/login', passport.authenticate('local'), (req, res) => {
+  res.send({
+    data: {
+      auth: req.isAuthenticated(),
+      userId: req.user.id,
+      message: 'Login successful',
+    },
+  });
+});
 
 export default authRouter;

@@ -6,7 +6,7 @@ export const login = createAsyncThunk('login', async (data) => {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     mode: 'cors',
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   });
   const resJson = await res.json();
   return resJson;
@@ -15,15 +15,18 @@ export const logout = createAsyncThunk('logout', async () => {
   const res = await fetch(`${BaseURL}/logout`);
   const resJson = await res.json();
   return resJson;
-})
+});
 
 const loginSlice = createSlice({
   name: 'login',
-  initialState: { data: { auth: false, userId: '', message: '' }, status: 'idle'},
+  initialState: {
+    data: { auth: false, userId: '', message: '' },
+    status: 'idle',
+  },
   reducers: {
     purgeMessage(state) {
       state.data.message = '';
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -44,7 +47,7 @@ const loginSlice = createSlice({
       .addCase(logout.fulfilled, (state, { payload }) => {
         state.status = 'idle';
         state.data.message = payload.message;
-      })
+      });
   },
 });
 

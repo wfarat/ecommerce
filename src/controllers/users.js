@@ -35,7 +35,9 @@ export const selectAllUsers = async (req, res) => {
 };
 
 export const addUser = async (req, res, next) => {
-  const { email, password, firstname, lastname } = req.body;
+  const {
+    email, password, firstname, lastname
+  } = req.body;
   const checkIfExists = await findByEmail(email);
   if (checkIfExists) {
     res.status(400).send({ message: 'User with this email already exists.' });
@@ -55,8 +57,12 @@ export const addUser = async (req, res, next) => {
   }
 };
 export const selectUser = async (req, res) => {
-  const { id, firstname, lastname, email } = req.user;
-  const user = { id, firstname, lastname, email };
+  const {
+    id, firstname, lastname, email
+  } = req.user;
+  const user = {
+    id, firstname, lastname, email
+  };
   res.status(200).send({ user });
 };
 

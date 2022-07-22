@@ -61,4 +61,3 @@ INSERT INTO items (name, price, description) VALUES ('test item 4', 4, 'test des
 INSERT INTO items (name, price, description) VALUES ('test item 5', 5, 'test description');
 INSERT INTO items (name, price, description) VALUES ('test item 6', 6, 'test description');
 INSERT INTO items (name, price, description) VALUES ('test item 7', 7, 'test description');`;
-

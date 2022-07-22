@@ -6,7 +6,7 @@ describe('Users', () => {
       email: 'testuser@gmail.com',
       password: '12345678',
       firstname: 'test',
-      lastname: 'user'
+      lastname: 'user',
     };
     server
       .post('/users/register')
@@ -23,7 +23,7 @@ describe('Users', () => {
       email: 'testuser@gmail.com',
       password: '12345678',
       firstname: 'test',
-      lastname: 'user'
+      lastname: 'user',
     };
     server
       .post('/users/register')
@@ -79,7 +79,7 @@ describe('Users', () => {
     const data = {
       email: 'updateduser@gmail.com',
       firstname: 'updated',
-      lastname: 'user'
+      lastname: 'user',
     };
     server
       .put('/users/2')

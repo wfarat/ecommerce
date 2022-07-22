@@ -63,11 +63,11 @@ export const addItemToCart = async (req, res) => {
 };
 
 export const deleteItemOnCart = async (req, res) => {
-  await cartsModel.delete(`user_id = ${req.user.id} AND item_id = ${req.item.id}`);
-  res
-    .status(200)
-    .send({ item: req.item });
-}
+  await cartsModel.delete(
+    `user_id = ${req.user.id} AND item_id = ${req.item.id}`
+  );
+  res.status(200).send({ item: req.item });
+};
 
 export const updateItemOnCart = async (req, res) => {
   const { qty } = req.body;

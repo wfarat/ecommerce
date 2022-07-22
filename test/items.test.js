@@ -5,7 +5,7 @@ describe('Item', () => {
     const data = {
       name: 'something',
       price: 12345678,
-      description: 'very expensive something'
+      description: 'very expensive something',
     };
     server
       .post('/items')

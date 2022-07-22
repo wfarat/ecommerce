@@ -8,7 +8,7 @@ export const getItems = createAsyncThunk('getItems', async () => {
 
 const itemsSlice = createSlice({
   name: 'items',
-  initialState: { data: {}, status: 'idle'},
+  initialState: { data: {}, status: 'idle' },
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -18,7 +18,7 @@ const itemsSlice = createSlice({
       .addCase(getItems.fulfilled, (state, { payload }) => {
         state.status = 'idle';
         state.data.items = payload.items;
-      })
+      });
   },
 });
 

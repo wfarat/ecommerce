@@ -6,7 +6,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1 className="main-header"><Link to="/">Ecommerce App</Link></h1>
+        <h1 className="main-header">
+          <Link to="/">Ecommerce App</Link>
+        </h1>
         <nav>
           <ul>
             <li className="nav">
@@ -15,7 +17,7 @@ function App() {
           </ul>
         </nav>
         <User />
-      </header> 
+      </header>
       <Outlet />
     </div>
   );
