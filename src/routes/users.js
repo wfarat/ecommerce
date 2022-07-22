@@ -1,6 +1,5 @@
 import express from 'express';
 import {
-  addUser,
   deleteUser,
   findUser,
   selectAllUsers,
@@ -50,38 +49,6 @@ usersRouter.get('/', selectAllUsers);
  *         description: users
  */
 usersRouter.get('/:userId', selectUser);
-/**
- * @swagger
- * /users/register:
- *   post:
- *     summary: Create an user.
- *     description: Creates a new user in database if email doesn't already exist in database.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               fullname:
- *                 type: string
- *                 description: The user's full name.
- *                 example: Leanne Graham
- *               password:
- *                 type: string
- *                 description: The user's password.
- *                 example: 41589uwfdusad12
- *               email:
- *                 type: string
- *                 description: The user's email
- *                 example: example@gmail.com
- *     tags:
- *      - Users
- *     responses:
- *       201:
- *         description: users
- */
-usersRouter.post('/register', addUser);
 /**
  * @swagger
  * /users/{userId}:

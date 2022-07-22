@@ -4,6 +4,7 @@ import LocalStrategy from 'passport-local';
 import express from 'express';
 import GoogleStrategy from 'passport-google-oidc';
 import Model from '../models/model';
+import { addUser } from '../controllers/users';
 import { googleClientID, googleClientSecret } from '../settings';
 
 const usersModel = new Model('users');
@@ -75,6 +76,38 @@ passport.use(
     }
   )
 );
+/**
+ * @swagger
+ * /users/register:
+ *   post:
+ *     summary: Create an user.
+ *     description: Creates a new user in database if email doesn't already exist in database.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               fullname:
+ *                 type: string
+ *                 description: The user's full name.
+ *                 example: Leanne Graham
+ *               password:
+ *                 type: string
+ *                 description: The user's password.
+ *                 example: 41589uwfdusad12
+ *               email:
+ *                 type: string
+ *                 description: The user's email
+ *                 example: example@gmail.com
+ *     tags:
+ *      - Users
+ *     responses:
+ *       201:
+ *         description: users
+ */
+authRouter.post('/register', addUser);
 authRouter.post('/login', passport.authenticate('local'), (req, res) => {
   res.send({
     data: {
