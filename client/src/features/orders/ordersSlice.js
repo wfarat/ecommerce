@@ -1,15 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { BaseURL } from '../../config';
 import axios from 'axios';
 export const saveOrder = createAsyncThunk('saveOrder', async (userId) => {
-  const res = await axios(`${BaseURL}/cart/${userId}/checkout`, {
+  const res = await axios(`/cart/${userId}/checkout`, {
     method: 'POST',
     withCredentials: true,
   });
   return res.data;
 });
 export const getOrders = createAsyncThunk('getOrders', async (userId) => {
-  const res = await axios(`${BaseURL}/orders/${userId}`, {
+  const res = await axios(`/orders/${userId}`, {
     method: 'GET',
     withCredentials: true,
   });

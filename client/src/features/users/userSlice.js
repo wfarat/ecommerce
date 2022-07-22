@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { BaseURL } from '../../config';
 import axios from 'axios';
 export const getUser = createAsyncThunk('getUser', async (userId) => {
-  const res = await axios(`${BaseURL}/users/${userId}`, {
+  const res = await axios(`/users/${userId}`, {
     method: 'GET',
     withCredentials: true,
   });

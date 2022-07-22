@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { BaseURL } from '../../config';
 import axios from 'axios';
 export const login = createAsyncThunk('login', async (data) => {
-  const res = await axios(`${BaseURL}/login`, {
+  const res = await axios(`/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
     withCredentials: true,
@@ -11,7 +10,7 @@ export const login = createAsyncThunk('login', async (data) => {
   return res.data;
 });
 export const loginGoogle = createAsyncThunk('loginGoogle', async () => {
-  const res = await axios(`${BaseURL}/login/google`, {
+  const res = await axios(`/login/google`, {
     method: 'GET',
     withCredentials: true,
   }
@@ -19,7 +18,7 @@ export const loginGoogle = createAsyncThunk('loginGoogle', async () => {
   return res.data;
 })
 export const logout = createAsyncThunk('logout', async () => {
-  const res = await axios(`${BaseURL}/logout`);
+  const res = await axios(`/logout`);
   return res.data;
 });
 

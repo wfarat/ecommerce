@@ -1,10 +1,10 @@
+import axios from 'axios';
+
 export const registerUser = async (data) => {
-  const res = await fetch('http://localhost:3000/users/register', {
+  const res = await axios('/users/register', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    mode: 'cors',
-    body: JSON.stringify(data),
+    data: data,
   });
-  const resJson = await res.json();
-  return resJson.user;
+  return res.data;
 };

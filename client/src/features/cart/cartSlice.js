@@ -1,15 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { BaseURL } from '../../config';
+
 import axios from 'axios';
 export const getCart = createAsyncThunk('getCart', async (userId) => {
-  const res = await axios(`${BaseURL}/cart/${userId}`, {
+  const res = await axios(`/cart/${userId}`, {
     method: 'GET',
     withCredentials: true,
   });
   return res.data;
 });
 export const addItemToCart = createAsyncThunk('addItemToCart', async (data) => {
-  const res = await axios(`${BaseURL}/cart/${data.userId}/${data.itemId}`, {
+  const res = await axios(`/cart/${data.userId}/${data.itemId}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     data: data.qty,
@@ -20,7 +20,7 @@ export const addItemToCart = createAsyncThunk('addItemToCart', async (data) => {
 export const updateItemOnCart = createAsyncThunk(
   'updateItemOnCart',
   async (data) => {
-    const res = await axios(`${BaseURL}/cart/${data.userId}/${data.itemId}`, {
+    const res = await axios(`/cart/${data.userId}/${data.itemId}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       data: data.qty,
@@ -32,7 +32,7 @@ export const updateItemOnCart = createAsyncThunk(
 export const deleteItemOnCart = createAsyncThunk(
   'deleteItemOnCart',
   async (data) => {
-    const res = await axios(`${BaseURL}/cart/${data.userId}/${data.itemId}`, {
+    const res = await axios(`/cart/${data.userId}/${data.itemId}`, {
       method: 'DELETE',
       credentials: 'include',
       withCredentials: true,
