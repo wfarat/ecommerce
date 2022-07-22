@@ -4,7 +4,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import session from 'express-session';
 import passport from 'passport';
-import expressLayouts from 'express-ejs-layouts';
+import path from 'path';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import authRouter from './routes/auth';
@@ -15,11 +15,8 @@ import itemsRouter from './routes/items';
 import ordersRouter from './routes/orders';
 
 const app = express();
-app.use(expressLayouts);
-app.set('layout', './layout/main');
-app.set('view engine', 'ejs');
 app.use(logger('dev'));
-const whitelist = [ 'http://localhost:3001', 'https://accounts.google.com', 'https://ecommercewfarat.herokuapp.com/'];
+const whitelist = [ 'http://localhost:3000', 'https://accounts.google.com', 'https://ecommercewfarat.herokuapp.com/'];
 const corsOptions = {
   credentials: true, // This is important.
   origin: (origin, callback) => {
@@ -28,7 +25,7 @@ const corsOptions = {
     callback(new Error('Not allowed by CORS'));
   },
 };
-
+app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -52,6 +49,9 @@ app.use('/users', usersRouter);
 app.use('/cart', cartRouter);
 app.use('/items', itemsRouter);
 app.use('/orders', ordersRouter);
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+});
 const swaggerDefinition = {
   openapi: '3.0.0',
   info: {
