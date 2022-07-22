@@ -1,1 +1,1 @@
-export const BaseURL = 'https://ecommercewfarat.herokuapp.com/';
+export const BaseURL = 'https://ecommercewfarat.herokuapp.com';
