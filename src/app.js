@@ -16,7 +16,7 @@ import ordersRouter from './routes/orders';
 
 const app = express();
 app.use(logger('dev'));
-const whitelist = [ 'http://localhost:3000', 'https://accounts.google.com', 'https://ecommercewfarat.herokuapp.com/'];
+const whitelist = [ 'http://localhost:3000', 'https://accounts.google.com', 'https://reactecommercewfarat.herokuapp.com/'];
 const corsOptions = {
   credentials: true, // This is important.
   origin: (origin, callback) => {
