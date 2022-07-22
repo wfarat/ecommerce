@@ -1,20 +1,19 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { BaseURL } from '../../config';
-
+import axios from 'axios';
 export const login = createAsyncThunk('login', async (data) => {
-  const res = await fetch(`${BaseURL}/login`, {
+  const res = await axios(`${BaseURL}/login`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    mode: 'cors',
-    body: JSON.stringify(data),
+    headers: { 'Content-Type': 'application/json',
+    Accept: 'application/json' },
+    withCredentials: true,
+    data: data
   });
-  const resJson = await res.json();
-  return resJson;
+  return res.data;
 });
 export const logout = createAsyncThunk('logout', async () => {
-  const res = await fetch(`${BaseURL}/logout`);
-  const resJson = await res.json();
-  return resJson;
+  const res = await axios(`${BaseURL}/logout`);
+  return res.data;
 });
 
 const loginSlice = createSlice({

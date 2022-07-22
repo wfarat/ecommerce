@@ -61,7 +61,10 @@ export const selectUser = async (req, res) => {
     id, firstname, lastname, email
   } = req.user;
   const user = {
-    id, firstname, lastname, email
+    id,
+    firstname,
+    lastname,
+    email,
   };
   res.status(200).send({ user });
 };

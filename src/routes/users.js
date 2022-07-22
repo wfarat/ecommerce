@@ -8,8 +8,10 @@ import {
   updatePassword,
   updateUser,
 } from '../controllers/users';
+import { checkAuth } from './auth';
 
 const usersRouter = express.Router();
+usersRouter.use(checkAuth);
 usersRouter.param('userId', findUser);
 /**
  * @swagger

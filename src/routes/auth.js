@@ -52,5 +52,11 @@ authRouter.post('/login', passport.authenticate('local'), (req, res) => {
     },
   });
 });
-
+export function checkAuth(req, res, next) {
+  if (req.isAuthenticated()) {
+    next();
+  } else {
+    res.send({ message: 'Must be logged in to use this route.' });
+  }
+}
 export default authRouter;

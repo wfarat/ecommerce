@@ -13,8 +13,10 @@ import {
 import { findUser } from '../controllers/users';
 import { findItem } from '../controllers/items';
 import { saveOrder } from '../controllers/orders';
+import { checkAuth } from './auth';
 
 const cartRouter = express.Router();
+cartRouter.use(checkAuth);
 cartRouter.param('itemId', findItem);
 cartRouter.param('userId', findUser);
 /**

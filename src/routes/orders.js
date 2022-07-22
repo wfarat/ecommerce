@@ -5,8 +5,10 @@ import {
   selectOrdersByUser,
 } from '../controllers/orders';
 import { findUser } from '../controllers/users';
+import { checkAuth } from './auth';
 
 const ordersRouter = express.Router();
+ordersRouter.use(checkAuth);
 ordersRouter.param('userId', findUser);
 ordersRouter.param('orderId', findOrder);
 /**

@@ -19,7 +19,17 @@ app.use(expressLayouts);
 app.set('layout', './layout/main');
 app.set('view engine', 'ejs');
 app.use(logger('dev'));
-app.use(cors());
+const whitelist = [ 'http://localhost:3001' ];
+const corsOptions = {
+  credentials: true, // This is important.
+  origin: (origin, callback) => {
+    if (whitelist.includes(origin)) return callback(null, true);
+
+    callback(new Error('Not allowed by CORS'));
+  },
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -29,6 +39,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
+      httpOnly: true,
       secure: false,
       maxAge: 24 * 60 * 60 * 1000,
     },
