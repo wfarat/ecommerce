@@ -16,15 +16,9 @@ import ordersRouter from './routes/orders';
 
 const app = express();
 app.use(logger('dev'));
-const whitelist = [ 'http://localhost:3000', 'https://accounts.google.com', 'https://reactecommercewfarat.herokuapp.com/'];
 const corsOptions = {
   credentials: true, // This is important.
-  origin: (origin, callback) => {
-    if (whitelist.includes(origin)) return callback(null, true);
-
-    callback(new Error('Not allowed by CORS'));
-  },
-};
+  }
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.use(cors(corsOptions));
 app.use(express.json());
