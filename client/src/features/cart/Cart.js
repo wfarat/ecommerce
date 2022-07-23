@@ -25,11 +25,12 @@ export default function Cart() {
   };
   return (
     <div className="cart-container">
+      <h2>Cart Items:</h2>
       <ul>
         <li className="cart-item">
           <p className="cart-name">Name</p>
           <span className="cart-qty">Quantity</span>
-          <span className="cart-price">Total Price</span>
+          <span className="cart-price">Price</span>
         </li>
         {items.map((item) => {
           return (

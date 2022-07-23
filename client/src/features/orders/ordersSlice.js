@@ -14,10 +14,16 @@ export const getOrders = createAsyncThunk('getOrders', async (userId) => {
   });
   return res.data;
 });
-
+export const getOrderItems = createAsyncThunk('getOrderItems', async (data) => {
+  const res = await axios(`/orders/${data.userId}/${data.orderId}/items`, {
+    method: 'GET',
+    withCredentials: true,
+  });
+  return res.data;
+})
 const ordersSlice = createSlice({
   name: 'orders',
-  initialState: { data: { orders: [] }, status: 'idle' },
+  initialState: { data: { orders: [], orderItems: [] }, status: 'idle' },
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -34,7 +40,14 @@ const ordersSlice = createSlice({
       .addCase(getOrders.fulfilled, (state, { payload }) => {
         state.status = 'idle';
         state.data.orders = payload.orders;
-      });
+      })
+      .addCase(getOrderItems.pending, (state, { payload}) => {
+        state.status = 'pending';
+      })
+      .addCase(getOrderItems.fulfilled, (state, {payload}) => {
+        state.status = 'idle';
+        state.data.orderItems = payload.orderItems;
+      })
   },
 });
 

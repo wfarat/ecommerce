@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from '../users/userSlice';
 import { getOrders, selectOrders } from './ordersSlice';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 export default function Orders() {
   const { orders } = useSelector(selectOrders);
   const user = useSelector(selectUser);
@@ -16,15 +16,18 @@ export default function Orders() {
     return <Navigate to="/login" />;
   }
   return (
-    <div className="items-container">
-      <ul>
+    <div className="order-container">
+      <h2>Orders:</h2>
+      <ul className='orders-list'>
         {orders &&
           orders.map((order) => {
             return (
+              <Link to={`${order.id}`} key={order.id}>
               <li key={order.id}>
-                <p>{order.total}</p>
-                <span>{order.status}</span>
+                <p className='orders-total'>Total price: {order.total / 100} $</p>
+                <span className='orders-status'>Status: {order.status}</span>
               </li>
+              </Link>
             );
           })}
       </ul>

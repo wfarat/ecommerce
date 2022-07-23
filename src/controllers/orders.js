@@ -43,8 +43,8 @@ export const saveOrder = async (req, res, next) => {
   const data = await ordersModel.insertWithReturn(columns, values);
   const order = data.rows[0];
   items.forEach(async (item) => {
-    const col = 'order_id, item_id, qty, price';
-    const val = `${order.id}, ${item.item_id}, ${item.qty}, ${item.price}`;
+    const col = 'order_id, item_id, name, qty, price';
+    const val = `${order.id}, ${item.item_id}, '${item.name}', ${item.qty}, ${item.price}`;
     await orderItemsModel.insert(col, val);
   });
   req.user = userId;
@@ -58,6 +58,10 @@ export const selectOrdersByUser = async (req, res) => {
 };
 
 export const selectOrderItems = async (req, res) => {
-  const orderItems = await findItemsById(req.order.id);
-  res.status(200).send({ orderItems });
+  if (req.user.id === req.order.user_id) {
+    const orderItems = await findItemsById(req.order.id);
+    res.status(200).send({ orderItems });
+  } else {
+    res.status(400).send({ message: 'Wrong userId for this orderId.'});
+  }
 };
