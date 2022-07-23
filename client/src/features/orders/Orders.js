@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from '../users/userSlice';
 import { getOrders, selectOrders } from './ordersSlice';
 import { Navigate, Link } from 'react-router-dom';
+import './orders.css';
 export default function Orders() {
   const { orders } = useSelector(selectOrders);
   const user = useSelector(selectUser);
@@ -18,15 +19,23 @@ export default function Orders() {
   return (
     <div className="order-container">
       <h2>Orders:</h2>
-      <ul className='orders-list'>
+      <div className="list-container"></div>
+      <ul>
+        <li className="list-item">
+          <p className="list-main">Date Created</p>
+          <span className="list-1">Total price</span>
+          <span className="list-2">Order status</span>
+        </li>
         {orders &&
           orders.map((order) => {
+            const date = new Date(order.created).toLocaleString();
             return (
               <Link to={`${order.id}`} key={order.id}>
-              <li key={order.id}>
-                <p className='orders-total'>Total price: {order.total / 100} $</p>
-                <span className='orders-status'>Status: {order.status}</span>
-              </li>
+                <li className="list-item" key={order.id}>
+                  <p className="list-main">{date}</p>
+                  <span className="list-1">{order.total / 100} $</span>
+                  <span className="list-2">{order.status}</span>
+                </li>
               </Link>
             );
           })}

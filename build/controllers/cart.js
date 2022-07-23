@@ -11,6 +11,7 @@ exports.updateItemOnCart =
   exports.findItemOnCart =
   exports.findAllItemsOnCart =
   exports.emptyCart =
+  exports.deleteItemOnCart =
   exports.deleteCart =
   exports.addItemToCart =
     void 0;
@@ -269,11 +270,12 @@ var addItemToCart = /*#__PURE__*/ (function () {
               break;
 
             case 8:
-              columns = 'user_id, item_id, qty, price';
+              columns = 'user_id, item_id, name, qty, price';
               price = Number(qty) * Number(req.item.price);
               values = ''
                 .concat(req.user.id, ', ')
-                .concat(req.item.id, ', ')
+                .concat(req.item.id, ", '")
+                .concat(req.item.name, "', ")
                 .concat(qty, ', ')
                 .concat(price);
               _context7.next = 13;
@@ -302,53 +304,26 @@ var addItemToCart = /*#__PURE__*/ (function () {
 
 exports.addItemToCart = addItemToCart;
 
-var updateItemOnCart = /*#__PURE__*/ (function () {
+var deleteItemOnCart = /*#__PURE__*/ (function () {
   var _ref8 = (0, _asyncToGenerator2['default'])(
     /*#__PURE__*/ _regenerator['default'].mark(function _callee8(req, res) {
-      var qty, price, data, newItem;
       return _regenerator['default'].wrap(function _callee8$(_context8) {
         while (1) {
           switch ((_context8.prev = _context8.next)) {
             case 0:
-              qty = req.body.qty;
-
-              if (!(req.item.qty === qty)) {
-                _context8.next = 5;
-                break;
-              }
-
-              res.status(400).send({
-                message: 'Same quantity',
-              });
-              _context8.next = 13;
-              break;
-
-            case 5:
-              price =
-                Number(qty) * (Number(req.item.price) / Number(req.item.qty));
-              _context8.next = 8;
-              return cartsModel.update(
-                'price',
-                price,
-                'id = '.concat(req.item.id)
+              _context8.next = 2;
+              return cartsModel['delete'](
+                'user_id = '
+                  .concat(req.user.id, ' AND item_id = ')
+                  .concat(req.item.id)
               );
 
-            case 8:
-              _context8.next = 10;
-              return cartsModel.updateWithReturn(
-                'qty',
-                qty,
-                'id = '.concat(req.item.id)
-              );
-
-            case 10:
-              data = _context8.sent;
-              newItem = data.rows[0];
-              res.status(203).send({
-                item: newItem,
+            case 2:
+              res.status(200).send({
+                item: req.item,
               });
 
-            case 13:
+            case 3:
             case 'end':
               return _context8.stop();
           }
@@ -357,21 +332,83 @@ var updateItemOnCart = /*#__PURE__*/ (function () {
     })
   );
 
-  return function updateItemOnCart(_x16, _x17) {
+  return function deleteItemOnCart(_x16, _x17) {
     return _ref8.apply(this, arguments);
+  };
+})();
+
+exports.deleteItemOnCart = deleteItemOnCart;
+
+var updateItemOnCart = /*#__PURE__*/ (function () {
+  var _ref9 = (0, _asyncToGenerator2['default'])(
+    /*#__PURE__*/ _regenerator['default'].mark(function _callee9(req, res) {
+      var qty, price, data, newItem;
+      return _regenerator['default'].wrap(function _callee9$(_context9) {
+        while (1) {
+          switch ((_context9.prev = _context9.next)) {
+            case 0:
+              qty = req.body.qty;
+
+              if (!(req.item.qty === qty)) {
+                _context9.next = 5;
+                break;
+              }
+
+              res.status(400).send({
+                message: 'Same quantity',
+              });
+              _context9.next = 13;
+              break;
+
+            case 5:
+              price =
+                Number(qty) * (Number(req.item.price) / Number(req.item.qty));
+              _context9.next = 8;
+              return cartsModel.update(
+                'price',
+                price,
+                'id = '.concat(req.item.id)
+              );
+
+            case 8:
+              _context9.next = 10;
+              return cartsModel.updateWithReturn(
+                'qty',
+                qty,
+                'id = '.concat(req.item.id)
+              );
+
+            case 10:
+              data = _context9.sent;
+              newItem = data.rows[0];
+              res.status(203).send({
+                item: newItem,
+              });
+
+            case 13:
+            case 'end':
+              return _context9.stop();
+          }
+        }
+      }, _callee9);
+    })
+  );
+
+  return function updateItemOnCart(_x18, _x19) {
+    return _ref9.apply(this, arguments);
   };
 })();
 
 exports.updateItemOnCart = updateItemOnCart;
 
 var deleteCart = /*#__PURE__*/ (function () {
-  var _ref9 = (0, _asyncToGenerator2['default'])(
-    /*#__PURE__*/ _regenerator['default'].mark(function _callee9(req, res) {
-      return _regenerator['default'].wrap(function _callee9$(_context9) {
+  var _ref10 = (0, _asyncToGenerator2['default'])(
+    /*#__PURE__*/ _regenerator['default'].mark(function _callee10(req, res) {
+      return _regenerator['default'].wrap(function _callee10$(_context10) {
         while (1) {
-          switch ((_context9.prev = _context9.next)) {
+          switch ((_context10.prev = _context10.next)) {
             case 0:
-              _context9.next = 2;
+              _context10.next = 2;
               return cartsModel['delete']('user_id = '.concat(req.user.id));
 
             case 2:
@@ -384,28 +421,28 @@ var deleteCart = /*#__PURE__*/ (function () {
 
             case 3:
             case 'end':
-              return _context9.stop();
+              return _context10.stop();
           }
         }
-      }, _callee9);
+      }, _callee10);
     })
   );
 
-  return function deleteCart(_x18, _x19) {
-    return _ref9.apply(this, arguments);
+  return function deleteCart(_x20, _x21) {
+    return _ref10.apply(this, arguments);
   };
 })();
 
 exports.deleteCart = deleteCart;
 
 var emptyCart = /*#__PURE__*/ (function () {
-  var _ref10 = (0, _asyncToGenerator2['default'])(
-    /*#__PURE__*/ _regenerator['default'].mark(function _callee10(req, res) {
-      return _regenerator['default'].wrap(function _callee10$(_context10) {
+  var _ref11 = (0, _asyncToGenerator2['default'])(
+    /*#__PURE__*/ _regenerator['default'].mark(function _callee11(req, res) {
+      return _regenerator['default'].wrap(function _callee11$(_context11) {
         while (1) {
-          switch ((_context10.prev = _context10.next)) {
+          switch ((_context11.prev = _context11.next)) {
             case 0:
-              _context10.next = 2;
+              _context11.next = 2;
               return cartsModel['delete']('user_id = '.concat(req.user));
 
             case 2:
@@ -415,15 +452,15 @@ var emptyCart = /*#__PURE__*/ (function () {
 
             case 3:
             case 'end':
-              return _context10.stop();
+              return _context11.stop();
           }
         }
-      }, _callee10);
+      }, _callee11);
     })
   );
 
-  return function emptyCart(_x20, _x21) {
-    return _ref10.apply(this, arguments);
+  return function emptyCart(_x22, _x23) {
+    return _ref11.apply(this, arguments);
   };
 })();
 

@@ -13,8 +13,11 @@ var _orders = require('../controllers/orders');
 
 var _users = require('../controllers/users');
 
+var _auth = require('./auth');
+
 var ordersRouter = _express['default'].Router();
 
+ordersRouter.use(_auth.checkAuth);
 ordersRouter.param('userId', _users.findUser);
 ordersRouter.param('orderId', _orders.findOrder);
 /**

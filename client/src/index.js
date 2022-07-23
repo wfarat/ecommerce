@@ -16,6 +16,7 @@ import Cart from './features/cart/Cart';
 import Item from './features/items/Item';
 import Orders from './features/orders/Orders';
 import Order from './features/orders/Order';
+import Password from './features/users/Password';
 const container = document.getElementById('root');
 const root = createRoot(container);
 let persistor = persistStore(store);
@@ -29,11 +30,12 @@ root.render(
             <Route path="/" element={<App />}>
               <Route path="login" element={<Login />} />
               <Route path="user" element={<UserPage />} />
+              <Route path="user/password" element={<Password />} />
               <Route path="register" element={<Register />} />
               <Route path="items" element={<Items />} />
               <Route path="items/:itemId" element={<Item />} />
               <Route path="orders" element={<Orders />} />
-              <Route path="orders/:orderId" element={<Order />}/>
+              <Route path="orders/:orderId" element={<Order />} />
               <Route path="cart" element={<Cart />} />
             </Route>
           </Routes>

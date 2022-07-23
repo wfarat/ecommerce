@@ -45,8 +45,6 @@ export default function User() {
           </div>
         </div>
       )}
-
-      {login.message && <p className="login-message">{login.message}</p>}
     </div>
   );
 }

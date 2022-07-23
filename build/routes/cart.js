@@ -17,8 +17,11 @@ var _items = require('../controllers/items');
 
 var _orders = require('../controllers/orders');
 
+var _auth = require('./auth');
+
 var cartRouter = _express['default'].Router();
 
+cartRouter.use(_auth.checkAuth);
 cartRouter.param('itemId', _items.findItem);
 cartRouter.param('userId', _users.findUser);
 /**
@@ -62,23 +65,6 @@ cartRouter.post(
  *         description: Numeric ID of the user who's cart to add item to.
  *         schema:
  *           type: integer
- *       - in: path
- *         name: itemId
- *         required: true
- *         description: Numeric ID of the item to add
- *         schema:
- *           type: integer
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               qty:
- *                 type: integer
- *                 description: Quantity of items to add to cart.
- *                 example: 3
  *     tags:
  *      - Cart
  *     produces:
@@ -89,6 +75,35 @@ cartRouter.post(
  */
 
 cartRouter.post('/:userId/:itemId', _cart.addItemToCart);
+/**
+ * @swagger
+ * /cart/{userId}:
+ *   delete:
+ *     summary: Deletes item on user's cart
+ *     description: Deletes specific user's cart item from database if exists.
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         description: Numeric ID of the user who's orders to delete.
+ *         schema:
+ *           type: integer
+ *       - in: path
+ *         name: itemId
+ *         required: true
+ *         description: Numeric ID of the item to add
+ *         schema:
+ *           type: integer
+ *     tags:
+ *      - Cart
+ *     produces:
+ *      - application/json
+ *     responses:
+ *       200:
+ *         description: cart
+ */
+
+cartRouter['delete']('/:userId/:itemId', _cart.deleteItemOnCart);
 /**
  * @swagger
  * /cart/{userId}:

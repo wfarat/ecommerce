@@ -118,7 +118,8 @@ authRouter.post('/login', passport.authenticate('local'), (req, res) => {
   });
 });
 authRouter.get('/login/google', passport.authenticate('google'));
-authRouter.get('/oauth2/redirect/google',
+authRouter.get(
+  '/oauth2/redirect/google',
   passport.authenticate('google', (req, res) => {
     res.send({
       data: {
@@ -126,8 +127,9 @@ authRouter.get('/oauth2/redirect/google',
         userId: req.user.id,
         message: 'Login successful',
       },
-    })
-  }));
+    });
+  })
+);
 export function checkAuth(req, res, next) {
   if (req.isAuthenticated()) {
     next();

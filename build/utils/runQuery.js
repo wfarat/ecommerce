@@ -22,6 +22,10 @@ var _queryFunctions = require('./queryFunctions');
             return (0, _queryFunctions.createTables)();
 
           case 2:
+            _context.next = 4;
+            return (0, _queryFunctions.insertIntoTables)();
+
+          case 4:
           case 'end':
             return _context.stop();
         }

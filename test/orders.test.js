@@ -11,6 +11,8 @@ describe('Orders', () => {
           expect(m).to.have.property('id');
           expect(m).to.have.property('user_id');
           expect(m).to.have.property('total');
+          expect(m).to.have.property('created');
+          expect(m).to.have.property('modified');
           expect(m).to.have.property('status');
         });
         done();

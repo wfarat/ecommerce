@@ -38,7 +38,7 @@ var findById = /*#__PURE__*/ (function () {
           switch ((_context.prev = _context.next)) {
             case 0:
               clause = " WHERE id='".concat(id, "'");
-              columns = 'id, fullname, password, email';
+              columns = 'id, firstname, lastname, password, email';
               _context.next = 4;
               return usersModel.select(columns, clause);
 
@@ -145,7 +145,7 @@ var selectAllUsers = /*#__PURE__*/ (function () {
         while (1) {
           switch ((_context4.prev = _context4.next)) {
             case 0:
-              columns = 'id, fullname, email';
+              columns = 'id, firstname, lastname, email';
               _context4.next = 3;
               return usersModel.select(columns);
 
@@ -181,7 +181,8 @@ var addUser = /*#__PURE__*/ (function () {
       var _req$body,
         email,
         password,
-        fullname,
+        firstname,
+        lastname,
         checkIfExists,
         columns,
         saltRounds;
@@ -193,7 +194,8 @@ var addUser = /*#__PURE__*/ (function () {
               (_req$body = req.body),
                 (email = _req$body.email),
                 (password = _req$body.password),
-                (fullname = _req$body.fullname);
+                (firstname = _req$body.firstname),
+                (lastname = _req$body.lastname);
               _context6.next = 3;
               return findByEmail(email);
 
@@ -205,7 +207,7 @@ var addUser = /*#__PURE__*/ (function () {
                   message: 'User with this email already exists.',
                 });
               } else {
-                columns = 'email, password, fullname';
+                columns = 'email, password, firstname, lastname';
                 saltRounds = 10;
 
                 _bcrypt['default'].genSalt(saltRounds, function (err, salt) {
@@ -236,7 +238,8 @@ var addUser = /*#__PURE__*/ (function () {
                                       values = "'"
                                         .concat(email, "', '")
                                         .concat(hash, "','")
-                                        .concat(fullname, "'");
+                                        .concat(firstname, "', '")
+                                        .concat(lastname, "'");
                                       _context5.next = 5;
                                       return usersModel.insertWithReturn(
                                         columns,
@@ -246,7 +249,7 @@ var addUser = /*#__PURE__*/ (function () {
                                     case 5:
                                       user = _context5.sent;
                                       res.status(201).send({
-                                        user: user.rows[0],
+                                        user: user.rows[0].firstname,
                                       });
 
                                     case 7:
@@ -288,7 +291,7 @@ exports.addUser = addUser;
 var selectUser = /*#__PURE__*/ (function () {
   var _ref7 = (0, _asyncToGenerator2['default'])(
     /*#__PURE__*/ _regenerator['default'].mark(function _callee7(req, res) {
-      var _req$user, id, fullname, email, user;
+      var _req$user, id, firstname, lastname, email, user;
 
       return _regenerator['default'].wrap(function _callee7$(_context7) {
         while (1) {
@@ -296,11 +299,13 @@ var selectUser = /*#__PURE__*/ (function () {
             case 0:
               (_req$user = req.user),
                 (id = _req$user.id),
-                (fullname = _req$user.fullname),
+                (firstname = _req$user.firstname),
+                (lastname = _req$user.lastname),
                 (email = _req$user.email);
               user = {
                 id: id,
-                fullname: fullname,
+                firstname: firstname,
+                lastname: lastname,
                 email: email,
               };
               res.status(200).send({
@@ -326,7 +331,7 @@ exports.selectUser = selectUser;
 var updateUser = /*#__PURE__*/ (function () {
   var _ref8 = (0, _asyncToGenerator2['default'])(
     /*#__PURE__*/ _regenerator['default'].mark(function _callee8(req, res) {
-      var _req$body2, email, fullname, clause, updatedUser;
+      var _req$body2, email, firstname, lastname, clause, updatedUser;
 
       return _regenerator['default'].wrap(function _callee8$(_context8) {
         while (1) {
@@ -334,7 +339,8 @@ var updateUser = /*#__PURE__*/ (function () {
             case 0:
               (_req$body2 = req.body),
                 (email = _req$body2.email),
-                (fullname = _req$body2.fullname);
+                (firstname = _req$body2.firstname),
+                (lastname = _req$body2.lastname);
               clause = 'id = '.concat(req.user.id);
 
               if (!(req.user.email !== email)) {
@@ -346,25 +352,34 @@ var updateUser = /*#__PURE__*/ (function () {
               return usersModel.update('email', email, clause);
 
             case 5:
-              if (!(req.user.fullname !== fullname)) {
+              if (!(req.user.firstname !== firstname)) {
                 _context8.next = 8;
                 break;
               }
 
               _context8.next = 8;
-              return usersModel.update('fullname', fullname, clause);
+              return usersModel.update('firstname', firstname, clause);
 
             case 8:
-              _context8.next = 10;
+              if (!(req.user.lastname !== lastname)) {
+                _context8.next = 11;
+                break;
+              }
+
+              _context8.next = 11;
+              return usersModel.update('lastname', lastname, clause);
+
+            case 11:
+              _context8.next = 13;
               return findById(req.user.id);
 
-            case 10:
+            case 13:
               updatedUser = _context8.sent;
               res.status(203).send({
                 user: updatedUser,
               });
 
-            case 12:
+            case 15:
             case 'end':
               return _context8.stop();
           }

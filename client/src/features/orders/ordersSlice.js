@@ -20,7 +20,7 @@ export const getOrderItems = createAsyncThunk('getOrderItems', async (data) => {
     withCredentials: true,
   });
   return res.data;
-})
+});
 const ordersSlice = createSlice({
   name: 'orders',
   initialState: { data: { orders: [], orderItems: [] }, status: 'idle' },
@@ -41,13 +41,13 @@ const ordersSlice = createSlice({
         state.status = 'idle';
         state.data.orders = payload.orders;
       })
-      .addCase(getOrderItems.pending, (state, { payload}) => {
+      .addCase(getOrderItems.pending, (state, { payload }) => {
         state.status = 'pending';
       })
-      .addCase(getOrderItems.fulfilled, (state, {payload}) => {
+      .addCase(getOrderItems.fulfilled, (state, { payload }) => {
         state.status = 'idle';
         state.data.orderItems = payload.orderItems;
-      })
+      });
   },
 });
 

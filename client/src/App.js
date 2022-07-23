@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import { Link, Outlet } from 'react-router-dom';
 import User from './features/users/User';
+import CartFooter from './features/cart/CartFooter';
 function App() {
   return (
     <div className="App">
@@ -18,6 +19,10 @@ function App() {
         </nav>
         <User />
       </header>
+      <div className="main-page">
+        <h2>Welcome!</h2>
+      </div>
+      <CartFooter />
       <Outlet />
     </div>
   );

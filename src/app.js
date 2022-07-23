@@ -21,7 +21,7 @@ const app = express();
 app.use(logger('dev'));
 const corsOptions = {
   credentials: true, // This is important.
-  }
+};
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.use(cors(corsOptions));
 app.use(express.json());
@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   session({
-    store: new SessionStorage({pool}),
+    store: new SessionStorage({ pool }),
     secret: sessionSecret,
     resave: false,
     saveUninitialized: false,

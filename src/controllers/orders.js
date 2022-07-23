@@ -1,4 +1,8 @@
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import Model from '../models/model';
+
+dayjs.extend(utc);
 
 const ordersModel = new Model('orders');
 const orderItemsModel = new Model('order_items');
@@ -38,8 +42,9 @@ export const saveOrder = async (req, res, next) => {
   const { items } = req;
   const userId = items[0].user_id;
   const total = items.reduce((t, item) => (t += Number(item.price)), 0);
-  const columns = 'user_id, total, status';
-  const values = `'${userId}', '${total}', 'pending'`;
+  const time = dayjs.utc().local().toISOString();
+  const columns = 'user_id, total, created, modified, status';
+  const values = `'${userId}', '${total}', '${time}', '${time}', 'pending'`;
   const data = await ordersModel.insertWithReturn(columns, values);
   const order = data.rows[0];
   items.forEach(async (item) => {
@@ -62,6 +67,6 @@ export const selectOrderItems = async (req, res) => {
     const orderItems = await findItemsById(req.order.id);
     res.status(200).send({ orderItems });
   } else {
-    res.status(400).send({ message: 'Wrong userId for this orderId.'});
+    res.status(400).send({ message: 'Wrong userId for this orderId.' });
   }
 };

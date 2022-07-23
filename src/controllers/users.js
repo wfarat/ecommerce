@@ -70,19 +70,26 @@ export const selectUser = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
-  const { email, firstname, lastname } = req.body;
-  const clause = `id = ${req.user.id}`;
-  if (req.user.email !== email) {
-    await usersModel.update('email', email, clause);
-  }
-  if (req.user.firstname !== firstname) {
-    await usersModel.update('firstname', firstname, clause);
-  }
-  if (req.user.lastname !== lastname) {
-    await usersModel.update('lastname', lastname, clause);
-  }
-  const updatedUser = await findById(req.user.id);
-  res.status(203).send({ user: updatedUser });
+  const {
+    email, firstname, lastname, password
+  } = req.body;
+  bcrypt.compare(password, req.user.password, async (err, result) => {
+    if (!result) {
+      res.status(400).send({ message: 'Incorrect password.' });
+    }
+    const clause = `id = ${req.user.id}`;
+    if (req.user.email !== email) {
+      await usersModel.update('email', email, clause);
+    }
+    if (req.user.firstname !== firstname) {
+      await usersModel.update('firstname', firstname, clause);
+    }
+    if (req.user.lastname !== lastname) {
+      await usersModel.update('lastname', lastname, clause);
+    }
+    const updatedUser = await findById(req.user.id);
+    res.status(203).send({ user: updatedUser.firstname });
+  });
 };
 
 export const updatePassword = async (req, res) => {

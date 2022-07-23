@@ -19,7 +19,13 @@ var _asyncToGenerator2 = _interopRequireDefault(
   require('@babel/runtime/helpers/asyncToGenerator')
 );
 
+var _dayjs = _interopRequireDefault(require('dayjs'));
+
+var _utc = _interopRequireDefault(require('dayjs/plugin/utc'));
+
 var _model = _interopRequireDefault(require('../models/model'));
+
+_dayjs['default'].extend(_utc['default']);
 
 var ordersModel = new _model['default']('orders');
 var orderItemsModel = new _model['default']('order_items');
@@ -171,7 +177,7 @@ var saveOrder = /*#__PURE__*/ (function () {
       res,
       next
     ) {
-      var items, userId, total, columns, values, data, order;
+      var items, userId, total, time, columns, values, data, order;
       return _regenerator['default'].wrap(function _callee6$(_context6) {
         while (1) {
           switch ((_context6.prev = _context6.next)) {
@@ -181,12 +187,17 @@ var saveOrder = /*#__PURE__*/ (function () {
               total = items.reduce(function (t, item) {
                 return (t += Number(item.price));
               }, 0);
-              columns = 'user_id, total, status';
-              values = "'".concat(userId, "', '").concat(total, "', 'pending'");
-              _context6.next = 7;
+              time = _dayjs['default'].utc().local().toISOString();
+              columns = 'user_id, total, created, modified, status';
+              values = "'"
+                .concat(userId, "', '")
+                .concat(total, "', '")
+                .concat(time, "', '")
+                .concat(time, "', 'pending'");
+              _context6.next = 8;
               return ordersModel.insertWithReturn(columns, values);
 
-            case 7:
+            case 8:
               data = _context6.sent;
               order = data.rows[0];
               items.forEach(
@@ -201,10 +212,11 @@ var saveOrder = /*#__PURE__*/ (function () {
                           while (1) {
                             switch ((_context5.prev = _context5.next)) {
                               case 0:
-                                col = 'order_id, item_id, qty, price';
+                                col = 'order_id, item_id, name, qty, price';
                                 val = ''
                                   .concat(order.id, ', ')
-                                  .concat(item.id, ', ')
+                                  .concat(item.item_id, ", '")
+                                  .concat(item.name, "', ")
                                   .concat(item.qty, ', ')
                                   .concat(item.price);
                                 _context5.next = 4;
@@ -230,7 +242,7 @@ var saveOrder = /*#__PURE__*/ (function () {
               req.order = order;
               next();
 
-            case 13:
+            case 14:
             case 'end':
               return _context6.stop();
           }
@@ -287,16 +299,28 @@ var selectOrderItems = /*#__PURE__*/ (function () {
         while (1) {
           switch ((_context8.prev = _context8.next)) {
             case 0:
-              _context8.next = 2;
+              if (!(req.user.id === req.order.user_id)) {
+                _context8.next = 7;
+                break;
+              }
+
+              _context8.next = 3;
               return findItemsById(req.order.id);
 
-            case 2:
+            case 3:
               orderItems = _context8.sent;
               res.status(200).send({
                 orderItems: orderItems,
               });
+              _context8.next = 8;
+              break;
 
-            case 4:
+            case 7:
+              res.status(400).send({
+                message: 'Wrong userId for this orderId.',
+              });
+
+            case 8:
             case 'end':
               return _context8.stop();
           }

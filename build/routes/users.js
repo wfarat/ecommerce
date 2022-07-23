@@ -11,8 +11,11 @@ var _express = _interopRequireDefault(require('express'));
 
 var _users = require('../controllers/users');
 
+var _auth = require('./auth');
+
 var usersRouter = _express['default'].Router();
 
+usersRouter.use(_auth.checkAuth);
 usersRouter.param('userId', _users.findUser);
 /**
  * @swagger
@@ -53,39 +56,6 @@ usersRouter.get('/', _users.selectAllUsers);
  */
 
 usersRouter.get('/:userId', _users.selectUser);
-/**
- * @swagger
- * /users/register:
- *   post:
- *     summary: Create an user.
- *     description: Creates a new user in database if email doesn't already exist in database.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               fullname:
- *                 type: string
- *                 description: The user's full name.
- *                 example: Leanne Graham
- *               password:
- *                 type: string
- *                 description: The user's password.
- *                 example: 41589uwfdusad12
- *               email:
- *                 type: string
- *                 description: The user's email
- *                 example: example@gmail.com
- *     tags:
- *      - Users
- *     responses:
- *       201:
- *         description: users
- */
-
-usersRouter.post('/register', _users.addUser);
 /**
  * @swagger
  * /users/{userId}:

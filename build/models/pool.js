@@ -15,7 +15,16 @@ var _settings = require('../settings');
 
 _dotenv['default'].config();
 
-var pool = new _pg.Pool({
-  connectionString: _settings.connectionString,
-});
+var production = process.env.PRODUCTION;
+var pool =
+  production === 'true'
+    ? new _pg.Pool({
+        connectionString: _settings.connectionString,
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      })
+    : new _pg.Pool({
+        connectionString: _settings.connectionString,
+      });
 exports.pool = pool;

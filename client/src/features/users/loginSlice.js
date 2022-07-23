@@ -13,10 +13,9 @@ export const loginGoogle = createAsyncThunk('loginGoogle', async () => {
   const res = await axios(`/login/google`, {
     method: 'GET',
     withCredentials: true,
-  }
-  );
+  });
   return res.data;
-})
+});
 export const logout = createAsyncThunk('logout', async () => {
   const res = await axios(`/logout`);
   return res.data;
@@ -59,7 +58,7 @@ const loginSlice = createSlice({
       .addCase(loginGoogle.fulfilled, (state, { payload }) => {
         state.status = 'idle';
         state.data = payload.data;
-      })
+      });
   },
 });
 

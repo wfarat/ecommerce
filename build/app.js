@@ -19,9 +19,11 @@ var _expressSession = _interopRequireDefault(require('express-session'));
 
 var _passport = _interopRequireDefault(require('passport'));
 
-var _expressEjsLayouts = _interopRequireDefault(require('express-ejs-layouts'));
+var _path = _interopRequireDefault(require('path'));
 
 var _swaggerJsdoc = _interopRequireDefault(require('swagger-jsdoc'));
+
+var _connectPgSimple = _interopRequireDefault(require('connect-pg-simple'));
 
 var _swaggerUiExpress = _interopRequireDefault(require('swagger-ui-express'));
 
@@ -37,12 +39,22 @@ var _items = _interopRequireDefault(require('./routes/items'));
 
 var _orders = _interopRequireDefault(require('./routes/orders'));
 
+var _pool = require('./models/pool');
+
+var SessionStorage = (0, _connectPgSimple['default'])(
+  _expressSession['default']
+);
 var app = (0, _express['default'])();
-app.use(_expressEjsLayouts['default']);
-app.set('layout', './layout/main');
-app.set('view engine', 'ejs');
 app.use((0, _morgan['default'])('dev'));
-app.use((0, _cors['default'])());
+var corsOptions = {
+  credentials: true, // This is important.
+};
+app.use(
+  _express['default']['static'](
+    _path['default'].resolve(__dirname, '../client/build')
+  )
+);
+app.use((0, _cors['default'])(corsOptions));
 app.use(_express['default'].json());
 app.use(
   _express['default'].urlencoded({
@@ -52,10 +64,14 @@ app.use(
 app.use((0, _cookieParser['default'])());
 app.use(
   (0, _expressSession['default'])({
+    store: new SessionStorage({
+      pool: _pool.pool,
+    }),
     secret: _settings.sessionSecret,
     resave: false,
     saveUninitialized: false,
     cookie: {
+      httpOnly: true,
       secure: false,
       maxAge: 24 * 60 * 60 * 1000,
     },
@@ -68,6 +84,11 @@ app.use('/users', _users['default']);
 app.use('/cart', _cart['default']);
 app.use('/items', _items['default']);
 app.use('/orders', _orders['default']);
+app.get('*', function (req, res) {
+  res.sendFile(
+    _path['default'].resolve(__dirname, '../client/build', 'index.html')
+  );
+});
 var swaggerDefinition = {
   openapi: '3.0.0',
   info: {

@@ -4,7 +4,7 @@ import {
   login,
   selectLogin,
   purgeMessage,
- // loginGoogle,
+  // loginGoogle,
 } from '../../features/users/loginSlice';
 import { Navigate } from 'react-router-dom';
 export default function Login() {
@@ -19,14 +19,14 @@ export default function Login() {
     const data = {
       email,
       password,
-    }; 
+    };
     dispatch(login(data));
     setTimeout(() => dispatch(purgeMessage()), 5000);
   };
 
- // const handleGoogle = () => {
- //   dispatch(loginGoogle());
- // }
+  // const handleGoogle = () => {
+  //   dispatch(loginGoogle());
+  // }
   return (
     <div className="inputs">
       <label htmlFor="email">
