@@ -43,6 +43,16 @@ CREATE TABLE IF NOT EXISTS order_items (
   FOREIGN KEY (order_id) REFERENCES orders(id),
   FOREIGN KEY (item_id) REFERENCES items(id)
 );
+CREATE TABLE "session" (
+  "sid" varchar NOT NULL COLLATE "default",
+  "sess" json NOT NULL,
+  "expire" timestamp(6) NOT NULL
+)
+WITH (OIDS=FALSE);
+
+ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
+
+CREATE INDEX "IDX_session_expire" ON "session" ("expire");
 `;
 export const dropAllTables = `
 DROP TABLE order_items;
@@ -50,6 +60,7 @@ DROP TABLE orders;
 DROP TABLE cart;
 DROP TABLE items;
 DROP TABLE users;
+DROP TABLE sessions;
 `;
 
 export const insertIntoAllTables = `

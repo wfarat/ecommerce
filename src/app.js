@@ -6,6 +6,7 @@ import session from 'express-session';
 import passport from 'passport';
 import path from 'path';
 import swaggerJSDoc from 'swagger-jsdoc';
+import connectPgSimple from 'connect-pg-simple';
 import swaggerUi from 'swagger-ui-express';
 import authRouter from './routes/auth';
 import usersRouter from './routes/users';
@@ -13,7 +14,9 @@ import { sessionSecret } from './settings';
 import cartRouter from './routes/cart';
 import itemsRouter from './routes/items';
 import ordersRouter from './routes/orders';
+import { pool } from './models/pool';
 
+const SessionStorage = connectPgSimple(session);
 const app = express();
 app.use(logger('dev'));
 const corsOptions = {
@@ -26,6 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   session({
+    store: new SessionStorage({pool}),
     secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
