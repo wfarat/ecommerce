@@ -1,4 +1,5 @@
 export const createAllTables = `
+DROP TABLE IF EXISTS session;
 DROP TABLE IF EXISTS order_items;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS cart;
@@ -55,12 +56,12 @@ ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFE
 CREATE INDEX "IDX_session_expire" ON "session" ("expire");
 `;
 export const dropAllTables = `
+DROP TABLE session;
 DROP TABLE order_items;
 DROP TABLE orders;
 DROP TABLE cart;
 DROP TABLE items;
 DROP TABLE users;
-DROP TABLE sessions;
 `;
 
 export const insertIntoAllTables = `
