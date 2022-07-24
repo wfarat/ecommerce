@@ -74,7 +74,7 @@ passport.use(
       }
       const data2 = await usersModel.select(
         '*',
-        `WHERE id=${data.rows[0].user_id}`
+        ` WHERE id='${data.rows[0].user_id}'`
       );
       const user1 = data2.rows[0];
       return cb(null, user1);
@@ -127,7 +127,7 @@ authRouter.get('/login/federated/google', passport.authenticate('google'));
 authRouter.get(
   '/oauth2/redirect/google',
   passport.authenticate('google', {
-    successRedirect: '/',
+    successRedirect: '/google',
     failureRedirect: '/login',
   })
 );

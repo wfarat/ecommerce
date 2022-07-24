@@ -10,15 +10,10 @@ export const login = createAsyncThunk(`${BASEURL}/login`, async (data) => {
   });
   return res.data;
 });
-export const loginGoogle = createAsyncThunk('loginGoogle', async () => {
-  const res = await axios(`login/federated/google`);
-  return res.data;
-});
 export const logout = createAsyncThunk('logout', async () => {
   const res = await axios(`/logout`);
   return res.data;
 });
-
 const loginSlice = createSlice({
   name: 'login',
   initialState: {
