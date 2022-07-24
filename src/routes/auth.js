@@ -5,8 +5,8 @@ import express from 'express';
 import GoogleStrategy from 'passport-google-oidc';
 import Model from '../models/model';
 import { addUser } from '../controllers/users';
-import { googleClientID, googleClientSecret } from '../settings';
 
+const federatedModel = new Model('federated_credentials');
 const usersModel = new Model('users');
 const authRouter = express.Router();
 
@@ -23,36 +23,6 @@ passport.deserializeUser((id, done) => {
   done(null, { id });
 });
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: googleClientID,
-      clientSecret: googleClientSecret,
-      callbackURL: 'http://localhost:3000/oauth2/redirect/google',
-    },
-    async (issuer, profile, cb) => {
-      const email = profile.emails[0].value;
-      const firstname = profile.name.givenName;
-      const lastname = profile.name.familyName;
-      const clause = ` WHERE email='${email}'`;
-      const columns = 'id, email';
-      const data = await usersModel.select(columns, clause);
-      const user = data.rows[0];
-      if (!user) {
-        // The Google account has not logged in to this app before.  Create a
-        // new user record and link it to the Google account.
-        const cols = 'email, firstname, lastname';
-        const values = `'${email}','${firstname}', '${lastname}'`;
-        const data1 = await usersModel.insertWithReturn(cols, values);
-        const user1 = data1.rows[0];
-        return cb(null, user1);
-      }
-      // The Google account has previously logged in to the app.  Get the
-      // user record linked to the Google account and log the user in.
-      return cb(null, user);
-    }
-  )
-);
 passport.use(
   new LocalStrategy(
     {
@@ -76,6 +46,42 @@ passport.use(
     }
   )
 );
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: 'http://localhost:3001/oauth2/redirect/google',
+      scope: [ 'profile', 'email' ],
+    },
+    async (issuer, profile, cb) => {
+      const clause = ` WHERE provider='${issuer}' AND subject='${profile.id}'`;
+      const data = await federatedModel.select('*', clause);
+      if (data.rows.length === 0) {
+        const fullname = profile.displayName.split(' ');
+        const firstname = fullname[0];
+        const lastname = fullname[1];
+        const email = profile.emails[0].value;
+        const data1 = await usersModel.insertWithReturn(
+          'email, firstname, lastname',
+          `'${email}', '${firstname}', '${lastname}'`
+        );
+        const user = data1.rows[0];
+        const columns = 'user_id, provider, subject';
+        const values = `'${user.id}', '${issuer}', '${profile.id}'`;
+        await federatedModel.insert(columns, values);
+        return cb(null, user);
+      }
+      const data2 = await usersModel.select(
+        '*',
+        `WHERE id=${data.rows[0].user_id}`
+      );
+      const user1 = data2.rows[0];
+      return cb(null, user1);
+    }
+  )
+);
+
 /**
  * @swagger
  * /users/register:
@@ -117,17 +123,12 @@ authRouter.post('/login', passport.authenticate('local'), (req, res) => {
     },
   });
 });
-authRouter.get('/login/google', passport.authenticate('google'));
+authRouter.get('/login/federated/google', passport.authenticate('google'));
 authRouter.get(
   '/oauth2/redirect/google',
-  passport.authenticate('google', (req, res) => {
-    res.send({
-      data: {
-        auth: req.isAuthenticated(),
-        userId: req.user.id,
-        message: 'Login successful',
-      },
-    });
+  passport.authenticate('google', {
+    successRedirect: '/',
+    failureRedirect: '/login',
   })
 );
 export function checkAuth(req, res, next) {

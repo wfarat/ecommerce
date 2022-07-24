@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../features/users/userSlice';
+
 export const registerUser = async (data) => {
   const res = await axios('/register', {
     method: 'POST',
@@ -12,7 +13,7 @@ export const registerUser = async (data) => {
   return user;
 };
 export const updateUser = async (data, userId) => {
-  const res = await axios(`users/${userId}`, {
+  const res = await axios(`/users/${userId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     data: data,
@@ -42,7 +43,7 @@ export default function UserForm() {
         password,
       };
       let name;
-      if (!user) {
+      if (!user.id) {
         name = await registerUser(data);
       } else {
         name = await updateUser(data, user.id);
@@ -103,10 +104,10 @@ export default function UserForm() {
         onChange={(e) => setRepeat(e.target.value)}
       />
       {!same && <span className="errSame">Passwords don't match</span>}
-      {user && userName && (
+      {user.id && userName && (
         <p>Congratulations, {userName}. Your account data has been updated.</p>
       )}
-      {!user && userName && (
+      {!user.id && userName && (
         <p>Welcome, {userName}. Your account has been created.</p>
       )}
       <button className="sumbitButton" onClick={handleClick}>

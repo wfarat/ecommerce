@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { BASEURL } from '../../settings';
 import axios from 'axios';
-export const login = createAsyncThunk('login', async (data) => {
+export const login = createAsyncThunk(`${BASEURL}/login`, async (data) => {
   const res = await axios(`/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -10,10 +11,7 @@ export const login = createAsyncThunk('login', async (data) => {
   return res.data;
 });
 export const loginGoogle = createAsyncThunk('loginGoogle', async () => {
-  const res = await axios(`/login/google`, {
-    method: 'GET',
-    withCredentials: true,
-  });
+  const res = await axios(`login/federated/google`);
   return res.data;
 });
 export const logout = createAsyncThunk('logout', async () => {
@@ -51,13 +49,6 @@ const loginSlice = createSlice({
       .addCase(logout.fulfilled, (state, { payload }) => {
         state.status = 'idle';
         state.data.message = payload.message;
-      })
-      .addCase(loginGoogle.pending, (state) => {
-        state.status = 'pending';
-      })
-      .addCase(loginGoogle.fulfilled, (state, { payload }) => {
-        state.status = 'idle';
-        state.data = payload.data;
       });
   },
 });

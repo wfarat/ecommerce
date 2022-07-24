@@ -20,9 +20,8 @@ const SessionStorage = connectPgSimple(session);
 const app = express();
 app.use(logger('dev'));
 const corsOptions = {
-  credentials: true, // This is important.
+  credentials: true
 };
-app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -47,6 +46,7 @@ app.use('/users', usersRouter);
 app.use('/cart', cartRouter);
 app.use('/items', itemsRouter);
 app.use('/orders', ordersRouter);
+app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 });
