@@ -77,14 +77,16 @@ authRouter.post('/login', async (req, res) => {
   const { email, password } = req.body;
   const user = await findByEmail(email);
   if (!user) {
-    res.send({ message: 'Invalid email.' });
+    res.status(400).send({ message: 'Invalid email.' });
+    return;
   }
   bcrypt.compare(password, user.password, (err, result) => {
     if (err) {
       res.status(400).send(err);
     }
     if (!result) {
-      res.send({ message: 'Invalid password.' });
+      res.status(400).send({ message: 'Invalid password.' });
+      return;
     }
     const token = jwt.sign({ id: user.id }, jwtSecret, {
       expiresIn: 86400, // 24 hours
@@ -98,6 +100,7 @@ authRouter.post('/login', async (req, res) => {
       },
       accessToken: token,
       auth: true,
+      message: 'Login succesful'
     });
   });
 });

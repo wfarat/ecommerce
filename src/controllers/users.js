@@ -74,6 +74,7 @@ export const updateUser = async (req, res) => {
   bcrypt.compare(password, req.user.password, async (err, result) => {
     if (!result) {
       res.status(400).send({ message: 'Incorrect password.' });
+      return;
     }
     const clause = `id = ${req.user.id}`;
     if (req.user.email !== email) {
@@ -94,8 +95,12 @@ export const updatePassword = async (req, res) => {
   const { oldPassword, newPassword } = req.body;
   const clause = `id = ${req.user.id}`;
   bcrypt.compare(oldPassword, req.user.password, (err, result) => {
+    if (err) {
+      res.status(400).send(err);
+    }
     if (!result) {
       res.status(400).send({ message: 'Incorrect password.' });
+      return;
     }
     const saltRounds = 10;
     bcrypt.genSalt(saltRounds, (err, salt) => {

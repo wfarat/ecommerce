@@ -8,6 +8,7 @@ import { selectUser, login, loginGoogle } from '../../features/users/userSlice';
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const googleLogin = useGoogleLogin({
@@ -25,11 +26,18 @@ export default function Login() {
     return <Navigate to="/" />;
   }
   const handleClick = () => {
+    if (!email) {
+      setMessage('Please enter correct email.');
+    } else if (!password) {
+      setMessage('Please enter password.');
+    } else {
+      setMessage('');
     const data = {
       email,
       password,
     };
-    dispatch(login(data));
+    dispatch(login(data)); 
+    }
   };
 
   return (
@@ -52,6 +60,8 @@ export default function Login() {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
+              <p>{message}</p>
+        <p>{user.message}</p>
       <button className="submitButton" onClick={handleClick}>
         Login
       </button>

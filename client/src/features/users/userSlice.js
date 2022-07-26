@@ -6,6 +6,7 @@ export const login = createAsyncThunk(`login`, async (data) => {
     method: 'POST',
     data: data,
   });
+  console.log(res.data)
   return res.data;
 });
 export const update = createAsyncThunk('update', async (data) => {
@@ -39,6 +40,7 @@ const userSlice = createSlice({
     data: {
       auth: '',
       accessToken: '',
+      message: '',
       user: {
         id: '',
         firstname: '',
