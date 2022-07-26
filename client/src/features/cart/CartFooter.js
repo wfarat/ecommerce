@@ -15,12 +15,20 @@ export default function CartFooter() {
     itemsInCart = items.reduce((total, item) => total + Number(item.qty), 0);
   }
   useEffect(() => {
-    if (items.length === 0 && user.id) {
-      dispatch(getCart(user.id));
+    const data = {
+      userId: user.user.id,
+      accessToken: user.accessToken,
+    };
+    if (items.length === 0 && user.user.id) {
+      dispatch(getCart(data));
     }
   }, []);
   const handleClick = () => {
-    dispatch(saveOrder(user.id));
+    const data = {
+      userId: user.user.id,
+      accessToken: user.accessToken,
+    };
+    dispatch(saveOrder(data));
     dispatch(emptyCart());
   };
   return (

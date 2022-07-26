@@ -2,15 +2,14 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../features/users/userSlice';
-
-export const updateUser = async (data, userId) => {
-  const res = await axios(`users/${userId}/password`, {
+import { Navigate } from 'react-router-dom';
+export const updatePassword = async (data, userId) => {
+  const res = await axios(`http://localhost:3000/api/users/${userId}/password`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    data: data,
+    headers: { 'x-access-token': data.accessToken },
+    data: data.info,
   });
-  const { message } = res.data;
-  return message;
+  return res.data.message;
 };
 
 export default function Password() {
@@ -20,16 +19,22 @@ export default function Password() {
   const [repeat, setRepeat] = useState('');
   const [same, setSame] = useState(true);
   const [message, setMessage] = useState('');
+  if (!user.auth) {
+    return <Navigate to="/login" />;
+  }
   const handleClick = async () => {
     if (newPassword !== repeat) {
       setSame(false);
     } else {
       setSame(true);
       const data = {
-        oldPassword,
-        newPassword,
+        info: {
+          oldPassword,
+          newPassword,
+        },
+        accessToken: user.accessToken,
       };
-      const newMessage = await updateUser(data, user.id);
+      const newMessage = await updatePassword(data, user.user.id);
       setMessage(newMessage);
     }
   };
@@ -38,7 +43,7 @@ export default function Password() {
       <h2>Change your password:</h2>
       <div className="inputs">
         <label htmlFor="oldPassword">
-          <b>New Password:</b>
+          <b>Old Password:</b>
         </label>
         <input
           id="oldPassword"
@@ -68,7 +73,7 @@ export default function Password() {
           onChange={(e) => setRepeat(e.target.value)}
         />
         {!same && <span className="errSame">Passwords don't match</span>}
-        {message && { message }}
+        {message && message}
         <button className="sumbitButton" onClick={handleClick}>
           Submit
         </button>

@@ -1,6 +1,4 @@
 export const createAllTables = `
-DROP TABLE IF exists federated_credentials;
-DROP TABLE IF EXISTS session;
 DROP TABLE IF EXISTS order_items;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS cart;
@@ -48,26 +46,8 @@ CREATE TABLE IF NOT EXISTS order_items (
   FOREIGN KEY (order_id) REFERENCES orders(id),
   FOREIGN KEY (item_id) REFERENCES items(id)
 );
-CREATE TABLE IF NOT EXISTS federated_credentials ( 
-  id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
-  user_id INTEGER NOT NULL, 
-  provider TEXT NOT NULL, 
-  subject TEXT NOT NULL, 
-  UNIQUE (provider, subject) 
-);
-CREATE TABLE "session" (
-  "sid" varchar NOT NULL COLLATE "default",
-  "sess" json NOT NULL,
-  "expire" timestamp(6) NOT NULL
-)
-WITH (OIDS=FALSE);
-
-ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
-
-CREATE INDEX "IDX_session_expire" ON "session" ("expire");
 `;
 export const dropAllTables = `
-DROP TABLE federated_credentials;
 DROP TABLE session;
 DROP TABLE order_items;
 DROP TABLE orders;

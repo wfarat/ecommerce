@@ -1,30 +1,28 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import axios from 'axios';
-export const getCart = createAsyncThunk('getCart', async (userId) => {
-  const res = await axios(`/cart/${userId}`, {
+export const getCart = createAsyncThunk('getCart', async (data) => {
+  const res = await axios(`/api/cart/${data.userId}`, {
     method: 'GET',
-    withCredentials: true,
+    headers: { 'x-access-token': data.accessToken },
   });
   return res.data;
 });
 export const addItemToCart = createAsyncThunk('addItemToCart', async (data) => {
-  const res = await axios(`/cart/${data.userId}/${data.itemId}`, {
+  const res = await axios(`/api/cart/${data.userId}/${data.itemId}`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'x-access-token': data.accessToken },
     data: data.qty,
-    withCredentials: true,
   });
   return res.data;
 });
 export const updateItemOnCart = createAsyncThunk(
   'updateItemOnCart',
   async (data) => {
-    const res = await axios(`/cart/${data.userId}/${data.itemId}`, {
+    const res = await axios(`/api/cart/${data.userId}/${data.itemId}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
       data: data.qty,
-      withCredentials: true,
+      headers: { 'x-access-token': data.accessToken },
     });
     return res.data;
   }
@@ -32,10 +30,9 @@ export const updateItemOnCart = createAsyncThunk(
 export const deleteItemOnCart = createAsyncThunk(
   'deleteItemOnCart',
   async (data) => {
-    const res = await axios(`/cart/${data.userId}/${data.itemId}`, {
+    const res = await axios(`/api/cart/${data.userId}/${data.itemId}`, {
       method: 'DELETE',
-      credentials: 'include',
-      withCredentials: true,
+      headers: { 'x-access-token': data.accessToken },
     });
     return res.data;
   }

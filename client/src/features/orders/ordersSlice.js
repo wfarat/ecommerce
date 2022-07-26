@@ -1,23 +1,24 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-export const saveOrder = createAsyncThunk('saveOrder', async (userId) => {
-  const res = await axios(`/cart/${userId}/checkout`, {
+
+export const saveOrder = createAsyncThunk('saveOrder', async (data) => {
+  const res = await axios(`/api/cart/${data.userId}/checkout`, {
     method: 'POST',
-    withCredentials: true,
+    headers: { 'x-access-token': data.accessToken },
   });
   return res.data;
 });
-export const getOrders = createAsyncThunk('getOrders', async (userId) => {
-  const res = await axios(`/orders/${userId}`, {
+export const getOrders = createAsyncThunk('getOrders', async (data) => {
+  const res = await axios(`/api/orders/${data.userId}`, {
     method: 'GET',
-    withCredentials: true,
+    headers: { 'x-access-token': data.accessToken },
   });
   return res.data;
 });
 export const getOrderItems = createAsyncThunk('getOrderItems', async (data) => {
-  const res = await axios(`/orders/${data.userId}/${data.orderId}/items`, {
+  const res = await axios(`/api/orders/${data.userId}/${data.orderId}/items`, {
     method: 'GET',
-    withCredentials: true,
+    headers: { 'x-access-token': data.accessToken },
   });
   return res.data;
 });

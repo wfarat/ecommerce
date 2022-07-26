@@ -1,26 +1,9 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { selectUser } from '../../features/users/userSlice';
-
-export const registerUser = async (data) => {
-  const res = await axios('/register', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: data,
-  });
-  const { user } = res.data;
-  return user;
-};
-export const updateUser = async (data, userId) => {
-  const res = await axios(`/users/${userId}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    data: data,
-  });
-  const { user } = res.data;
-  return user;
-};
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUser } from './userSlice';
+import { registerUser } from './userSlice';
+import { update } from './userSlice';
 
 export default function UserForm() {
   const user = useSelector(selectUser);
@@ -30,6 +13,7 @@ export default function UserForm() {
   const [same, setSame] = useState(true);
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
+  const dispatch = useDispatch();
   const [userName, setUserName] = useState('');
   const handleClick = async () => {
     if (password !== repeat) {
@@ -43,10 +27,16 @@ export default function UserForm() {
         password,
       };
       let name;
-      if (!user.id) {
+      if (!user.auth) {
         name = await registerUser(data);
       } else {
-        name = await updateUser(data, user.id);
+        dispatch(
+          update({
+            accessToken: user.accessToken,
+            userId: user.user.id,
+            info: data,
+          })
+        );
       }
       setUserName(name);
     }

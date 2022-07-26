@@ -33,3 +33,8 @@ header h1 {
   margin: 0;
   padding-top: 10px;
 }
+
+.google-login {
+  width: 200px;
+  margin: 0 auto;
+}

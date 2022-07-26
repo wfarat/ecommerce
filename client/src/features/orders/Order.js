@@ -10,18 +10,23 @@ export default function Order() {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   useEffect(() => {
+    const data1 = {
+      accessToken: user.accessToken,
+      userId: user.user.id,
+    };
     if (orders.length === 0 && user.id) {
-      dispatch(getOrders(user.id));
+      dispatch(getOrders(data1));
     }
     const data = {
-      userId: user.id,
+      accessToken: user.accessToken,
+      userId: user.user.id,
       orderId: params.orderId,
     };
-    if (params.orderId && user.id) {
+    if (params.orderId && user.user.id) {
       dispatch(getOrderItems(data));
     }
   }, [params.orderId]);
-  if (!user.id) {
+  if (!user.auth) {
     return <Navigate to="/login" />;
   }
   const order = orders.find((order) => order.id === Number(params.orderId));

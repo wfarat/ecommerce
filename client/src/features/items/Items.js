@@ -25,7 +25,7 @@ export default function Items() {
                   <p>{item.name}</p>
                   <p>{item.price / 100} $</p>
                   <div className="thumbnail"></div>
-                  {user.id && <AddToCart itemId={item.id} />}
+                  {user.auth && <AddToCart itemId={item.id} />}
                 </li>
               </Link>
             );

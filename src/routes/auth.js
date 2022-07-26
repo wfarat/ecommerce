@@ -1,86 +1,106 @@
 import bcrypt from 'bcrypt';
-import passport from 'passport';
-import LocalStrategy from 'passport-local';
+import jwt from 'jsonwebtoken';
 import express from 'express';
-import GoogleStrategy from 'passport-google-oidc';
+import { OAuth2Client, UserRefreshClient } from 'google-auth-library';
 import Model from '../models/model';
-import { addUser } from '../controllers/users';
+import { addUser, findByEmail } from '../controllers/users';
+import { googleClientID, googleClientSecret, jwtSecret } from '../settings';
 
-const federatedModel = new Model('federated_credentials');
 const usersModel = new Model('users');
 const authRouter = express.Router();
+const oAuth2Client = new OAuth2Client(
+  googleClientID,
+  googleClientSecret,
+  'postmessage'
+);
 
-authRouter.get('/logout', (req, res) => {
-  req.logout();
-  res.send({ message: 'Logout Successful.' });
-});
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser((id, done) => {
-  done(null, { id });
-});
-
-passport.use(
-  new LocalStrategy(
-    {
-      usernameField: 'email',
-      passwordField: 'password',
+authRouter.post('/auth/google', async (req, res) => {
+  const { tokens } = await oAuth2Client.getToken(req.body.code); // exchange code for tokens
+  const profile = await oAuth2Client.verifyIdToken({
+    idToken: tokens.id_token,
+    audience: googleClientID,
+  });
+  const { email } = profile.payload;
+  const lastname = profile.payload.family_name;
+  const firstname = profile.payload.given_name;
+  let user;
+  user = await findByEmail(email);
+  if (!user) {
+    const columns = 'email, firstname, lastname';
+    const values = `'${email}', '${firstname}', '${lastname}'`;
+    const data = await usersModel.insertWithReturn(columns, values);
+    [ user ] = data.rows;
+  }
+  const token = jwt.sign({ id: user.id }, jwtSecret, {
+    expiresIn: 86400, // 24 hours
+  });
+  res.send({
+    user: {
+      id: user.id,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
     },
-    async (email, password, done) => {
-      const clause = ` WHERE email='${email}'`;
-      const columns = 'id, email, password';
-      const data = await usersModel.select(columns, clause);
-      const user = data.rows[0];
-      if (!user) {
-        return done(null, false, { message: 'Incorrect email or password.' });
-      }
-      bcrypt.compare(password, user.password, (err, result) => {
-        if (!result) {
-          return done(null, false, { message: 'Incorrect email or password.' });
-        }
-        return done(null, user);
+    accessToken: token,
+    auth: true,
+  });
+});
+
+export const checkAuth = (req, res, next) => {
+  const token = req.headers['x-access-token'];
+  if (!token) {
+    return res.status(403).send({
+      message: 'No token provided!',
+    });
+  }
+  jwt.verify(token, jwtSecret, (err, decoded) => {
+    if (err) {
+      return res.status(401).send({
+        message: 'Unauthorized!',
       });
     }
-  )
-);
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: 'http://localhost:3001/oauth2/redirect/google',
-      scope: [ 'profile', 'email' ],
-    },
-    async (issuer, profile, cb) => {
-      const clause = ` WHERE provider='${issuer}' AND subject='${profile.id}'`;
-      const data = await federatedModel.select('*', clause);
-      if (data.rows.length === 0) {
-        const fullname = profile.displayName.split(' ');
-        const firstname = fullname[0];
-        const lastname = fullname[1];
-        const email = profile.emails[0].value;
-        const data1 = await usersModel.insertWithReturn(
-          'email, firstname, lastname',
-          `'${email}', '${firstname}', '${lastname}'`
-        );
-        const user = data1.rows[0];
-        const columns = 'user_id, provider, subject';
-        const values = `'${user.id}', '${issuer}', '${profile.id}'`;
-        await federatedModel.insert(columns, values);
-        return cb(null, user);
-      }
-      const data2 = await usersModel.select(
-        '*',
-        ` WHERE id='${data.rows[0].user_id}'`
-      );
-      const user1 = data2.rows[0];
-      return cb(null, user1);
+    req.userId = decoded.id;
+    next();
+  });
+};
+authRouter.post('/auth/google/refresh-token', async (req, res) => {
+  const user = new UserRefreshClient(
+    googleClientID,
+    googleClientSecret,
+    req.body.refreshToken
+  );
+  const { credentials } = await user.refreshAccessToken(); // optain new tokens
+  res.json(credentials);
+});
+
+authRouter.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  const user = await findByEmail(email);
+  if (!user) {
+    res.send({ message: 'Invalid email.' });
+  }
+  bcrypt.compare(password, user.password, (err, result) => {
+    if (err) {
+      res.status(400).send(err);
     }
-  )
-);
+    if (!result) {
+      res.send({ message: 'Invalid password.' });
+    }
+    const token = jwt.sign({ id: user.id }, jwtSecret, {
+      expiresIn: 86400, // 24 hours
+    });
+    res.send({
+      user: {
+        id: user.id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+      },
+      accessToken: token,
+      auth: true,
+    });
+  });
+});
 
 /**
  * @swagger
@@ -114,28 +134,5 @@ passport.use(
  *         description: users
  */
 authRouter.post('/register', addUser);
-authRouter.post('/login', passport.authenticate('local'), (req, res) => {
-  res.send({
-    data: {
-      auth: req.isAuthenticated(),
-      userId: req.user.id,
-      message: 'Login successful',
-    },
-  });
-});
-authRouter.get('/login/federated/google', passport.authenticate('google'));
-authRouter.get(
-  '/oauth2/redirect/google',
-  passport.authenticate('google', {
-    successRedirect: '/google',
-    failureRedirect: '/login',
-  })
-);
-export function checkAuth(req, res, next) {
-  if (req.isAuthenticated()) {
-    next();
-  } else {
-    res.send({ message: 'Must be logged in to use this route.' });
-  }
-}
+
 export default authRouter;

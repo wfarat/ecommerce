@@ -22,9 +22,10 @@ export default function AddToCart(props) {
     }
     setMin(false);
     const data = {
-      userId: user.id,
+      userId: user.user.id,
       itemId: props.itemId,
       qty: { qty: qty },
+      accessToken: user.accessToken,
     };
     if (check) {
       if (check.qty === qty) {
@@ -38,7 +39,8 @@ export default function AddToCart(props) {
   };
   const handleDelete = () => {
     const data = {
-      userId: user.id,
+      accessToken: user.accessToken,
+      userId: user.user.id,
       itemId: props.itemId,
     };
     dispatch(deleteItemOnCart(data));

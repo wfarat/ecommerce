@@ -6,16 +6,14 @@ const usersModel = new Model('users');
 
 const findById = async (id) => {
   const clause = ` WHERE id='${id}'`;
-  const columns = 'id, firstname, lastname, password, email';
-  const data = await usersModel.select(columns, clause);
+  const data = await usersModel.select('*', clause);
   const user = data.rows[0];
   return user;
 };
 
-const findByEmail = async (email) => {
+export const findByEmail = async (email) => {
   const clause = ` WHERE email='${email}'`;
-  const columns = 'id, email';
-  const data = await usersModel.select(columns, clause);
+  const data = await usersModel.select('*', clause);
   const user = data.rows[0];
   return user;
 };
@@ -88,7 +86,7 @@ export const updateUser = async (req, res) => {
       await usersModel.update('lastname', lastname, clause);
     }
     const updatedUser = await findById(req.user.id);
-    res.status(203).send({ user: updatedUser.firstname });
+    res.status(203).send({ user: updatedUser });
   });
 };
 

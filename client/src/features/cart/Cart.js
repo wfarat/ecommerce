@@ -12,15 +12,23 @@ export default function Cart() {
   const dispatch = useDispatch();
   const total = items.reduce((total, item) => total + Number(item.price), 0);
   useEffect(() => {
-    if (items.length === 0 && user.id) {
-      dispatch(getCart(user.id));
+    const data = {
+      userId: user.user.id,
+      accessToken: user.accessToken,
+    };
+    if (items.length === 0 && user.user.id) {
+      dispatch(getCart(data));
     }
   }, []);
-  if (!user.id) {
+  if (!user.auth) {
     return <Navigate to="/login" />;
   }
   const handleClick = () => {
-    dispatch(saveOrder(user.id));
+    const data = {
+      userId: user.user.id,
+      accessToken: user.accessToken,
+    };
+    dispatch(saveOrder(data));
     dispatch(emptyCart());
   };
   return (

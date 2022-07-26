@@ -9,11 +9,15 @@ export default function Orders() {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (orders.length === 0 && user.id) {
-      dispatch(getOrders(user.id));
+    const data = {
+      userId: user.user.id,
+      accessToken: user.accessToken,
+    };
+    if (orders.length === 0 && user.user.id) {
+      dispatch(getOrders(data));
     }
   }, []);
-  if (!user.id) {
+  if (!user.auth) {
     return <Navigate to="/login" />;
   }
   return (

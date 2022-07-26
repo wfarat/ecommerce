@@ -1,4 +1,3 @@
-import loginSlice from '../features/users/loginSlice';
 import userSlice from '../features/users/userSlice';
 import itemsSlice from '../features/items/itemsSlice';
 import { configureStore } from '@reduxjs/toolkit';
@@ -17,7 +16,6 @@ import cartSlice from '../features/cart/cartSlice';
 import ordersSlice from '../features/orders/ordersSlice';
 
 const appReducer = combineReducers({
-  login: loginSlice,
   user: userSlice,
   items: itemsSlice,
   cart: cartSlice,

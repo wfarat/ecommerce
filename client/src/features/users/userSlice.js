@@ -1,29 +1,77 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const getUser = createAsyncThunk('getUser', async (userId) => {
-  const res = await axios(`/users/${userId}`, {
-    method: 'GET',
-    withCredentials: true,
+export const login = createAsyncThunk(`login`, async (data) => {
+  const res = await axios(`/api/login`, {
+    method: 'POST',
+    data: data,
   });
   return res.data;
 });
+export const update = createAsyncThunk('update', async (data) => {
+  const res = await axios(`/api/users/${data.userId}`, {
+    method: 'PUT',
+    headers: { 'x-access-token': data.accessToken },
+    data: data.info,
+  });
+  return res.data;
+});
+export const getUser = createAsyncThunk('getUser', async (data) => {
+  const res = await axios(`/api/users/${data.userId}`, {
+    method: 'GET',
+    headers: { 'x-access-token': data.accessToken },
+  });
+  return res.data;
+});
+export const registerUser = async (data) => {
+  const res = await axios('/api/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data: data,
+  });
+  const { user } = res.data;
+  return user;
+};
 
 const userSlice = createSlice({
   name: 'user',
   initialState: {
-    data: { id: '', firstname: '', lastname: '', email: '' },
+    data: {
+      auth: '',
+      accessToken: '',
+      user: {
+        id: '',
+        firstname: '',
+        lastname: '',
+        email: '',
+      }
+    },
     status: 'idle',
   },
-  reducers: {},
+  reducers: {
+    loginGoogle(state, {payload}) {
+      state.data = payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
-      .addCase(getUser.pending, (state) => {
+      .addCase(login.pending, (state) => {
         state.status = 'pending';
       })
-      .addCase(getUser.fulfilled, (state, action) => {
+      .addCase(login.fulfilled, (state, { payload }) => {
         state.status = 'idle';
-        state.data = action.payload.user;
+        state.data = payload;
+      })
+      .addCase(login.rejected, (state) => {
+        state.status = 'rejected';
+        state.data.message = 'Invalid username and/or password.';
+      })
+      .addCase(update.pending, (state) => {
+        state.status = 'pending';
+      })
+      .addCase(update.fulfilled, (state, {payload}) => {
+        state.status = 'idle';
+        state.data.user = payload.user;
       });
   },
 });
@@ -31,3 +79,4 @@ const userSlice = createSlice({
 export const selectUser = (state) => state.user.data;
 export const selectStatus = (state) => state.user.status;
 export default userSlice.reducer;
+export const { loginGoogle } = userSlice.actions;

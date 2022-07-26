@@ -17,31 +17,34 @@ import Item from './features/items/Item';
 import Orders from './features/orders/Orders';
 import Order from './features/orders/Order';
 import Password from './features/users/Password';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 const container = document.getElementById('root');
 const root = createRoot(container);
 let persistor = persistStore(store);
 
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Router>
-          <Routes>
-            <Route path="/" element={<App />}>
-              <Route path="login" element={<Login />} />
-              <Route path="user" element={<UserPage />} />
-              <Route path="user/password" element={<Password />} />
-              <Route path="register" element={<Register />} />
-              <Route path="items" element={<Items />} />
-              <Route path="items/:itemId" element={<Item />} />
-              <Route path="orders" element={<Orders />} />
-              <Route path="orders/:orderId" element={<Order />} />
-              <Route path="cart" element={<Cart />} />
-            </Route>
-          </Routes>
-        </Router>
-      </PersistGate>
-    </Provider>
+    <GoogleOAuthProvider clientId="460759546213-jq918lrs8fvpg4h3213gdlit96fmlld0.apps.googleusercontent.com">
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Router>
+            <Routes>
+              <Route path="/" element={<App />}>
+                <Route path="login" element={<Login />} />
+                <Route path="user" element={<UserPage />} />
+                <Route path="user/password" element={<Password />} />
+                <Route path="register" element={<Register />} />
+                <Route path="items" element={<Items />} />
+                <Route path="items/:itemId" element={<Item />} />
+                <Route path="orders" element={<Orders />} />
+                <Route path="orders/:orderId" element={<Order />} />
+                <Route path="cart" element={<Cart />} />
+              </Route>
+            </Routes>
+          </Router>
+        </PersistGate>
+      </Provider>
+    </GoogleOAuthProvider>
   </React.StrictMode>
 );
 
