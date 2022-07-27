@@ -48,7 +48,6 @@ CREATE TABLE IF NOT EXISTS order_items (
 );
 `;
 export const dropAllTables = `
-DROP TABLE session;
 DROP TABLE order_items;
 DROP TABLE orders;
 DROP TABLE cart;
