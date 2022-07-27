@@ -65,11 +65,23 @@ export const saveItemsToCart = async (req, res) => {
   const { items } = req.body;
   const userId = req.user.id;
   items.forEach(async (item) => {
+    const check = await findByUserAndItem(userId, item.item_id);
+    if (check) {
+      const newQty = item.qty + check.qty;
+      const price = Number(newQty) * (Number(item.price) / Number(item.qty));
+      await cartsModel.update('price', price, `id = ${check.id}`);
+      await cartsModel.updateWithReturn(
+        'qty',
+        newQty,
+        `id = ${check.id}`
+      );
+    } else {
     const col = 'user_id, item_id, name, qty, price';
     const val = `${userId}, ${item.item_id}, '${item.name}', ${item.qty}, ${item.price}`;
-    await cartsModel.insert(col, val);
+    await cartsModel.insert(col, val); }
   });
-  res.status(200).send({ message: 'Successfuly added items to cart'});
+  const data = await findByUser(userId);
+  res.status(200).send({ cart: data});
 }
 export const deleteItemOnCart = async (req, res) => {
   await cartsModel.delete(

@@ -19,6 +19,7 @@ export default function User() {
           <div className="dropdown-content">
             <Link to="user">Settings</Link>
             <Link to="orders">Orders</Link>
+            <Link to="cart">Cart</Link>
             <p onClick={handleClick}>Logout</p>
           </div>
         </div>

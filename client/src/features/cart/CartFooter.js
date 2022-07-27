@@ -22,7 +22,7 @@ export default function CartFooter() {
     };
     if (cart.length === 0 && user.user.id && user.hasCart) {
       dispatch(getCart(data));
-    } else if (cart.length > 0 && user.user.id && !user.hasCart) {
+    } else if (cart.length > 0 && user.user.id) {
       const itemsData = cart.map(item => {
         return {
           qty: item.qty,
@@ -31,13 +31,10 @@ export default function CartFooter() {
           item_id: item.item_id
         }
       })
-      async function fetchData() {
-      const res = await saveCart(data, {items: itemsData});
-      return res;
-      }
-      fetchData();
-      dispatch(addCart())
-    }
+      dispatch(saveCart({data, items: {items: itemsData}}));
+      if (!user.hasCart) {
+      dispatch(addCart()) }
+    } 
   }, [user.auth]);
   const handleClick = () => {
     const data = {

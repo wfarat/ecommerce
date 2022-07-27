@@ -1,10 +1,9 @@
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveOrder } from '../orders/ordersSlice';
 import { selectUser } from '../users/userSlice';
-import { emptyCart, getCart, selectCart } from './cartSlice';
+import { emptyCart, selectCart } from './cartSlice';
 import AddToCart from '../items/AddToCart';
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './cart.css';
 export default function Cart() {
   const { cart } = useSelector(selectCart);
