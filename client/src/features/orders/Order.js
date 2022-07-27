@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from '../users/userSlice';
-import { getOrderItems, getOrders, selectOrders } from './ordersSlice';
+import { getOrderItems, selectOrders } from './ordersSlice';
 import { Navigate, Link, useParams } from 'react-router-dom';
 import './orders.css';
 export default function Order() {
@@ -10,13 +10,6 @@ export default function Order() {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   useEffect(() => {
-    const data1 = {
-      accessToken: user.accessToken,
-      userId: user.user.id,
-    };
-    if (orders.length === 0 && user.id) {
-      dispatch(getOrders(data1));
-    }
     const data = {
       accessToken: user.accessToken,
       userId: user.user.id,

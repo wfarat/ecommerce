@@ -3,11 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getItems, selectItems } from './itemsSlice';
 import AddToCart from './AddToCart';
 import { Link } from 'react-router-dom';
-import { selectUser } from '../users/userSlice';
 import './items.css';
 export default function Items() {
   const { items } = useSelector(selectItems);
-  const user = useSelector(selectUser);
   const dispatch = useDispatch();
   useEffect(() => {
     if (!items) {
@@ -25,7 +23,7 @@ export default function Items() {
                   <p>{item.name}</p>
                   <p>{item.price / 100} $</p>
                   <div className="thumbnail"></div>
-                  {user.auth && <AddToCart itemId={item.id} />}
+                  <AddToCart itemId={item.id} />
                 </li>
               </Link>
             );

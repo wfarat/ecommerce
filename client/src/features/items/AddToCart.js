@@ -3,17 +3,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from '../users/userSlice';
 import {
   addItemToCart,
+  addToCart,
   deleteItemOnCart,
   selectCart,
   updateItemOnCart,
 } from '../cart/cartSlice';
+import { selectItems } from './itemsSlice';
 
 export default function AddToCart(props) {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
-  const { items } = useSelector(selectCart);
+  const { cart } = useSelector(selectCart);
+  const { items } = useSelector(selectItems);
   const [min, setMin] = useState(false);
-  const check = items.find((item) => item.item_id === props.itemId);
+  const check = cart.find((item) => item.item_id === props.itemId);
   const [qty, setQty] = useState(1);
   const handleClick = () => {
     if (qty < 1) {
@@ -21,6 +24,7 @@ export default function AddToCart(props) {
       return;
     }
     setMin(false);
+    if (user.auth) {
     const data = {
       userId: user.user.id,
       itemId: props.itemId,
@@ -35,6 +39,17 @@ export default function AddToCart(props) {
       dispatch(updateItemOnCart(data));
     } else {
       dispatch(addItemToCart(data));
+    } } else {
+      const item = items.find((item) => item.id === props.itemId);
+      const price = Number(qty) * Number(item.price);
+      const itemData = {
+        qty: qty,
+        item_id: item.id,
+        id: item.id,
+        name: item.name,
+        price: price
+      }
+      dispatch(addToCart(itemData));
     }
   };
   const handleDelete = () => {

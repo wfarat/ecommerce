@@ -10,7 +10,7 @@ const findByUserAndItem = async (userId, itemId) => {
   const item = data.rows[0];
   return item;
 };
-const findByUser = async (userId) => {
+export const findByUser = async (userId) => {
   const data = await cartsModel.select('*', ` WHERE user_id = ${userId}`);
   const items = data.rows;
   return items;
@@ -43,7 +43,7 @@ export const sendItem = async (req, res) => {
 };
 
 export const sendAllItems = async (req, res) => {
-  res.status(200).send({ items: req.items });
+  res.status(200).send({ cart: req.items });
 };
 export const addItemToCart = async (req, res) => {
   const { qty } = req.body;
@@ -61,7 +61,16 @@ export const addItemToCart = async (req, res) => {
     res.status(201).send({ item });
   }
 };
-
+export const saveItemsToCart = async (req, res) => {
+  const { items } = req.body;
+  const userId = req.user.id;
+  items.forEach(async (item) => {
+    const col = 'user_id, item_id, name, qty, price';
+    const val = `${userId}, ${item.item_id}, '${item.name}', ${item.qty}, ${item.price}`;
+    await cartsModel.insert(col, val);
+  });
+  res.status(200).send({ message: 'Successfuly added items to cart'});
+}
 export const deleteItemOnCart = async (req, res) => {
   await cartsModel.delete(
     `user_id = ${req.user.id} AND item_id = ${req.item.id}`

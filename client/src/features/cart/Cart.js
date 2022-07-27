@@ -7,29 +7,17 @@ import AddToCart from '../items/AddToCart';
 import { Link, Navigate } from 'react-router-dom';
 import './cart.css';
 export default function Cart() {
-  const { items } = useSelector(selectCart);
+  const { cart } = useSelector(selectCart);
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
-  const total = items.reduce((total, item) => total + Number(item.price), 0);
-  useEffect(() => {
-    const data = {
-      userId: user.user.id,
-      accessToken: user.accessToken,
-    };
-    if (items.length === 0 && user.user.id) {
-      dispatch(getCart(data));
-    }
-  }, []);
-  if (!user.auth) {
-    return <Navigate to="/login" />;
-  }
+  const total = cart.reduce((total, item) => total + Number(item.price), 0);
   const handleClick = () => {
     const data = {
       userId: user.user.id,
       accessToken: user.accessToken,
     };
     dispatch(saveOrder(data));
-    dispatch(emptyCart());
+    dispatch(emptyCart()); 
   };
   return (
     <div className="cart-container">
@@ -40,7 +28,7 @@ export default function Cart() {
           <span className="cart-qty">Quantity</span>
           <span className="cart-price">Price</span>
         </li>
-        {items.map((item) => {
+        {cart.map((item) => {
           return (
             <Link to={`../items/${item.item_id}`} key={item.id}>
               <li className="cart-item" key={item.id}>
@@ -53,12 +41,13 @@ export default function Cart() {
             </Link>
           );
         })}
-        {items.length > 0 && (
+        {cart.length > 0 && (
           <div className="payment">
             <p className="total">Total price: {total / 100} $</p>
-            <button className="cart-submit" onClick={handleClick}>
+            {user.auth && <button className="cart-submit" onClick={handleClick}>
               Checkout
-            </button>
+            </button> }
+            {!user.auth && <Link to='/login'><button className="login">Login to checkout</button></Link>}
           </div>
         )}
       </ul>

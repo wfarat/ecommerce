@@ -19,7 +19,6 @@ export default function User() {
           <div className="dropdown-content">
             <Link to="user">Settings</Link>
             <Link to="orders">Orders</Link>
-            <Link to="cart">Cart</Link>
             <p onClick={handleClick}>Logout</p>
           </div>
         </div>
@@ -32,6 +31,7 @@ export default function User() {
           <div className="dropdown-content">
             <Link to="login">Login</Link>
             <Link to="register">Register</Link>
+            <Link to="cart">Cart</Link>
           </div>
         </div>
       )}

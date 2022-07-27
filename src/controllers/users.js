@@ -94,6 +94,18 @@ export const updateUser = async (req, res) => {
 export const updatePassword = async (req, res) => {
   const { oldPassword, newPassword } = req.body;
   const clause = `id = ${req.user.id}`;
+  if (!req.user.password) {
+    const saltRounds = 10;
+    bcrypt.genSalt(saltRounds, (err, salt) => {
+      bcrypt.hash(newPassword, salt, async (err, hash) => {
+        if (err) {
+          res.status(400).send(err);
+        }
+        await usersModel.update('password', hash, clause);
+        res.status(203).send({ message: 'Password changed successfuly.' });
+      });
+    });
+  } else {
   bcrypt.compare(oldPassword, req.user.password, (err, result) => {
     if (err) {
       res.status(400).send(err);
@@ -113,6 +125,7 @@ export const updatePassword = async (req, res) => {
       });
     });
   });
+}
 };
 
 export const deleteUser = async (req, res) => {

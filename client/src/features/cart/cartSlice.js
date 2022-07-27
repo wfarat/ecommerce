@@ -37,13 +37,25 @@ export const deleteItemOnCart = createAsyncThunk(
     return res.data;
   }
 );
+
+export const saveCart = async (data, items) => {
+  const res = await axios(`api/cart/${data.userId}`, {
+    method: 'POST',
+    headers: { 'x-access-token': data.accessToken },
+    data: items
+  })
+  return res.data;
+}
 const cartSlice = createSlice({
   name: 'cart',
-  initialState: { data: { items: [] }, status: 'idle' },
+  initialState: { data: { cart: [] }, status: 'idle' },
   reducers: {
     emptyCart(state) {
-      state.data.items = [];
+      state.data.cart = [];
     },
+    addToCart(state, {payload}) {
+      state.data.cart.push(payload)
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -52,7 +64,7 @@ const cartSlice = createSlice({
       })
       .addCase(getCart.fulfilled, (state, { payload }) => {
         state.status = 'idle';
-        state.data.items = payload.items;
+        state.data.cart = payload.cart;
       })
       .addCase(addItemToCart.pending, (state) => {
         state.status = 'pending';
@@ -60,7 +72,7 @@ const cartSlice = createSlice({
       .addCase(addItemToCart.fulfilled, (state, { payload }) => {
         state.status = 'idle';
         if (payload.item) {
-          state.data.items.push(payload.item);
+          state.data.cart.push(payload.item);
         }
       })
       .addCase(updateItemOnCart.pending, (state) => {
@@ -68,21 +80,21 @@ const cartSlice = createSlice({
       })
       .addCase(updateItemOnCart.fulfilled, (state, { payload }) => {
         state.status = 'idle';
-        const index = state.data.items.findIndex(
+        const index = state.data.cart.findIndex(
           (item) => item.item_id === payload.item.item_id
         );
-        state.data.items.splice(index, 1);
-        state.data.items.splice(index, 0, payload.item);
+        state.data.cart.splice(index, 1);
+        state.data.cart.splice(index, 0, payload.item);
       })
       .addCase(deleteItemOnCart.pending, (state) => {
         state.status = 'pending';
       })
       .addCase(deleteItemOnCart.fulfilled, (state, { payload }) => {
         state.status = 'idle';
-        const index = state.data.items.findIndex(
+        const index = state.data.cart.findIndex(
           (item) => item.item_id === payload.item.id
         );
-        state.data.items.splice(index, 1);
+        state.data.cart.splice(index, 1);
       });
   },
 });
@@ -90,4 +102,4 @@ const cartSlice = createSlice({
 export const selectCart = (state) => state.cart.data;
 export const selectStatus = (state) => state.cart.status;
 export default cartSlice.reducer;
-export const { emptyCart } = cartSlice.actions;
+export const { emptyCart, addToCart } = cartSlice.actions;

@@ -6,6 +6,7 @@ import {
   emptyCart,
   findAllItemsOnCart,
   findItemOnCart,
+  saveItemsToCart,
   sendAllItems,
   sendItem,
   updateItemOnCart,
@@ -43,6 +44,28 @@ cartRouter.param('userId', findUser);
 cartRouter.post('/:userId/checkout', findAllItemsOnCart, saveOrder, emptyCart);
 /**
  * @swagger
+ * /cart/{userId}:
+ *   post:
+ *     summary: Saves items to cart
+ *     description: Saves items to specific user cart with a specified quantity
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         description: Numeric ID of the user who's cart to add item to.
+ *         schema:
+ *           type: integer
+ *     tags:
+ *      - Cart
+ *     produces:
+ *      - application/json
+ *     responses:
+ *       200:
+ *         description: cart
+ */
+cartRouter.post('/:userId', saveItemsToCart);
+/**
+ * @swagger
  * /cart/{userId}/{itemId}:
  *   post:
  *     summary: Adds an item to cart
@@ -54,6 +77,23 @@ cartRouter.post('/:userId/checkout', findAllItemsOnCart, saveOrder, emptyCart);
  *         description: Numeric ID of the user who's cart to add item to.
  *         schema:
  *           type: integer
+ *       - in: path
+ *         name: itemId
+ *         required: true
+ *         description: Numeric ID of the item to add
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               qty:
+ *                 type: integer
+ *                 description: Quantity of items to add to cart.
+ *                 example: 3
  *     tags:
  *      - Cart
  *     produces:

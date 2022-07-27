@@ -38,9 +38,10 @@ const userSlice = createSlice({
   name: 'user',
   initialState: {
     data: {
-      auth: '',
+      auth: false,
       accessToken: '',
       message: '',
+      hasCart: false,
       user: {
         id: '',
         firstname: '',
@@ -53,6 +54,9 @@ const userSlice = createSlice({
   reducers: {
     loginGoogle(state, {payload}) {
       state.data = payload;
+    },
+    addCart(state) {
+      state.data.hasCart = true;
     }
   },
   extraReducers: (builder) => {
@@ -81,4 +85,4 @@ const userSlice = createSlice({
 export const selectUser = (state) => state.user.data;
 export const selectStatus = (state) => state.user.status;
 export default userSlice.reducer;
-export const { loginGoogle } = userSlice.actions;
+export const { loginGoogle, addCart } = userSlice.actions;

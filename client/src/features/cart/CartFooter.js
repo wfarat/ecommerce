@@ -1,28 +1,44 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveOrder } from '../orders/ordersSlice';
-import { selectUser } from '../users/userSlice';
-import { emptyCart, getCart, selectCart } from './cartSlice';
+import { selectUser, addCart } from '../users/userSlice';
+import { emptyCart, getCart, saveCart, selectCart } from './cartSlice';
 import { Link } from 'react-router-dom';
 import './cart.css';
+
 export default function CartFooter() {
-  const { items } = useSelector(selectCart);
+  const { cart } = useSelector(selectCart);
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   let total, itemsInCart;
-  if (items.length > 0) {
-    total = items.reduce((total, item) => total + Number(item.price), 0);
-    itemsInCart = items.reduce((total, item) => total + Number(item.qty), 0);
+  if (cart.length > 0) {
+    total = cart.reduce((total, item) => total + Number(item.price), 0);
+    itemsInCart = cart.reduce((total, item) => total + Number(item.qty), 0);
   }
   useEffect(() => {
     const data = {
       userId: user.user.id,
       accessToken: user.accessToken,
     };
-    if (items.length === 0 && user.user.id) {
+    if (cart.length === 0 && user.user.id && user.hasCart) {
       dispatch(getCart(data));
+    } else if (cart.length > 0 && user.user.id && !user.hasCart) {
+      const itemsData = cart.map(item => {
+        return {
+          qty: item.qty,
+          price: item.price,
+          name: item.name,
+          item_id: item.item_id
+        }
+      })
+      async function fetchData() {
+      const res = await saveCart(data, {items: itemsData});
+      return res;
+      }
+      fetchData();
+      dispatch(addCart())
     }
-  }, []);
+  }, [user.auth]);
   const handleClick = () => {
     const data = {
       userId: user.user.id,
@@ -33,8 +49,8 @@ export default function CartFooter() {
   };
   return (
     <div className="cart-footer">
-      {items.length === 0 && <p className="empty-msg">Cart is empty</p>}
-      {items.length > 0 && (
+      {cart.length === 0 && <p className="empty-msg">Cart is empty</p>}
+      {cart.length > 0 && (
         <Link to="cart">
           <div className="payment">
             <p className="items">Items in cart: {itemsInCart}</p>
@@ -43,9 +59,10 @@ export default function CartFooter() {
               className="checkout-container"
               onClick={(e) => e.preventDefault()}
             >
-              <button className="cart-submit" onClick={handleClick}>
+       {user.auth && <button className="cart-submit" onClick={handleClick}>
                 Checkout
-              </button>
+              </button> }
+              {!user.auth && <Link to='/login'><button className="login">Login to checkout</button></Link>}
             </div>
           </div>
         </Link>

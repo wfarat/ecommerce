@@ -1,22 +1,11 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectUser } from '../users/userSlice';
-import { getOrders, selectOrders } from './ordersSlice';
+import { selectOrders } from './ordersSlice';
 import { Navigate, Link } from 'react-router-dom';
 import './orders.css';
 export default function Orders() {
   const { orders } = useSelector(selectOrders);
   const user = useSelector(selectUser);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const data = {
-      userId: user.user.id,
-      accessToken: user.accessToken,
-    };
-    if (orders.length === 0 && user.user.id) {
-      dispatch(getOrders(data));
-    }
-  }, []);
   if (!user.auth) {
     return <Navigate to="/login" />;
   }
