@@ -13,8 +13,7 @@ export default function Login() {
   const user = useSelector(selectUser);
   const googleLogin = useGoogleLogin({
     onSuccess: async ({ code }) => {
-      const tokens = await axios.post('http://localhost:3001/api/auth/google', {
-        // http://localhost:3001/auth/google backend that will exchange the code
+      const tokens = await axios.post('/api/auth/google', {
         code,
       });
 

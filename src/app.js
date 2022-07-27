@@ -23,7 +23,7 @@ app.use('/api/cart', cartRouter);
 app.use('/api/items', itemsRouter);
 app.use('/api/orders', ordersRouter);
 app.use(express.static(path.resolve(__dirname, '../client/build')));
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 });
 const swaggerDefinition = {
