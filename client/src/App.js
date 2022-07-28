@@ -11,6 +11,7 @@ import { selectUser } from './features/users/userSlice';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import User from './features/users/User';
 import CartFooter from './features/cart/CartFooter';
+import { getUser } from './features/users/userSlice';
 function App() {
   const { orders } = useSelector(selectOrders);
   const user = useSelector(selectUser);
@@ -23,6 +24,17 @@ function App() {
     if (orders.length === 0 && user.user.id) {
       dispatch(getOrders(data));
     }
+     const userData = async() => {
+      if (user.auth) {
+        const res = await getUser(data);
+        return res;
+      } else {
+        return false;
+      }
+      }
+      if (!userData()) {
+      dispatch({ type: 'USER_LOGOUT' });
+      }
   }, [user.auth]);
   return (
     <div className="App">

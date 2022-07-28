@@ -6,7 +6,6 @@ export const login = createAsyncThunk(`login`, async (data) => {
     method: 'POST',
     data: data,
   });
-  console.log(res.data);
   return res.data;
 });
 export const update = createAsyncThunk('update', async (data) => {
@@ -17,13 +16,13 @@ export const update = createAsyncThunk('update', async (data) => {
   });
   return res.data;
 });
-export const getUser = createAsyncThunk('getUser', async (data) => {
+export const getUser = async (data) => {
   const res = await axios(`/api/users/${data.userId}`, {
     method: 'GET',
     headers: { 'x-access-token': data.accessToken },
   });
   return res.data;
-});
+};
 export const registerUser = async (data) => {
   const res = await axios('/api/register', {
     method: 'POST',
