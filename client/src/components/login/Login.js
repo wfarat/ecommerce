@@ -31,11 +31,11 @@ export default function Login() {
       setMessage('Please enter password.');
     } else {
       setMessage('');
-    const data = {
-      email,
-      password,
-    };
-    dispatch(login(data)); 
+      const data = {
+        email,
+        password,
+      };
+      dispatch(login(data));
     }
   };
 
@@ -59,8 +59,8 @@ export default function Login() {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-              <p>{message}</p>
-        <p>{user.message}</p>
+      <p>{message}</p>
+      <p>{user.message}</p>
       <button className="submitButton" onClick={handleClick}>
         Login
       </button>

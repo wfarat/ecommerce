@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { selectUser } from './userSlice';
-import './user.css';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link } from 'react-router-dom';
 export default function User() {
   const dispatch = useDispatch();
@@ -10,32 +10,23 @@ export default function User() {
     dispatch({ type: 'USER_LOGOUT' });
   };
   return (
-    <div className="user-container">
-      {user.user.firstname && (
-        <div className="dropdown">
-          <p className="dropBtn">
-            <Link to="user">Hi, {user.user.firstname}</Link>
-          </p>
-          <div className="dropdown-content">
-            <Link to="user">Settings</Link>
-            <Link to="orders">Orders</Link>
-            <Link to="cart">Cart</Link>
-            <p onClick={handleClick}>Logout</p>
-          </div>
-        </div>
+    <NavDropdown title="User" id="basic-nav-dropdown">
+      <NavDropdown.Item as={Link} to="/user">
+        Settings
+      </NavDropdown.Item>
+      <NavDropdown.Item as={Link} to="/orders">
+        Orders
+      </NavDropdown.Item>
+      {!user.auth && (
+        <NavDropdown.Item as={Link} to="/login">
+          Login
+        </NavDropdown.Item>
       )}
-      {!user.user.firstname && (
-        <div className="dropdown">
-          <p className="dropBtn">
-            <Link to="login">Sign in</Link>
-          </p>
-          <div className="dropdown-content">
-            <Link to="login">Login</Link>
-            <Link to="register">Register</Link>
-            <Link to="cart">Cart</Link>
-          </div>
-        </div>
+      {user.auth && (
+        <NavDropdown.Item onClick={handleClick} href="/">
+          Logout
+        </NavDropdown.Item>
       )}
-    </div>
+    </NavDropdown>
   );
 }

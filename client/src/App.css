@@ -1,37 +1,6 @@
 
 header {
   width: 100%;
-  position: fixed;
-  top: 0px;
-  z-index: 10;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  border-bottom: 1px solid black;
-  min-height: 62px;
-  background: #ADA996;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #EAEAEA, #DBDBDB, #F2F2F2, #ADA996);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #EAEAEA, #DBDBDB, #F2F2F2, #ADA996); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
-
-nav {
-  height: 60px;
-}
-nav ul {
-  margin: 0;
-}
-nav li {
-  display: inline-block;
-  padding: 16px;
-  border: 1px solid black;
-}
-
-li a {
-  font-size: 1.5em;
-}
-header h1 {
-  margin: 0;
-  padding-top: 10px;
 }
 
 .google-login {

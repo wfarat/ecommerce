@@ -2,7 +2,6 @@ import { useSelector } from 'react-redux';
 import { selectUser } from './userSlice';
 import { Navigate, Link } from 'react-router-dom';
 import UserForm from './UserForm';
-import './user.css';
 export default function UserPage() {
   const user = useSelector(selectUser);
   if (!user.auth) {

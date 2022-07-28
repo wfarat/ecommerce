@@ -4,11 +4,14 @@ import { useSelector } from 'react-redux';
 import { selectUser } from '../../features/users/userSlice';
 import { Navigate } from 'react-router-dom';
 export const updatePassword = async (data, userId) => {
-  const res = await axios(`http://localhost:3000/api/users/${userId}/password`, {
-    method: 'PUT',
-    headers: { 'x-access-token': data.accessToken },
-    data: data.info,
-  });
+  const res = await axios(
+    `http://localhost:3000/api/users/${userId}/password`,
+    {
+      method: 'PUT',
+      headers: { 'x-access-token': data.accessToken },
+      data: data.info,
+    }
+  );
   return res.data.message;
 };
 

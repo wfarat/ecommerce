@@ -5,7 +5,6 @@ import { OAuth2Client, UserRefreshClient } from 'google-auth-library';
 import Model from '../models/model';
 import { addUser, findByEmail } from '../controllers/users';
 import { googleClientID, googleClientSecret, jwtSecret } from '../settings';
-import { findByUser } from '../controllers/cart';
 
 const usersModel = new Model('users');
 const authRouter = express.Router();
@@ -35,8 +34,6 @@ authRouter.post('/auth/google', async (req, res) => {
   const token = jwt.sign({ id: user.id }, jwtSecret, {
     expiresIn: 86400, // 24 hours
   });
-  const cart = await findByUser(user.id);
-  const hasCart = cart.length !== 0;
   res.send({
     user: {
       id: user.id,
@@ -45,7 +42,6 @@ authRouter.post('/auth/google', async (req, res) => {
       email: user.email,
     },
     accessToken: token,
-    hasCart,
     auth: true,
   });
 });
@@ -95,8 +91,6 @@ authRouter.post('/login', async (req, res) => {
     const token = jwt.sign({ id: user.id }, jwtSecret, {
       expiresIn: 86400, // 24 hours
     });
-    const cart = await findByUser(user.id);
-    const hasCart = cart.length !== 0;
     res.send({
       user: {
         id: user.id,
@@ -106,8 +100,7 @@ authRouter.post('/login', async (req, res) => {
       },
       accessToken: token,
       auth: true,
-      hasCart,
-      message: 'Login succesful'
+      message: 'Login succesful',
     });
   });
 });

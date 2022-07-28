@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveOrder } from '../orders/ordersSlice';
-import { selectUser, addCart } from '../users/userSlice';
+import { selectUser } from '../users/userSlice';
 import { emptyCart, getCart, saveCart, selectCart } from './cartSlice';
 import { Link } from 'react-router-dom';
 import './cart.css';
@@ -20,21 +20,19 @@ export default function CartFooter() {
       userId: user.user.id,
       accessToken: user.accessToken,
     };
-    if (cart.length === 0 && user.user.id && user.hasCart) {
+    if (cart.length === 0 && user.user.id) {
       dispatch(getCart(data));
-    } else if (cart.length > 0 && user.user.id) {
-      const itemsData = cart.map(item => {
+    } else if (cart.length > 0 && user.user.id && !cart[0].user_id) {
+      const itemsData = cart.map((item) => {
         return {
           qty: item.qty,
           price: item.price,
           name: item.name,
-          item_id: item.item_id
-        }
-      })
-      dispatch(saveCart({data, items: {items: itemsData}}));
-      if (!user.hasCart) {
-      dispatch(addCart()) }
-    } 
+          item_id: item.item_id,
+        };
+      });
+      dispatch(saveCart({ data, items: { items: itemsData } }));
+    }
   }, [user.auth]);
   const handleClick = () => {
     const data = {
@@ -48,21 +46,25 @@ export default function CartFooter() {
     <div className="cart-footer">
       {cart.length === 0 && <p className="empty-msg">Cart is empty</p>}
       {cart.length > 0 && (
-        <Link to="cart">
-          <div className="payment">
-            <p className="items">Items in cart: {itemsInCart}</p>
-            <p className="total">Total price: {total / 100}$</p>
-            <div
-              className="checkout-container"
-              onClick={(e) => e.preventDefault()}
-            >
-       {user.auth && <button className="cart-submit" onClick={handleClick}>
+        <div className="payment">
+          <p className="items">Items in cart: {itemsInCart}</p>
+          <p className="total">Total price: {total / 100}$</p>
+          <div
+            className="checkout-container"
+            onClick={(e) => e.preventDefault()}
+          >
+            {user.auth && (
+              <button className="cart-submit" onClick={handleClick}>
                 Checkout
-              </button> }
-              {!user.auth && <Link to='/login'><button className="login">Login to checkout</button></Link>}
-            </div>
+              </button>
+            )}
+            {!user.auth && (
+              <Link to="/login">
+                <button className="login">Login to checkout</button>
+              </Link>
+            )}
           </div>
-        </Link>
+        </div>
       )}
     </div>
   );

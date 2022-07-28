@@ -61,28 +61,29 @@ export const addItemToCart = async (req, res) => {
     res.status(201).send({ item });
   }
 };
-export const saveItemsToCart = async (req, res) => {
+export const saveItemsToCart = (req, res) => {
   const { items } = req.body;
   const userId = req.user.id;
-  items.forEach(async (item) => {
+  let itemsProcessed = 0;
+  items.forEach(async (item, index, array) => {
     const check = await findByUserAndItem(userId, item.item_id);
     if (check) {
-      const newQty = item.qty + check.qty;
+      const newQty = Number(item.qty) + Number(check.qty);
       const price = Number(newQty) * (Number(item.price) / Number(item.qty));
       await cartsModel.update('price', price, `id = ${check.id}`);
-      await cartsModel.updateWithReturn(
-        'qty',
-        newQty,
-        `id = ${check.id}`
-      );
+      await cartsModel.updateWithReturn('qty', newQty, `id = ${check.id}`);
     } else {
-    const col = 'user_id, item_id, name, qty, price';
-    const val = `${userId}, ${item.item_id}, '${item.name}', ${item.qty}, ${item.price}`;
-    await cartsModel.insert(col, val); }
+      const col = 'user_id, item_id, name, qty, price';
+      const val = `${userId}, ${item.item_id}, '${item.name}', ${item.qty}, ${item.price}`;
+      await cartsModel.insert(col, val);
+    }
+    itemsProcessed += 1;
+    if (itemsProcessed === array.length) {
+      const data = await findByUser(userId);
+      res.status(200).send({ cart: data });
+    }
   });
-  const data = await findByUser(userId);
-  res.status(200).send({ cart: data});
-}
+};
 export const deleteItemOnCart = async (req, res) => {
   await cartsModel.delete(
     `user_id = ${req.user.id} AND item_id = ${req.item.id}`

@@ -16,7 +16,7 @@ export default function Cart() {
       accessToken: user.accessToken,
     };
     dispatch(saveOrder(data));
-    dispatch(emptyCart()); 
+    dispatch(emptyCart());
   };
   return (
     <div className="cart-container">
@@ -43,10 +43,16 @@ export default function Cart() {
         {cart.length > 0 && (
           <div className="payment">
             <p className="total">Total price: {total / 100} $</p>
-            {user.auth && <button className="cart-submit" onClick={handleClick}>
-              Checkout
-            </button> }
-            {!user.auth && <Link to='/login'><button className="login">Login to checkout</button></Link>}
+            {user.auth && (
+              <button className="cart-submit" onClick={handleClick}>
+                Checkout
+              </button>
+            )}
+            {!user.auth && (
+              <Link to="/login">
+                <button className="login">Login to checkout</button>
+              </Link>
+            )}
           </div>
         )}
       </ul>

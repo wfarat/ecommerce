@@ -25,21 +25,22 @@ export default function AddToCart(props) {
     }
     setMin(false);
     if (user.auth) {
-    const data = {
-      userId: user.user.id,
-      itemId: props.itemId,
-      qty: { qty: qty },
-      accessToken: user.accessToken,
-    };
-    if (check) {
-      if (check.qty === qty) {
-        setMin(true);
-        return;
+      const data = {
+        userId: user.user.id,
+        itemId: props.itemId,
+        qty: { qty: qty },
+        accessToken: user.accessToken,
+      };
+      if (check) {
+        if (check.qty === qty) {
+          setMin(true);
+          return;
+        }
+        dispatch(updateItemOnCart(data));
+      } else {
+        dispatch(addItemToCart(data));
       }
-      dispatch(updateItemOnCart(data));
     } else {
-      dispatch(addItemToCart(data));
-    } } else {
       const item = items.find((item) => item.id === props.itemId);
       const price = Number(qty) * Number(item.price);
       const itemData = {
@@ -47,8 +48,8 @@ export default function AddToCart(props) {
         item_id: item.id,
         id: item.id,
         name: item.name,
-        price: price
-      }
+        price: price,
+      };
       dispatch(addToCart(itemData));
     }
   };

@@ -6,7 +6,7 @@ export const login = createAsyncThunk(`login`, async (data) => {
     method: 'POST',
     data: data,
   });
-  console.log(res.data)
+  console.log(res.data);
   return res.data;
 });
 export const update = createAsyncThunk('update', async (data) => {
@@ -41,23 +41,19 @@ const userSlice = createSlice({
       auth: false,
       accessToken: '',
       message: '',
-      hasCart: false,
       user: {
         id: '',
         firstname: '',
         lastname: '',
         email: '',
-      }
+      },
     },
     status: 'idle',
   },
   reducers: {
-    loginGoogle(state, {payload}) {
+    loginGoogle(state, { payload }) {
       state.data = payload;
     },
-    addCart(state) {
-      state.data.hasCart = true;
-    }
   },
   extraReducers: (builder) => {
     builder
@@ -75,7 +71,7 @@ const userSlice = createSlice({
       .addCase(update.pending, (state) => {
         state.status = 'pending';
       })
-      .addCase(update.fulfilled, (state, {payload}) => {
+      .addCase(update.fulfilled, (state, { payload }) => {
         state.status = 'idle';
         state.data.user = payload.user;
       });

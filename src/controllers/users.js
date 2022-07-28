@@ -106,26 +106,26 @@ export const updatePassword = async (req, res) => {
       });
     });
   } else {
-  bcrypt.compare(oldPassword, req.user.password, (err, result) => {
-    if (err) {
-      res.status(400).send(err);
-    }
-    if (!result) {
-      res.status(400).send({ message: 'Incorrect password.' });
-      return;
-    }
-    const saltRounds = 10;
-    bcrypt.genSalt(saltRounds, (err, salt) => {
-      bcrypt.hash(newPassword, salt, async (err, hash) => {
-        if (err) {
-          res.status(400).send(err);
-        }
-        await usersModel.update('password', hash, clause);
-        res.status(203).send({ message: 'Password changed successfuly.' });
+    bcrypt.compare(oldPassword, req.user.password, (err, result) => {
+      if (err) {
+        res.status(400).send(err);
+      }
+      if (!result) {
+        res.status(400).send({ message: 'Incorrect password.' });
+        return;
+      }
+      const saltRounds = 10;
+      bcrypt.genSalt(saltRounds, (err, salt) => {
+        bcrypt.hash(newPassword, salt, async (err, hash) => {
+          if (err) {
+            res.status(400).send(err);
+          }
+          await usersModel.update('password', hash, clause);
+          res.status(203).send({ message: 'Password changed successfuly.' });
+        });
       });
     });
-  });
-}
+  }
 };
 
 export const deleteUser = async (req, res) => {

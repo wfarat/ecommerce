@@ -38,12 +38,12 @@ export const deleteItemOnCart = createAsyncThunk(
   }
 );
 
-export const saveCart =  createAsyncThunk('saveCart', async (data) => {
+export const saveCart = createAsyncThunk('saveCart', async (data) => {
   const res = await axios(`api/cart/${data.data.userId}`, {
     method: 'POST',
     headers: { 'x-access-token': data.data.accessToken },
-    data: data.items
-  })
+    data: data.items,
+  });
   return res.data;
 });
 const cartSlice = createSlice({
@@ -53,9 +53,9 @@ const cartSlice = createSlice({
     emptyCart(state) {
       state.data.cart = [];
     },
-    addToCart(state, {payload}) {
-      state.data.cart.push(payload)
-    }
+    addToCart(state, { payload }) {
+      state.data.cart.push(payload);
+    },
   },
   extraReducers: (builder) => {
     builder

@@ -22,10 +22,6 @@
     grid-column: 4 / 5;
 }
 
-a :hover {
-    background-color: grey;
-}
-
 .total {
     display: inline-block;
     margin: 10px;
