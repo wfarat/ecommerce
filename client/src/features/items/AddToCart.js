@@ -5,8 +5,10 @@ import {
   addItemToCart,
   addToCart,
   deleteItemOnCart,
+  deleteOnCart,
   selectCart,
   updateItemOnCart,
+  updateOnCart,
 } from '../cart/cartSlice';
 import { selectItems } from './itemsSlice';
 
@@ -50,16 +52,28 @@ export default function AddToCart(props) {
         name: item.name,
         price: price,
       };
+      if (check) {
+        if (check.qty === qty) {
+          setMin(true);
+          return;
+        }
+      dispatch(updateOnCart({item: itemData}));
+      } else {
       dispatch(addToCart(itemData));
+      }
     }
   };
   const handleDelete = () => {
+    if (user.auth) {
     const data = {
       accessToken: user.accessToken,
       userId: user.user.id,
       itemId: props.itemId,
     };
     dispatch(deleteItemOnCart(data));
+  } else {
+    dispatch(deleteOnCart({ itemId: props.itemId }))
+  }
   };
   return (
     <div className="addToCart" onClick={(e) => e.preventDefault()}>

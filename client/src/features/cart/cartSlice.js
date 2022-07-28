@@ -56,6 +56,19 @@ const cartSlice = createSlice({
     addToCart(state, { payload }) {
       state.data.cart.push(payload);
     },
+    deleteOnCart(state, { payload }) {
+      const index = state.data.cart.findIndex(
+        (item) => item.item_id === payload.itemId
+      );
+      state.data.cart.splice(index, 1);
+    },
+    updateOnCart(state, { payload }) {
+      const index = state.data.cart.findIndex(
+        (item) => item.item_id === payload.item.id
+      );
+      state.data.cart.splice(index, 1);
+      state.data.cart.splice(index, 0, payload.item);
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -109,4 +122,4 @@ const cartSlice = createSlice({
 export const selectCart = (state) => state.cart.data;
 export const selectStatus = (state) => state.cart.status;
 export default cartSlice.reducer;
-export const { emptyCart, addToCart } = cartSlice.actions;
+export const { emptyCart, deleteOnCart, updateOnCart, addToCart } = cartSlice.actions;
