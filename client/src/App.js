@@ -32,14 +32,14 @@ function App() {
         return false;
       }
       }
-      if (!userData()) {
+      if (!userData() && user.auth) {
       dispatch({ type: 'USER_LOGOUT' });
       }
   }, [user.auth]);
   return (
     <div className="App">
       <header className="App-header">
-        <Navbar bg="light" expand="lg">
+        <Navbar bg="light" expand="lg" className="fixed-top">
           <Container>
             <Navbar.Brand as={Link} to="/">
               E-commerce App
@@ -60,7 +60,9 @@ function App() {
         </Navbar>
       </header>
       <CartFooter />
+        <main>
       <Outlet />
+      </main>
     </div>
   );
 }

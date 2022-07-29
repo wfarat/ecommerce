@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 import { selectUser, login, loginGoogle } from '../../features/users/userSlice';
-
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import './login.css';
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -40,39 +42,28 @@ export default function Login() {
   };
 
   return (
-    <div className="inputs">
-      <label htmlFor="email">
-        <b>Email Address:</b>
-      </label>
-      <input
-        id="email"
-        type="text"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <label htmlFor="password">
-        <b>Password:</b>
-      </label>
-      <input
-        id="password"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <p>{message}</p>
-      <p>{user.message}</p>
-      <button className="submitButton" onClick={handleClick}>
-        Login
-      </button>
-      <div className="google-login">
-        <button
-          onClick={() => {
-            googleLogin();
-          }}
-        >
-          Login with google
-        </button>
-      </div>
-    </div>
+    <Form className="signForm">
+          <Form.Text className="text-secondary">
+        Not registered yet? <Link to="register">Sign up</Link>
+      </Form.Text>
+    <Form.Group className="mb-3" controlId="formBasicEmail">
+      <Form.Label>Email address</Form.Label>
+      <Form.Control onChange={(e) => setEmail(e.target.value)} value={email} type="email" placeholder="Enter email" />
+    </Form.Group>
+
+    <Form.Group className="mb-3" controlId="formBasicPassword">
+      <Form.Label>Password</Form.Label>
+      <Form.Control onChange={(e) => setPassword(e.target.value)} value={password} type="password" placeholder="Password" />
+      <Form.Text className="text-danger">
+        {message}
+      </Form.Text>
+    </Form.Group>
+        <Button variant="primary" onClick={handleClick}>
+      Submit
+    </Button>
+    <Button onClick={googleLogin} variant="secondary">
+      Login with Google
+    </Button>
+  </Form>
   );
 }

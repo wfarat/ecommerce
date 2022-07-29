@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { saveOrder } from '../orders/ordersSlice';
 import { selectUser } from '../users/userSlice';
 import { emptyCart, selectCart } from './cartSlice';
-import AddToCart from '../items/AddToCart';
+import AddToCart from '../../components/AddToCart/AddToCart';
 import { Link } from 'react-router-dom';
 import './cart.css';
 export default function Cart() {

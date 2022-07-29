@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getItems, selectItems } from './itemsSlice';
-import AddToCart from './AddToCart';
+import AddToCart from '../../components/AddToCart/AddToCart';
 import { useParams } from 'react-router-dom';
 import './items.css';
 export default function Item() {

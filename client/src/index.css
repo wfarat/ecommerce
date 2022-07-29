@@ -27,3 +27,7 @@ a:hover {
 ul {
   list-style-type: none;
 }
+
+main {
+  padding-top: 4rem!important;
+}

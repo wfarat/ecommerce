@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUser } from '../users/userSlice';
+import { selectUser } from '../../features/users/userSlice';
 import {
   addItemToCart,
   addToCart,
@@ -9,8 +9,8 @@ import {
   selectCart,
   updateItemOnCart,
   updateOnCart,
-} from '../cart/cartSlice';
-import { selectItems } from './itemsSlice';
+} from '../../features/cart/cartSlice';
+import { selectItems } from '../../features/items/itemsSlice';
 
 export default function AddToCart(props) {
   const dispatch = useDispatch();

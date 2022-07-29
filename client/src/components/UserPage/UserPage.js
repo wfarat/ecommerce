@@ -1,7 +1,8 @@
 import { useSelector } from 'react-redux';
-import { selectUser } from './userSlice';
+import { selectUser } from '../../features/users/userSlice';
 import { Navigate, Link } from 'react-router-dom';
-import UserForm from './UserForm';
+import UserForm from '../UserForm/UserForm';
+import Button from 'react-bootstrap/esm/Button';
 export default function UserPage() {
   const user = useSelector(selectUser);
   if (!user.auth) {
@@ -15,9 +16,9 @@ export default function UserPage() {
       <h4>Email: {user.user.email}</h4>
       <h3>Update your information:</h3>
       <UserForm />
-      <Link to="password">
-        <button className="password">Change password</button>
-      </Link>
+      <Button variant="secondary" as={Link} to="password">
+        Change password
+      </Button>
     </div>
   );
 }

@@ -22,6 +22,11 @@ export default function User() {
           Login
         </NavDropdown.Item>
       )}
+      {!user.auth && (
+                <NavDropdown.Item as={Link} to="/register">
+                Register
+              </NavDropdown.Item>
+      )}
       {user.auth && (
         <NavDropdown.Item onClick={handleClick} href="/">
           Logout

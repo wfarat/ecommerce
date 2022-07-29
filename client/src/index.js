@@ -6,18 +6,18 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './index.css';
-import Login from './components/login/Login';
-import Register from './components/register/Register';
+import Login from './components/Login/Login';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
-import UserPage from './features/users/UserPage';
+import UserPage from './components/UserPage/UserPage';
 import Items from './features/items/Items';
 import Cart from './features/cart/Cart';
 import Item from './features/items/Item';
 import Orders from './features/orders/Orders';
 import Order from './features/orders/Order';
-import Password from './features/users/Password';
+import Password from './components/Password/Password'
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import Register from './components/Register/Register';
 const container = document.getElementById('root');
 const root = createRoot(container);
 let persistor = persistStore(store);
@@ -31,9 +31,9 @@ root.render(
             <Routes>
               <Route path="/" element={<App />}>
                 <Route path="login" element={<Login />} />
+                <Route path="register" element={<Register />}/>
                 <Route path="user" element={<UserPage />} />
                 <Route path="user/password" element={<Password />} />
-                <Route path="register" element={<Register />} />
                 <Route path="items" element={<Items />} />
                 <Route path="items/:itemId" element={<Item />} />
                 <Route path="orders" element={<Orders />} />
