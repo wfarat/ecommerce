@@ -34,7 +34,7 @@ export default function AddToCart(props) {
         accessToken: user.accessToken,
       };
       if (check) {
-        if (check.qty === qty) {
+        if (check.qty === Number(qty)) {
           setMin(true);
           return;
         }
@@ -53,7 +53,7 @@ export default function AddToCart(props) {
         price: price,
       };
       if (check) {
-        if (check.qty === qty) {
+        if (check.qty === Number(qty)) {
           setMin(true);
           return;
         }

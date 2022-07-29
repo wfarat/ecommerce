@@ -44,18 +44,19 @@ export default function Login() {
   return (
     <Form className="signForm">
           <Form.Text className="text-secondary">
-        Not registered yet? <Link to="register">Sign up</Link>
+        Not registered yet? <Link to="../register">Sign up</Link>
       </Form.Text>
     <Form.Group className="mb-3" controlId="formBasicEmail">
       <Form.Label>Email address</Form.Label>
-      <Form.Control onChange={(e) => setEmail(e.target.value)} value={email} type="email" placeholder="Enter email" />
+      <Form.Control onChange={(e) => setEmail(e.target.value)} autoComplete="email" value={email} type="email" placeholder="Enter email" />
     </Form.Group>
 
     <Form.Group className="mb-3" controlId="formBasicPassword">
       <Form.Label>Password</Form.Label>
-      <Form.Control onChange={(e) => setPassword(e.target.value)} value={password} type="password" placeholder="Password" />
+      <Form.Control onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" value={password} type="password" placeholder="Password" />
       <Form.Text className="text-danger">
         {message}
+        {user.message}
       </Form.Text>
     </Form.Group>
         <Button variant="primary" onClick={handleClick}>

@@ -43,6 +43,7 @@ authRouter.post('/auth/google', async (req, res) => {
     },
     accessToken: token,
     auth: true,
+    message: ''
   });
 });
 
@@ -77,7 +78,7 @@ authRouter.post('/login', async (req, res) => {
   const { email, password } = req.body;
   const user = await findByEmail(email);
   if (!user) {
-    res.status(400).send({ message: 'Invalid email.' });
+    res.status(400).send();
     return;
   }
   bcrypt.compare(password, user.password, async (err, result) => {
@@ -85,7 +86,7 @@ authRouter.post('/login', async (req, res) => {
       res.status(400).send(err);
     }
     if (!result) {
-      res.status(400).send({ message: 'Invalid password.' });
+      res.status(400).send();
       return;
     }
     const token = jwt.sign({ id: user.id }, jwtSecret, {
@@ -100,7 +101,7 @@ authRouter.post('/login', async (req, res) => {
       },
       accessToken: token,
       auth: true,
-      message: 'Login succesful',
+      message: '',
     });
   });
 });

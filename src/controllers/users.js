@@ -78,13 +78,13 @@ export const updateUser = async (req, res) => {
     }
     const clause = `id = ${req.user.id}`;
     if (req.user.email !== email) {
-      await usersModel.update('email', email, clause);
+      await usersModel.updateOne('email', email, clause);
     }
     if (req.user.firstname !== firstname) {
-      await usersModel.update('firstname', firstname, clause);
+      await usersModel.updateOne('firstname', firstname, clause);
     }
     if (req.user.lastname !== lastname) {
-      await usersModel.update('lastname', lastname, clause);
+      await usersModel.updateOne('lastname', lastname, clause);
     }
     const updatedUser = await findById(req.user.id);
     res.status(203).send({ user: updatedUser });
@@ -101,7 +101,7 @@ export const updatePassword = async (req, res) => {
         if (err) {
           res.status(400).send(err);
         }
-        await usersModel.update('password', hash, clause);
+        await usersModel.updateOne('password', hash, clause);
         res.status(203).send({ message: 'Password changed successfuly.' });
       });
     });
@@ -120,7 +120,7 @@ export const updatePassword = async (req, res) => {
           if (err) {
             res.status(400).send(err);
           }
-          await usersModel.update('password', hash, clause);
+          await usersModel.updateOne('password', hash, clause);
           res.status(203).send({ message: 'Password changed successfuly.' });
         });
       });

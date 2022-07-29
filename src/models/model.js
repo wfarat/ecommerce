@@ -33,18 +33,43 @@ class Model {
     return this.pool.query(query);
   }
 
-  async update(column, value, clause) {
+  async update(pairs, clause) {
+    let counter = 0;
+    const set = pairs.map(pair => {
+      counter += 1;
+      if (counter === pairs.length) {
+        return `${pair.column} = ${pair.value}`;
+      } 
+        return `${pair.column} = ${pair.value},`;
+    })
+    const sets = set.join(' ');
     const query = `UPDATE ${this.table}
-                 SET ${column} = '${value}' 
+                SET ${sets}
                 WHERE ${clause}`;
     return this.pool.query(query);
   }
 
-  async updateWithReturn(column, value, clause) {
+  async updateWithReturn(pairs, clause) {
+    let counter = 0;
+    const set = pairs.map(pair => {
+      counter += 1;
+      if (counter === pairs.length) {
+        return `${pair.column} = ${pair.value}`;
+      } 
+        return `${pair.column} = ${pair.value},`;
+    })
+    const sets = set.join(' ');
     const query = `UPDATE ${this.table}
-                 SET ${column} = '${value}' 
+                SET ${sets}
                 WHERE ${clause}
                 RETURNING *`;
+    return this.pool.query(query);
+  }
+
+  async updateOne(column, value, clause) {
+    const query = `UPDATE ${this.table}
+    SET ${column} = '${value}'
+    WHERE ${clause}`;
     return this.pool.query(query);
   }
 

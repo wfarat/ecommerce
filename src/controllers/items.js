@@ -44,13 +44,13 @@ export const updateItem = async (req, res) => {
   const { name, price, description } = req.body;
   const clause = `id = ${req.item.id}`;
   if (req.item.name !== name) {
-    await itemsModel.update('name', name, clause);
+    await itemsModel.updateOne('name', name, clause);
   }
   if (req.item.price !== price) {
-    await itemsModel.update('price', price, clause);
+    await itemsModel.updateOne('price', price, clause);
   }
   if (req.item.description !== description) {
-    await itemsModel.update('description', description, clause);
+    await itemsModel.updateOne('description', description, clause);
   }
   const updatedItem = await findById(req.item.id);
   res.status(203).send({ item: updatedItem });

@@ -68,10 +68,11 @@ export const saveItemsToCart = (req, res) => {
   items.forEach(async (item, index, array) => {
     const check = await findByUserAndItem(userId, item.item_id);
     if (check) {
-      const newQty = Number(item.qty) + Number(check.qty);
-      const price = Number(newQty) * (Number(item.price) / Number(item.qty));
-      await cartsModel.update('price', price, `id = ${check.id}`);
-      await cartsModel.updateWithReturn('qty', newQty, `id = ${check.id}`);
+      const qty = Number(item.qty) + Number(check.qty);
+      const price = Number(qty) * (Number(item.price) / Number(item.qty));
+      const pairs = [{column: 'qty', value: qty}, {column: 'price', value: price}];
+      const clause = `id = ${check.id}`;
+      await cartsModel.update(pairs, clause);
     } else {
       const col = 'user_id, item_id, name, qty, price';
       const val = `${userId}, ${item.item_id}, '${item.name}', ${item.qty}, ${item.price}`;
@@ -97,12 +98,9 @@ export const updateItemOnCart = async (req, res) => {
     res.status(400).send({ message: 'Same quantity' });
   } else {
     const price = Number(qty) * (Number(req.item.price) / Number(req.item.qty));
-    await cartsModel.update('price', price, `id = ${req.item.id}`);
-    const data = await cartsModel.updateWithReturn(
-      'qty',
-      qty,
-      `id = ${req.item.id}`
-    );
+    const pairs = [{column: 'qty', value: qty}, {column: 'price', value: price}];
+    const clause = `id = ${req.item.id}`;
+    const data = await cartsModel.updateWithReturn(pairs, clause);
     const newItem = data.rows[0];
     res.status(203).send({ item: newItem });
   }
