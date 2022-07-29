@@ -6,7 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './index.css';
-import Login from './components/Login1/Login';
+import Login from './components/Login/Login';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import UserPage from './components/UserPage/UserPage';
@@ -17,7 +17,7 @@ import Orders from './features/orders/Orders';
 import Order from './features/orders/Order';
 import Password from './components/Password/Password'
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import Register from './components/Register2/Register';
+import Register from './components/Register/Register';
 const container = document.getElementById('root');
 const root = createRoot(container);
 let persistor = persistStore(store);
