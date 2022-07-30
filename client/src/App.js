@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { selectOrders, getOrders } from './features/orders/ordersSlice';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -17,6 +17,7 @@ function App() {
   const { orders } = useSelector(selectOrders);
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   useEffect(() => {
     const data = {
       userId: user.user.id,
@@ -29,25 +30,25 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Navbar bg="light" expand="lg" className="fixed-top">
-          <Container>
-            <Navbar.Brand as={Link} to="/">
-              E-commerce App
-            </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="me-auto">
-                <Nav.Link as={Link} to="/items">
+
+        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
+      <Container>
+        <Navbar.Brand as={Link} to="/" href="#">Books shop</Navbar.Brand>
+        <Button variant="primary" onClick={() => navigate(-1)}>Go back</Button>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="me-auto">
+                <Nav.Link as={Link} href="#"  to="/items">
                   Items
                 </Nav.Link>
-                <Nav.Link as={Link} to="/cart">
+                <Nav.Link href="#" as={Link} to="/cart">
                   Cart
                 </Nav.Link>
                 <User />
               </Nav>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
       </header>
       <CartFooter />
         <main>

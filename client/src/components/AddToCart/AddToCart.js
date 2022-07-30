@@ -82,7 +82,7 @@ export default function AddToCart(props) {
   return (
     <div className="addToCart" onClick={(e) => e.preventDefault()}>
             <InputGroup>
-          <Form.Text className="text-dark fs-6">{!check && 'Add to cart:'} {check && `Cart (${check.qty}) Set to:`}</Form.Text>
+          <Form.Text className="text-dark fs-6">{!check && 'Add to cart:'} {check && 'Update:' }</Form.Text>
         <Form.Control   
           min="1"
           value={qty}
@@ -90,8 +90,9 @@ export default function AddToCart(props) {
           onChange={(e) => setQty(e.target.value)}
           aria-label="Add to cart"
         />
-        <Button onClick={handleClick} variant="outline-dark">ok</Button>
-        {check && <Button variant="outline-dark" onClick={handleDelete}>X</Button> }
+        <Button onClick={handleClick} size="sm" variant="outline-dark">ok</Button>
+        <Form.Text className="text-dark fs-6 mx-1">{check && ` Cart: ${check.qty} `}</Form.Text>
+        {check && <Button variant="outline-dark" size="sm" onClick={handleDelete}>X</Button> }
       </InputGroup>
       {min && <Form.Text className="text-danger">Please enter correct value</Form.Text>}
     </div>

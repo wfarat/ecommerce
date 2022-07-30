@@ -26,7 +26,7 @@ export default function Items() {
                   <p className='desc'>{item.name}</p>
                   <p className='desc'>Price: {item.price / 100} $</p>
                   </div>
-                  <div className="image"><Image src={`${AmazonBucket}${item.image}`} fluid={true}/></div>
+                  <div className="image"><Image src={`${AmazonBucket}${item.image}`} thumbnail fluid={true}/></div>
                   <AddToCart itemId={item.id} />
                 </li>
               </Link>

@@ -30,19 +30,21 @@ export default function Order() {
       <h2>Order items:</h2>
       <div className="list-container">
         <ul>
-          <li className="list-item">
-            <p className="list-main">Name</p>
-            <span className="list-1">Quantity</span>
-            <span className="list-2">Price</span>
-          </li>
+        <li className="cart-item border-bottom border-secondary">
+          <p className="cart-name">Name</p>
+          <span className="cart-qty">Quantity</span>
+          <span className="cart-price">Price</span>
+        </li>
           {orderItems.map((item) => {
             return (
               <Link to={`../items/${item.item_id}`} key={item.id}>
-                <li className="list-item" key={item.id}>
-                <Image className="imgSmall" src={`${AmazonBucket}${item.image}`} fluid={true}/><p className="list-main">{item.name}</p>
-                  <span className="list-1">{item.qty}</span>
-                  <span className="list-2">{item.price / 100} $</span>
-                </li>
+              <li className="cart-item border-bottom border-secondary" key={item.id}>
+              <Image className="imgSmall" src={`${AmazonBucket}${item.image}`} fluid={true}/><p className="cart-name">{item.name}</p>
+                <span className="cart-qty">
+                  {item.qty}
+                </span>
+                <span className="cart-price">{item.price / 100} $</span>
+              </li>
               </Link>
             );
           })}

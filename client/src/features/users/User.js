@@ -10,20 +10,20 @@ export default function User() {
     dispatch({ type: 'USER_LOGOUT' });
   };
   return (
-    <NavDropdown title="User" id="basic-nav-dropdown">
-      <NavDropdown.Item as={Link} to="/user">
+    <NavDropdown title="User" id="collapsible-nav-dropdown">
+      <NavDropdown.Item as={Link} href="#" to="/user">
         Settings
       </NavDropdown.Item>
-      <NavDropdown.Item as={Link} to="/orders">
+      <NavDropdown.Item as={Link} href="#" to="/orders">
         Orders
       </NavDropdown.Item>
       {!user.auth && (
-        <NavDropdown.Item as={Link} to="/login">
+        <NavDropdown.Item as={Link} href="#" to="/login">
           Login
         </NavDropdown.Item>
       )}
       {!user.auth && (
-                <NavDropdown.Item as={Link} to="/register">
+                <NavDropdown.Item as={Link} href="#" to="/register">
                 Register
               </NavDropdown.Item>
       )}

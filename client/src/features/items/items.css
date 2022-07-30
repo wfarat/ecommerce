@@ -11,14 +11,18 @@
     text-align: center;
     border: 3px solid white;
     color: black;
-    background-color: lightsteelblue;
-    width: 250px;
-    height: 370px;
+    background-color: whitesmoke;
+    width: 300px;
+    display: flex;
+    flex-wrap: wrap;
+    height: 380px;
     margin: 20px;
+    justify-content: center;
+    align-items: center;
 }
 
 .image {
-    width: 120px;
+    width: 130px;
     height: 200px;
     margin: 0 auto;
     margin-bottom: 10px;
@@ -41,12 +45,9 @@
 
 .addToCart {
     max-width: 240px;
+    margin: 0 auto;
 }
 .center {
     margin: 0 auto;
     width: 240px;
-}
-
-.description {
-    height: 100px;
 }

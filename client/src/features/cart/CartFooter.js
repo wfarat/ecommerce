@@ -5,6 +5,7 @@ import { selectUser } from '../users/userSlice';
 import { emptyCart, getCart, saveCart, selectCart } from './cartSlice';
 import { Link } from 'react-router-dom';
 import './cart.css';
+import Button from 'react-bootstrap/esm/Button';
 
 export default function CartFooter() {
   const { cart } = useSelector(selectCart);
@@ -43,25 +44,21 @@ export default function CartFooter() {
     dispatch(emptyCart());
   };
   return (
-    <div className="cart-footer">
+    <div className="cart-footer fixed-bottom bg-dark">
       {cart.length === 0 && <p className="empty-msg">Cart is empty</p>}
       {cart.length > 0 && (
         <div className="payment">
-          <p className="items">Items in cart: {itemsInCart}</p>
-          <p className="total">Total price: {total / 100}$</p>
+          <p className="items text-light">Items in cart: {itemsInCart}</p>
+          <p className="total text-light">Total price: {total / 100}$</p>
           <div
             className="checkout-container"
             onClick={(e) => e.preventDefault()}
           >
             {user.auth && (
-              <button className="cart-submit" onClick={handleClick}>
-                Checkout
-              </button>
+              <Button variant="primary" onClick={handleClick}>Checkout</Button>
             )}
             {!user.auth && (
-              <Link to="/login">
-                <button className="login">Login to checkout</button>
-              </Link>
+                <Button variant="primary" as={Link} to="/login">Login to checkout</Button>
             )}
           </div>
         </div>
