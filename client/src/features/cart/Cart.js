@@ -4,6 +4,8 @@ import { selectUser } from '../users/userSlice';
 import { emptyCart, selectCart } from './cartSlice';
 import AddToCart from '../../components/AddToCart/AddToCart';
 import { Link } from 'react-router-dom';
+import Image from 'react-bootstrap/esm/Image';
+import { AmazonBucket } from '../../settings';
 import './cart.css';
 export default function Cart() {
   const { cart } = useSelector(selectCart);
@@ -23,7 +25,7 @@ export default function Cart() {
       <h2>Cart Items:</h2>
       <ul>
         <li className="cart-item">
-          <p className="cart-name">Name</p>
+          <p className="cart-name">Item</p>
           <span className="cart-qty">Quantity</span>
           <span className="cart-price">Price</span>
         </li>
@@ -31,7 +33,7 @@ export default function Cart() {
           return (
             <Link to={`../items/${item.item_id}`} key={item.id}>
               <li className="cart-item" key={item.id}>
-                <p className="cart-name">{item.name}</p>
+                <p className="cart-name"><Image className="imgSmall" src={`${AmazonBucket}${item.image}`} fluid={true}/>{item.name}</p>
                 <span className="cart-qty">
                   <AddToCart itemId={item.item_id} />
                 </span>

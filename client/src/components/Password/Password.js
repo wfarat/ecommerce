@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../features/users/userSlice';
 import { Navigate } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 export const updatePassword = async (data, userId) => {
   const res = await axios(
     `http://localhost:3000/api/users/${userId}/password`,
@@ -44,43 +46,28 @@ export default function Password() {
   return (
     <div className="password-change">
       <h2>Change your password:</h2>
-      <div className="inputs">
-        <label htmlFor="oldPassword">
-          <b>Old Password:</b>
-        </label>
-        <input
-          id="oldPassword"
-          name="oldPassword"
-          type="password"
-          value={oldPassword}
-          onChange={(e) => setOldPassword(e.target.value)}
-        />
-        <label htmlFor="password">
-          <b>New Password:</b>
-        </label>
-        <input
-          id="newPassword"
-          name="newPassword"
-          type="password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-        />
-        <label htmlFor="repeat">
-          <b>Repeat password:</b>
-        </label>
-        <input
-          id="repeat"
-          name="repeat"
-          type="password"
-          value={repeat}
-          onChange={(e) => setRepeat(e.target.value)}
-        />
-        {!same && <span className="errSame">Passwords don't match</span>}
-        {message && message}
-        <button className="sumbitButton" onClick={handleClick}>
-          Submit
-        </button>
-      </div>
+      <Form className="signForm">
+    <Form.Group className="mb-3" controlId="formLastname">
+      <Form.Label>New Password</Form.Label>
+      <Form.Control onChange={(e) => setNewPassword(e.target.value)} autoComplete="current-password" value={newPassword} type="password" placeholder="New Password" />
+    </Form.Group>
+    <Form.Group className="mb-3" controlId="formBasicPassword">
+      <Form.Label>Password</Form.Label>
+      <Form.Control onChange={(e) => setOldPassword(e.target.value)} autoComplete="new-password" value={oldPassword} type="password" placeholder="Old Password" />
+    </Form.Group>
+    {!user.auth &&
+    <Form.Group className="mb-3" controlId="formRepeatPassword">
+      <Form.Label>Repeat password</Form.Label>
+      <Form.Control onChange={(e) => setRepeat(e.target.value)} autoComplete="new-password" value={repeat} type="password" placeholder="Old Password" />
+      <Form.Text className="text-danger">
+      {user.auth && <Form.Text className="text-danger">{user.message}</Form.Text>}
+      {!same && <Form.Text className="text-danger">Password don't match</Form.Text>}
+      </Form.Text>
+    </Form.Group> }
+        <Button variant="primary" onClick={handleClick}>
+      Submit
+    </Button>
+  </Form>
     </div>
   );
 }

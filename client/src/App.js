@@ -7,6 +7,7 @@ import { selectOrders, getOrders } from './features/orders/ordersSlice';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import Button from 'react-bootstrap/esm/Button';
 import { selectUser } from './features/users/userSlice';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import User from './features/users/User';
@@ -24,17 +25,6 @@ function App() {
     if (orders.length === 0 && user.user.id) {
       dispatch(getOrders(data));
     }
-     const userData = async() => {
-      if (user.auth) {
-        const res = await getUser(data);
-        return res;
-      } else {
-        return false;
-      }
-      }
-      if (!userData() && user.auth) {
-      dispatch({ type: 'USER_LOGOUT' });
-      }
   }, [user.auth]);
   return (
     <div className="App">

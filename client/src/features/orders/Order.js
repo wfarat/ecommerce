@@ -4,6 +4,8 @@ import { selectUser } from '../users/userSlice';
 import { getOrderItems, selectOrders } from './ordersSlice';
 import { Navigate, Link, useParams } from 'react-router-dom';
 import './orders.css';
+import Image from 'react-bootstrap/esm/Image';
+import { AmazonBucket } from '../../settings';
 export default function Order() {
   const { orders, orderItems } = useSelector(selectOrders);
   const params = useParams();
@@ -37,7 +39,7 @@ export default function Order() {
             return (
               <Link to={`../items/${item.item_id}`} key={item.id}>
                 <li className="list-item" key={item.id}>
-                  <p className="list-main">{item.name}</p>
+                <Image className="imgSmall" src={`${AmazonBucket}${item.image}`} fluid={true}/><p className="list-main">{item.name}</p>
                   <span className="list-1">{item.qty}</span>
                   <span className="list-2">{item.price / 100} $</span>
                 </li>

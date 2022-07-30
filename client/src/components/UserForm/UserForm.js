@@ -67,7 +67,7 @@ export default function UserForm() {
       <Form.Label>Repeat password</Form.Label>
       <Form.Control onChange={(e) => setRepeat(e.target.value)} autoComplete="new-password" value={repeat} type="password" placeholder="Password" />
       <Form.Text className="text-danger">
-      {!same && `Passwords don't match`}
+      {!same && <Form.Text className="text-danger">Password don't match</Form.Text>}
       {userName && `Welcome ${userName}, your account has been created.`}
       </Form.Text>
     </Form.Group> }

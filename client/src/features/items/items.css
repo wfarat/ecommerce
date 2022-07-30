@@ -11,20 +11,42 @@
     text-align: center;
     border: 3px solid white;
     color: black;
-    background-color: burlywood;
-    width: 300px;
-    height: 300px;
-    margin: 30px;
+    background-color: lightsteelblue;
+    width: 250px;
+    height: 370px;
+    margin: 20px;
 }
 
-.thumbnail {
-    background-image: url('thumbnail.jpg');
-    width: 150px;
-    height: 150px;
-    background-size: cover;
+.image {
+    width: 120px;
+    height: 200px;
     margin: 0 auto;
+    margin-bottom: 10px;
 }
 
 .qtyInput {
     max-width: 50px;
+}
+
+.imageBig {
+    width: 330px;
+    max-height: 550px;
+    margin: 0 auto;
+}
+
+.desc {
+    padding: 0!important;
+    margin: 0!important;
+}
+
+.addToCart {
+    max-width: 240px;
+}
+.center {
+    margin: 0 auto;
+    width: 240px;
+}
+
+.description {
+    height: 100px;
 }

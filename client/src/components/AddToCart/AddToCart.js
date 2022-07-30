@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from '../../features/users/userSlice';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
 import {
   addItemToCart,
   addToCart,
@@ -50,6 +53,7 @@ export default function AddToCart(props) {
         item_id: item.id,
         id: item.id,
         name: item.name,
+        image: item.image,
         price: price,
       };
       if (check) {
@@ -77,21 +81,19 @@ export default function AddToCart(props) {
   };
   return (
     <div className="addToCart" onClick={(e) => e.preventDefault()}>
-      <label htmlFor="qty">
-        {!check && 'Add to cart:'} {check && `Cart: (${check.qty}) set:`}
-      </label>
-
-      <input
-        id="qty"
-        type="number"
-        className="qtyInput"
-        value={qty}
-        min="1"
-        onChange={(e) => setQty(e.target.value)}
-      />
-      <button onClick={handleClick}>Ok</button>
-      {check && <button onClick={handleDelete}>X</button>}
-      {min && <p>Insert correct value</p>}
+            <InputGroup>
+          <Form.Text className="text-dark fs-6">{!check && 'Add to cart:'} {check && `Cart (${check.qty}) Set to:`}</Form.Text>
+        <Form.Control   
+          min="1"
+          value={qty}
+          type="number"
+          onChange={(e) => setQty(e.target.value)}
+          aria-label="Add to cart"
+        />
+        <Button onClick={handleClick} variant="outline-dark">ok</Button>
+        {check && <Button variant="outline-dark" onClick={handleDelete}>X</Button> }
+      </InputGroup>
+      {min && <Form.Text className="text-danger">Please enter correct value</Form.Text>}
     </div>
   );
 }
