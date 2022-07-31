@@ -45,7 +45,7 @@ export default function CartFooter() {
   };
   return (
     <div className="cart-footer fixed-bottom bg-dark">
-      {cart.length === 0 && <p className="empty-msg">Cart is empty</p>}
+      {cart.length === 0 && <p className="text-light">Cart is empty</p>}
       {cart.length > 0 && (
         <div className="payment">
           <p className="items text-light">Items in cart: {itemsInCart}</p>

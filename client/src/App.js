@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
@@ -12,7 +11,7 @@ import { selectUser } from './features/users/userSlice';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import User from './features/users/User';
 import CartFooter from './features/cart/CartFooter';
-import { getUser } from './features/users/userSlice';
+
 function App() {
   const { orders } = useSelector(selectOrders);
   const user = useSelector(selectUser);
