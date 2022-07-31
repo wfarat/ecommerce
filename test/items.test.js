@@ -8,7 +8,7 @@ describe('Item', () => {
       description: 'very expensive something',
     };
     server
-      .post('/items')
+      .post('/api/items')
       .send(data)
       .expect(201)
       .end((err, res) => {
@@ -22,7 +22,7 @@ describe('Item', () => {
   });
   it('get item', (done) => {
     server
-      .get('/items/8')
+      .get('/api/items/8')
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(200);
@@ -35,7 +35,7 @@ describe('Item', () => {
   });
   it('gets all items', (done) => {
     server
-      .get('/items')
+      .get('/api/items')
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(200);
@@ -50,7 +50,7 @@ describe('Item', () => {
   });
   it('throws error on bad id', (done) => {
     server
-      .get('/items/10')
+      .get('/api/items/10')
       .expect(404)
       .end((err, res) => {
         expect(res.status).to.equal(404);
@@ -63,9 +63,10 @@ describe('Item', () => {
       name: 'something different',
       price: 12345699,
       description: 'very expensive something different',
+      image: 'default.jpg',
     };
     server
-      .put('/items/3')
+      .put('/api/items/3')
       .send(data)
       .expect(203)
       .end((err, res) => {
@@ -74,12 +75,13 @@ describe('Item', () => {
         expect(res.body.item.name).to.equal(data.name);
         expect(res.body.item.price).to.equal(data.price);
         expect(res.body.item.description).to.equal(data.description);
+        expect(res.body.item.image).to.equal(data.image);
         done();
       });
   });
   it('deletes item', (done) => {
     server
-      .delete('/items/3')
+      .delete('/api/items/3')
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(200);

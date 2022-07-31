@@ -15,7 +15,7 @@ import Cart from './features/cart/Cart';
 import Item from './features/items/Item';
 import Orders from './features/orders/Orders';
 import Order from './features/orders/Order';
-import Password from './components/Password/Password'
+import Password from './components/Password/Password';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import Register from './components/Register/Register';
 const container = document.getElementById('root');
@@ -31,7 +31,7 @@ root.render(
             <Routes>
               <Route path="/" element={<App />}>
                 <Route path="login" element={<Login />} />
-                <Route path="register" element={<Register />}/>
+                <Route path="register" element={<Register />} />
                 <Route path="user" element={<UserPage />} />
                 <Route path="user/password" element={<Password />} />
                 <Route path="items" element={<Items />} />

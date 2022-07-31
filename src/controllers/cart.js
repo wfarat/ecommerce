@@ -70,7 +70,10 @@ export const saveItemsToCart = (req, res) => {
     if (check) {
       const qty = Number(item.qty) + Number(check.qty);
       const price = Number(qty) * (Number(item.price) / Number(item.qty));
-      const pairs = [{column: 'qty', value: qty}, {column: 'price', value: price}];
+      const pairs = [
+        { column: 'qty', value: qty },
+        { column: 'price', value: price },
+      ];
       const clause = `id = ${check.id}`;
       await cartsModel.update(pairs, clause);
     } else {
@@ -98,7 +101,10 @@ export const updateItemOnCart = async (req, res) => {
     res.status(400).send({ message: 'Same quantity' });
   } else {
     const price = Number(qty) * (Number(req.item.price) / Number(req.item.qty));
-    const pairs = [{column: 'qty', value: qty}, {column: 'price', value: price}];
+    const pairs = [
+      { column: 'qty', value: qty },
+      { column: 'price', value: price },
+    ];
     const clause = `id = ${req.item.id}`;
     const data = await cartsModel.updateWithReturn(pairs, clause);
     const newItem = data.rows[0];

@@ -18,7 +18,9 @@ export const findItem = async (req, res, next, itemId) => {
   }
 };
 export const addItem = async (req, res) => {
-  const { name, price, description, image } = req.body;
+  const {
+    name, price, description, image
+  } = req.body;
   const columns = 'name, price, description, image';
   const values = `'${name}', ${price},'${description}', '${image}'`;
   const data = await itemsModel.insertWithReturn(columns, values);
@@ -41,7 +43,9 @@ export const selectAllItems = async (req, res) => {
   res.status(200).send({ items: data.rows });
 };
 export const updateItem = async (req, res) => {
-  const { name, price, description, image } = req.body;
+  const {
+    name, price, description, image
+  } = req.body;
   const clause = `id = ${req.item.id}`;
   if (req.item.name !== name) {
     await itemsModel.updateOne('name', name, clause);
@@ -52,7 +56,7 @@ export const updateItem = async (req, res) => {
   if (req.item.description !== description) {
     await itemsModel.updateOne('description', description, clause);
   }
-  if (req.item.imageUrl !== imageUrl) {
+  if (req.item.image !== image) {
     await itemsModel.updateOne('image', image, clause);
   }
   const updatedItem = await findById(req.item.id);

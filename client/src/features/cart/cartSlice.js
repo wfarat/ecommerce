@@ -68,7 +68,7 @@ const cartSlice = createSlice({
       );
       state.data.cart.splice(index, 1);
       state.data.cart.splice(index, 0, payload.item);
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -122,4 +122,5 @@ const cartSlice = createSlice({
 export const selectCart = (state) => state.cart.data;
 export const selectStatus = (state) => state.cart.status;
 export default cartSlice.reducer;
-export const { emptyCart, deleteOnCart, updateOnCart, addToCart } = cartSlice.actions;
+export const { emptyCart, deleteOnCart, updateOnCart, addToCart } =
+  cartSlice.actions;

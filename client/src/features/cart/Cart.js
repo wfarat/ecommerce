@@ -32,8 +32,16 @@ export default function Cart() {
         {cart.map((item) => {
           return (
             <Link to={`../items/${item.item_id}`} key={item.id}>
-              <li className="cart-item border-bottom border-secondary" key={item.id}>
-              <Image className="imgSmall" src={`${AmazonBucket}${item.image}`} fluid={true}/><p className="cart-name">{item.name}</p>
+              <li
+                className="cart-item border-bottom border-secondary"
+                key={item.id}
+              >
+                <Image
+                  className="imgSmall"
+                  src={`${AmazonBucket}${item.image}`}
+                  fluid={true}
+                />
+                <p className="cart-name">{item.name}</p>
                 <span className="cart-qty">
                   <AddToCart itemId={item.item_id} />
                 </span>

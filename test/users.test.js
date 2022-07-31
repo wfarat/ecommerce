@@ -3,7 +3,7 @@ import { expect, server } from './setup';
 describe('Users', () => {
   it('throws error on bad id', (done) => {
     server
-      .get('/users/3')
+      .get('/api/users/3')
       .expect(404)
       .end((err, res) => {
         expect(res.status).to.equal(404);
@@ -13,7 +13,7 @@ describe('Users', () => {
   });
   it('gets all users', (done) => {
     server
-      .get('/users')
+      .get('/api/users')
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(200);
@@ -28,7 +28,7 @@ describe('Users', () => {
   });
   it('get user', (done) => {
     server
-      .get('/users/2')
+      .get('/api/users/2')
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(200);
@@ -44,9 +44,10 @@ describe('Users', () => {
       email: 'updateduser@gmail.com',
       firstname: 'updated',
       lastname: 'user',
+      password: '12345678',
     };
     server
-      .put('/users/2')
+      .put('/api/users/2')
       .send(data)
       .expect(203)
       .end((err, res) => {
@@ -64,7 +65,7 @@ describe('Users', () => {
       newPassword: 'abcdefgh',
     };
     server
-      .put('/users/2/password')
+      .put('/api/users/2/password')
       .send(data)
       .expect(400)
       .end((err, res) => {
@@ -79,7 +80,7 @@ describe('Users', () => {
       newPassword: 'abcdefgh',
     };
     server
-      .put('/users/2/password')
+      .put('/api/users/2/password')
       .send(data)
       .expect(203)
       .end((err, res) => {
@@ -90,7 +91,7 @@ describe('Users', () => {
   });
   it('deletes user', (done) => {
     server
-      .delete('/users/2')
+      .delete('/api/users/2')
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(200);

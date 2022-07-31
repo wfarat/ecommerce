@@ -13,8 +13,8 @@ export const update = createAsyncThunk('update', async (data) => {
     method: 'PUT',
     headers: { 'x-access-token': data.accessToken },
     data: data.info,
-  })
-  return res.data; 
+  });
+  return res.data;
 });
 export const getUser = async (data) => {
   const res = await axios(`/api/users/${data.userId}`, {

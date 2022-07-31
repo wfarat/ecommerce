@@ -35,13 +35,13 @@ class Model {
 
   async update(pairs, clause) {
     let counter = 0;
-    const set = pairs.map(pair => {
+    const set = pairs.map((pair) => {
       counter += 1;
       if (counter === pairs.length) {
         return `${pair.column} = ${pair.value}`;
-      } 
-        return `${pair.column} = ${pair.value},`;
-    })
+      }
+      return `${pair.column} = ${pair.value},`;
+    });
     const sets = set.join(' ');
     const query = `UPDATE ${this.table}
                 SET ${sets}
@@ -51,13 +51,13 @@ class Model {
 
   async updateWithReturn(pairs, clause) {
     let counter = 0;
-    const set = pairs.map(pair => {
+    const set = pairs.map((pair) => {
       counter += 1;
       if (counter === pairs.length) {
         return `${pair.column} = ${pair.value}`;
-      } 
-        return `${pair.column} = ${pair.value},`;
-    })
+      }
+      return `${pair.column} = ${pair.value},`;
+    });
     const sets = set.join(' ');
     const query = `UPDATE ${this.table}
                 SET ${sets}

@@ -9,7 +9,7 @@ describe('Cart', () => {
       lastname: 'user',
     };
     server
-      .post('/register')
+      .post('/api/register')
       .send(data)
       .expect(200)
       .end((err, res) => {
@@ -26,7 +26,7 @@ describe('Cart', () => {
       lastname: 'user',
     };
     server
-      .post('/register')
+      .post('/api/register')
       .send(data)
       .expect(400)
       .end((err, res) => {
@@ -43,7 +43,7 @@ describe('Cart', () => {
       password: '12345678',
     };
     server
-      .post('/login')
+      .post('/api/login')
       .send(data)
       .expect(200)
       .end((err, res) => {

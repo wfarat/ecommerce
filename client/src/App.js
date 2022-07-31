@@ -17,7 +17,7 @@ function App() {
   const { orders } = useSelector(selectOrders);
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
     const data = {
       userId: user.user.id,
@@ -30,15 +30,24 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
-      <Container>
-        <Navbar.Brand as={Link} to="/" href="#">Books shop</Navbar.Brand>
-        <Button variant="primary" onClick={() => navigate(-1)}>Go back</Button>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-        <Nav className="me-auto">
-                <Nav.Link as={Link} href="#"  to="/items">
+        <Navbar
+          collapseOnSelect
+          expand="lg"
+          bg="dark"
+          variant="dark"
+          fixed="top"
+        >
+          <Container>
+            <Navbar.Brand as={Link} to="/" href="#">
+              Books shop
+            </Navbar.Brand>
+            <Button variant="primary" onClick={() => navigate(-1)}>
+              Go back
+            </Button>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="me-auto">
+                <Nav.Link as={Link} href="#" to="/items">
                   Items
                 </Nav.Link>
                 <Nav.Link href="#" as={Link} to="/cart">
@@ -46,13 +55,13 @@ function App() {
                 </Nav.Link>
                 <User />
               </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
       </header>
       <CartFooter />
-        <main>
-      <Outlet />
+      <main>
+        <Outlet />
       </main>
     </div>
   );

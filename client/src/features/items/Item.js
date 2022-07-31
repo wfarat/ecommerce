@@ -16,14 +16,18 @@ export default function Item() {
     }
   }, []);
   const item = items.find((item) => item.id === Number(params.itemId));
-  const description = item.description.replace(/^/g, "'");
+  const description = item.description.replace(/<quote>/g, "'");
   return (
     <div className="item-container">
       <h3>{item.name}</h3>
-      <div className="imageBig"><Image src={`${AmazonBucket}${item.image}`} fluid={true}/></div>
+      <div className="imageBig">
+        <Image src={`${AmazonBucket}${item.image}`} fluid={true} />
+      </div>
       <p>{description}</p>
       <p>Price: {item.price / 100} $</p>
-      <div className="center"><AddToCart itemId={item.id} /></div>
+      <div className="center">
+        <AddToCart itemId={item.id} />
+      </div>
     </div>
   );
 }

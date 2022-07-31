@@ -55,10 +55,14 @@ export default function CartFooter() {
             onClick={(e) => e.preventDefault()}
           >
             {user.auth && (
-              <Button variant="primary" onClick={handleClick}>Checkout</Button>
+              <Button variant="primary" onClick={handleClick}>
+                Checkout
+              </Button>
             )}
             {!user.auth && (
-                <Button variant="primary" as={Link} to="/login">Login to checkout</Button>
+              <Button variant="primary" as={Link} to="/login">
+                Login to checkout
+              </Button>
             )}
           </div>
         </div>

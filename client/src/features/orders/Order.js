@@ -30,21 +30,27 @@ export default function Order() {
       <h2>Order items:</h2>
       <div className="list-container">
         <ul>
-        <li className="cart-item border-bottom border-secondary">
-          <p className="cart-name">Name</p>
-          <span className="cart-qty">Quantity</span>
-          <span className="cart-price">Price</span>
-        </li>
+          <li className="cart-item border-bottom border-secondary">
+            <p className="cart-name">Name</p>
+            <span className="cart-qty">Quantity</span>
+            <span className="cart-price">Price</span>
+          </li>
           {orderItems.map((item) => {
             return (
               <Link to={`../items/${item.item_id}`} key={item.id}>
-              <li className="cart-item border-bottom border-secondary" key={item.id}>
-              <Image className="imgSmall" src={`${AmazonBucket}${item.image}`} fluid={true}/><p className="cart-name">{item.name}</p>
-                <span className="cart-qty">
-                  {item.qty}
-                </span>
-                <span className="cart-price">{item.price / 100} $</span>
-              </li>
+                <li
+                  className="cart-item border-bottom border-secondary"
+                  key={item.id}
+                >
+                  <Image
+                    className="imgSmall"
+                    src={`${AmazonBucket}${item.image}`}
+                    fluid={true}
+                  />
+                  <p className="cart-name">{item.name}</p>
+                  <span className="cart-qty">{item.qty}</span>
+                  <span className="cart-price">{item.price / 100} $</span>
+                </li>
               </Link>
             );
           })}

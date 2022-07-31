@@ -3,7 +3,7 @@ import { expect, server } from './setup';
 describe('Orders', () => {
   it('gets orders by user', (done) => {
     server
-      .get('/orders/1')
+      .get('/api/orders/1')
       .expect(200)
       .end((err, res) => {
         expect(res.body.orders).to.be.instanceOf(Array);
@@ -20,7 +20,7 @@ describe('Orders', () => {
   });
   it('gets order items by user', (done) => {
     server
-      .get('/orders/1/1/items')
+      .get('/api/orders/1/1/items')
       .expect(200)
       .end((err, res) => {
         expect(res.body.orderItems).to.be.instanceOf(Array);

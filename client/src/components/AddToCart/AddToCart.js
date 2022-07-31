@@ -61,40 +61,54 @@ export default function AddToCart(props) {
           setMin(true);
           return;
         }
-      dispatch(updateOnCart({item: itemData}));
+        dispatch(updateOnCart({ item: itemData }));
       } else {
-      dispatch(addToCart(itemData));
+        dispatch(addToCart(itemData));
       }
     }
   };
   const handleDelete = () => {
     if (user.auth) {
-    const data = {
-      accessToken: user.accessToken,
-      userId: user.user.id,
-      itemId: props.itemId,
-    };
-    dispatch(deleteItemOnCart(data));
-  } else {
-    dispatch(deleteOnCart({ itemId: props.itemId }))
-  }
+      const data = {
+        accessToken: user.accessToken,
+        userId: user.user.id,
+        itemId: props.itemId,
+      };
+      dispatch(deleteItemOnCart(data));
+    } else {
+      dispatch(deleteOnCart({ itemId: props.itemId }));
+    }
   };
   return (
     <div className="addToCart" onClick={(e) => e.preventDefault()}>
-            <InputGroup>
-          <Form.Text className="text-dark fs-6">{!check && 'Add to cart:'} {check && 'Update:' }</Form.Text>
-        <Form.Control   
+      <InputGroup>
+        <Form.Text className="text-dark fs-6">
+          {!check && 'Add to cart:'} {check && 'Update:'}
+        </Form.Text>
+        <Form.Control
           min="1"
           value={qty}
           type="number"
           onChange={(e) => setQty(e.target.value)}
           aria-label="Add to cart"
         />
-        <Button onClick={handleClick} size="sm" variant="outline-dark">ok</Button>
-        <Form.Text className="text-dark fs-6 mx-1">{check && ` Cart: ${check.qty} `}</Form.Text>
-        {check && <Button variant="outline-dark" size="sm" onClick={handleDelete}>X</Button> }
+        <Button onClick={handleClick} size="sm" variant="outline-dark">
+          ok
+        </Button>
+        <Form.Text className="text-dark fs-6 mx-1">
+          {check && ` Cart: ${check.qty} `}
+        </Form.Text>
+        {check && (
+          <Button variant="outline-dark" size="sm" onClick={handleDelete}>
+            X
+          </Button>
+        )}
       </InputGroup>
-      {min && <Form.Text className="text-danger">Please enter correct value</Form.Text>}
+      {min && (
+        <Form.Text className="text-danger">
+          Please enter correct value
+        </Form.Text>
+      )}
     </div>
   );
 }
